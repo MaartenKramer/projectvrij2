@@ -459,6 +459,8 @@ MonoBehaviour:
   availableForms:
   - {fileID: 11400000, guid: 3e629874f2eeac948abf20da71779f8c, type: 2}
   - {fileID: 11400000, guid: b2da50cbe0798d442a24cf4f28641ecc, type: 2}
+  currentFormIndex: 0
+  debugProfile: {fileID: 11400000, guid: b2da50cbe0798d442a24cf4f28641ecc, type: 2}
 --- !u!4 &1107849957
 Transform:
   m_ObjectHideFlags: 0

@@ -7,7 +7,10 @@ public class BirdForm : IFormBehaviour
 
     public void Initialize(FormProfileSO profile)
     {
+        // inject data
         formProfile = profile;
+
+        // setup state-machine
     }
 
     public void EnterForm()
