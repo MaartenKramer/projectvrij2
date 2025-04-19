@@ -19,7 +19,7 @@ public class BirdForm : IFormBehaviour
 
         // setup state-machine
         stateMachine = new StateMachine(owner, defaultStateId);
-        stateMachine.availableStates.Add("state_player_idle", new IdleState("state_player_idle"));
+        stateMachine.availableStates.Add("state_player_idle", new IdleState(stateMachine, this, "state_player_idle"));
 
         stateMachine.SetState(defaultStateId);
     }
@@ -27,27 +27,32 @@ public class BirdForm : IFormBehaviour
     public void EnterForm()
     {
         Debug.Log("Entered bird form");
+        stateMachine.currentState.EnterState();
     }
 
     public void UpdateForm()
     {
-
+        stateMachine.currentState.UpdateState();
     }
 
     public void ExitForm()
     {
         Debug.Log("Exited bird form");
+        stateMachine.currentState.ExitState();
     }
 
     public void HandleAbilities()
     {
+        stateMachine.currentState.HandleAbilities();
     }
 
     public void HandleInput()
     {
+        stateMachine.currentState.HandleInput();
     }
 
     public void HandlePhysics()
     {
+        stateMachine.currentState.HandlePhysics();
     }
 }

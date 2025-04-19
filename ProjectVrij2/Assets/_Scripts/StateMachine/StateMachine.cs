@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class StateMachine
 {
-    private GameObject owner;
+    public GameObject owner;
 
     private string defaultStateId;
     public IState currentState;

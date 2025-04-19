@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [CreateAssetMenu(fileName = "New Form Profile", menuName ="ScriptableObjects/Transformations/FormProfile")]
 public class FormProfileSO : ScriptableObject
@@ -20,5 +21,7 @@ public class FormProfileSO : ScriptableObject
     // form behaviour
     [SerializeReference]
     [SerializeField] public IFormBehaviour behaviour;   // associated behaviour and implementation of the form's movement
+    [SerializeField] public InputActionAsset actionAsset;
+    [SerializeField] public string actionMapId;
     //[SerializeField] public System.Type[] states;     // could be like this, but "hard-code" it for now in the IFormBehaviour
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private List<FormProfileSO> availableForms = new List<FormProfileSO>();
     [SerializeField] private int currentFormIndex = 0;
 
+    [Header("Input")]
+    [SerializeField] private InputActionAsset globalInput;
+    private InputAction transformAction;
+
     [Header("Debugging")]
     [SerializeField] private FormProfileSO debugProfile;
 
@@ -16,6 +21,14 @@ public class PlayerController : MonoBehaviour
     {
         // give form scripts acces to important variables from their respective profile
         foreach (var form in availableForms) { form.behaviour.Initialize(gameObject, form); }
+
+        InputActionMap globalActionMap = globalInput.FindActionMap("Actions_Global");
+        transformAction = globalActionMap.FindAction("Transform");
+    }
+
+    private void OnDisable()
+    {
+        
     }
 
     void Start()
@@ -27,10 +40,17 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // debug input | TODO - Change input to new input system and decouple it
-        if (Input.GetKeyDown(KeyCode.Q)) { CycleForms(false); }
-        if (Input.GetKeyDown(KeyCode.E)) { CycleForms(true); }
+        if (transformAction.triggered) 
+        {
+            Debug.Log($"transform action; got key down");
+            if (transformAction.ReadValue<float>() < 0) { CycleForms(false); Debug.Log($"transform action triggered! value: {transformAction.ReadValue<float>()}"); }
+            else if (transformAction.ReadValue<float>() > 0) { CycleForms(true); Debug.Log($"transform action triggered! value: {transformAction.ReadValue<float>()}"); }     
+        }
 
-        if (Input.GetKeyDown(KeyCode.F) && debugProfile != null) { SwitchForm(debugProfile); }
+        //if (Input.GetKeyDown(KeyCode.Q)) { CycleForms(false); }
+        //if (Input.GetKeyDown(KeyCode.E)) { CycleForms(true); }
+
+        //if (Input.GetKeyDown(KeyCode.F) && debugProfile != null) { SwitchForm(debugProfile); }
 
         currentFormProfile?.behaviour.HandleInput();
         currentFormProfile?.behaviour.HandleAbilities();

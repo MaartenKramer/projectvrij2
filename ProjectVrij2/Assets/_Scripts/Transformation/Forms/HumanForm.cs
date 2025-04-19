@@ -21,7 +21,7 @@ public class HumanForm : IFormBehaviour
 
         // setup state-machine
         stateMachine = new StateMachine(owner, defaultStateId);
-        stateMachine.availableStates.Add("state_player_idle", new IdleState("state_player_idle"));
+        stateMachine.availableStates.Add("state_player_idle", new IdleState(stateMachine, this, "state_player_idle"));
 
         stateMachine.SetState(defaultStateId);
     }
@@ -29,28 +29,33 @@ public class HumanForm : IFormBehaviour
     public void EnterForm()
     {
         Debug.Log("Entered human form");
+        stateMachine.currentState.EnterState();
     }
 
     public void UpdateForm()
     {
-        
+        stateMachine.currentState.UpdateState();
     }
 
     public void ExitForm()
     {
         Debug.Log("Exited human form");
+        stateMachine.currentState.ExitState();
     }
 
     public void HandleAbilities()
     {
+        stateMachine.currentState.HandleAbilities();
     }
 
     public void HandleInput()
     {
+        stateMachine.currentState.HandleInput();
     }
 
     public void HandlePhysics()
     {
+        stateMachine.currentState.HandlePhysics();
     }
 
 }
