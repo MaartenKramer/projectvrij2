@@ -10,20 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72f40017150fab9439d4e067acd91634, type: 3}
-  m_Name: BirdForm
+  m_Name: FrogForm
   m_EditorClassIdentifier: 
-  id: form_player_bird
-  formName: Bird
-  defaultSpeed: 3
-  sprintMultiplier: 1.5
-  altSpeed: 12
+  id: 
+  formName: 
+  defaultSpeed: 0
+  sprintMultiplier: 0
+  altSpeed: 0
   behaviour:
-    rid: 6815592761351471178
-  actionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  actionMapId: Player_Bird
+    rid: -2
+  actionAsset: {fileID: 0}
+  actionMapId: 
   references:
     version: 2
     RefIds:
-    - rid: 6815592761351471178
-      type: {class: BirdForm, ns: , asm: Assembly-CSharp}
-      data: 
+    - rid: -2
+      type: {class: , ns: , asm: }

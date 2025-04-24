@@ -83,6 +83,10 @@ public class BirdBehaviour : MonoBehaviour
 
         // apply gravity
         rb.AddForce(Vector3.down * gravity, ForceMode.Force);
+
+        totalForce = GetBaseSpeed() + GetDirection();
+
+        rb.AddForce(totalForce);    
     }
 
     private void OnDrawGizmos()
