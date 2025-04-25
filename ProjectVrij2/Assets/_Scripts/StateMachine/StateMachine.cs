@@ -35,7 +35,7 @@ public class StateMachine
         if (!availableStates.ContainsKey(stateId))
         {
             Debug.Log($"No available state with id: {stateId} found! defaulting to default state");
-            if(!availableStates.ContainsKey(stateId) ) 
+            if(!availableStates.ContainsKey(defaultStateId)) 
             { 
                 Debug.LogError($"default state: {defaultStateId} can not be found in available states!"); 
             }

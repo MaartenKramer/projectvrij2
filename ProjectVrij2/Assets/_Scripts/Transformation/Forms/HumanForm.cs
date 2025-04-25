@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [System.Serializable]
 public class HumanForm : IFormBehaviour
@@ -10,18 +11,28 @@ public class HumanForm : IFormBehaviour
     private StateMachine stateMachine;
     public StateMachine StateMachine => stateMachine;
 
-    private GameObject owner;
-    private string defaultStateId = "state_player_idle";
+    private InputController inputController;
+    public InputController InputController => inputController;
 
-    public void Initialize(GameObject owner, FormProfileSO profile)
+    private RigidbodyController rbController;
+    public RigidbodyController RigidbodyController => rbController;
+
+    private GameObject owner;
+
+    // unique form variables
+    [SerializeField] private string defaultStateId = "state_player_idle";
+
+    public void Initialize(GameObject owner, RigidbodyController rbController, InputController inputController, FormProfileSO profile)
     {
         // inject data
         formProfile = profile;
         this.owner = owner;
+        this.rbController = rbController;
+        this.inputController = inputController;
 
         // setup state-machine
         stateMachine = new StateMachine(owner, defaultStateId);
-        stateMachine.availableStates.Add("state_player_idle", new IdleState(stateMachine, this, "state_player_idle"));
+        stateMachine.availableStates.Add("state_player_idle", new IdleState(this, "Player_Human"));
 
         stateMachine.SetState(defaultStateId);
     }
@@ -57,5 +68,4 @@ public class HumanForm : IFormBehaviour
     {
         stateMachine.currentState.HandlePhysics();
     }
-
 }

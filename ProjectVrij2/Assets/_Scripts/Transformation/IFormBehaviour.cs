@@ -1,11 +1,19 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public interface IFormBehaviour
 {
-    public FormProfileSO FormProfile { get; }
+    [Header("State")]
     public StateMachine StateMachine { get; }
 
-    public void Initialize(GameObject owner, FormProfileSO profile);  // inject data and setup state-machine 
+    [Header("Data")]
+    public FormProfileSO FormProfile { get; }
+
+    [Header("References")]
+    public InputController InputController { get; }
+    public RigidbodyController RigidbodyController { get; }
+
+    public void Initialize(GameObject owner, RigidbodyController rbController, InputController inputController, FormProfileSO profile);  // inject data and setup state-machine 
 
     public void EnterForm();
     public void UpdateForm();

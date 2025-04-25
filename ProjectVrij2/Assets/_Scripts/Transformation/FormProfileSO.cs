@@ -16,11 +16,10 @@ public class FormProfileSO : ScriptableObject
     [Space]
     [SerializeField] public float altSpeed;             // speed for any alternate way of movement the form has (e.g. flight speed for bird-form)
 
-
     // form behaviour
     [Header("Form specific")]
-    [SerializeField] public InputActionAsset actionAsset;
-    [SerializeField] public string actionMapId;
+    //[SerializeField] public InputActionAsset actionAsset;
+    //[SerializeField] public string actionMapId;
     //[SerializeField] public System.Type[] states;     // could be like this, but "hard-code" it for now in the IFormBehaviour
     [Space]
     [SerializeReference]

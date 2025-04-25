@@ -10,19 +10,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int currentFormIndex = 0;
 
     [Header("Input")]
-    [SerializeField] private InputActionAsset globalInput;
     private InputAction transformAction;
+    //[SerializeField] private InputActionAsset globalInput;
 
-    [Header("Debugging")]
-    [SerializeField] private FormProfileSO debugProfile;
+    [Header("References")]
+    [SerializeField] private RigidbodyController rbController;
+    [SerializeField] private InputController inputController;
+
+    //[Header("Debugging")]
 
     private void Awake()
     {
         // give form scripts acces to important variables from their respective profile
-        foreach (var form in availableForms) { form.behaviour.Initialize(gameObject, form); }
+        foreach (var form in availableForms) { form.behaviour.Initialize(gameObject, rbController, inputController, form); }
 
-        InputActionMap globalActionMap = globalInput.FindActionMap("Actions_Global");
-        transformAction = globalActionMap.FindAction("Transform");
+        transformAction = inputController.GetActionGlobal("Transform");
     }
 
     private void OnDisable()
@@ -45,11 +47,6 @@ public class PlayerController : MonoBehaviour
             if (transformAction.ReadValue<float>() < 0) { CycleForms(false); Debug.Log($"transform action triggered! value: {transformAction.ReadValue<float>()}"); }
             else if (transformAction.ReadValue<float>() > 0) { CycleForms(true); Debug.Log($"transform action triggered! value: {transformAction.ReadValue<float>()}"); }     
         }
-
-        //if (Input.GetKeyDown(KeyCode.Q)) { CycleForms(false); }
-        //if (Input.GetKeyDown(KeyCode.E)) { CycleForms(true); }
-
-        //if (Input.GetKeyDown(KeyCode.F) && debugProfile != null) { SwitchForm(debugProfile); }
 
         currentFormProfile?.behaviour.HandleInput();
         currentFormProfile?.behaviour.HandleAbilities();

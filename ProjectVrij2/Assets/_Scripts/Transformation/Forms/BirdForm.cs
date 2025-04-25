@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BirdForm : IFormBehaviour
 {
@@ -8,30 +9,42 @@ public class BirdForm : IFormBehaviour
     private StateMachine stateMachine;
     public StateMachine StateMachine => stateMachine;
 
-    private GameObject owner;
-    [SerializeField] private string defaultStateId = "state_player_idle";
-    [SerializeField] private float baseSpeed;
-    [SerializeField] private float baseSprintSpeed;
-    [SerializeField] private float baseTurnSpeed;
-    [SerializeField] private Rigidbody rb;
+    private InputController inputController;
+    public InputController InputController => inputController;
 
-    public void Initialize(GameObject owner, FormProfileSO profile)
+    private RigidbodyController rbController;
+    public RigidbodyController RigidbodyController => rbController;
+    
+    private GameObject owner;
+
+    // unique form variables
+    [SerializeField] private string defaultStateId = "state_player_flight";
+    [SerializeField] private string actionMapId = "Player_Bird";
+
+    public void Initialize(GameObject owner, RigidbodyController rbController, InputController inputController, FormProfileSO profile)
     {
         // inject data
         formProfile = profile;
         this.owner = owner;
+        this.rbController = rbController;
+        this.inputController = inputController;
 
         // setup state-machine
         stateMachine = new StateMachine(owner, defaultStateId);
-        stateMachine.availableStates.Add("state_player_idle", new IdleState(stateMachine, this, "state_player_idle"));
+        stateMachine.availableStates.Add("state_player_flight", new FlightState(this, actionMapId));
+        //stateMachine.availableStates.Add("state_player_idle", new IdleState(this, rigidBody, "state_player_idle"));
 
         stateMachine.SetState(defaultStateId);
     }
 
     public void EnterForm()
     {
+
         Debug.Log("Entered bird form");
+        rbController.DisableGravity();
+
         stateMachine.currentState.EnterState();
+        //Debug.Log($"baseSpeed: {baseSpeed}");
     }
 
     public void UpdateForm()
@@ -42,6 +55,8 @@ public class BirdForm : IFormBehaviour
     public void ExitForm()
     {
         Debug.Log("Exited bird form");
+        rbController.EnableGravity();
+
         stateMachine.currentState.ExitState();
     }
 

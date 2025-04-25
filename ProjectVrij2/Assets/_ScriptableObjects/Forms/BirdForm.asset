@@ -19,11 +19,11 @@ MonoBehaviour:
   altSpeed: 12
   behaviour:
     rid: 6815592761351471178
-  actionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  actionMapId: Player_Bird
   references:
     version: 2
     RefIds:
     - rid: 6815592761351471178
       type: {class: BirdForm, ns: , asm: Assembly-CSharp}
-      data: 
+      data:
+        defaultStateId: state_player_flight
+        actionMapId: Player_Bird

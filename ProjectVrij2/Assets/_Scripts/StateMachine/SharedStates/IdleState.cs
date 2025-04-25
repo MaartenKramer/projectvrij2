@@ -3,31 +3,29 @@ using UnityEngine.InputSystem;
 
 public class IdleState : IState
 {
-    public bool IsUnique => false;
+    public bool IsUnique => true;
 
-    private string stateId;
-    public string StateId => stateId;
-    public string StateTransitionId => null;
+    public string StateId => "state_player_idle";
 
-    private StateMachine owner;
+    public string StateTransitionId => "state_player_flight";
+
     private IFormBehaviour form;
 
-    private InputActionMap actionMap;
     InputAction moveAction;
     InputAction jumpAction;
 
-    public IdleState(StateMachine owner, IFormBehaviour form, string stateId)
+    private RigidbodyController rbController;
+
+    public IdleState(IFormBehaviour form, string actionMapId)
     {
-        this.stateId = stateId;
-        this.owner = owner;
         this.form = form;
 
-        InputActionAsset input = form.FormProfile.actionAsset;
-        actionMap = input.FindActionMap(form.FormProfile.actionMapId);
-        if(input == null || actionMap == null) { Debug.Log("No input action or actionmap found! Did you assign it in the form profile?"); }
+        //InputActionAsset input = form.Input;
+        //actionMap = input.FindActionMap(form.in);
+        //if(input == null || actionMap == null) { Debug.Log("No input action or actionmap found! Did you assign it in the form profile?"); }
 
-        moveAction = actionMap.FindAction("Move");
-        jumpAction = actionMap.FindAction("Jump");
+        moveAction = form.InputController.GetAction(actionMapId, "Move");
+        jumpAction = form.InputController.GetAction(actionMapId, "Jump");
     }
 
     public void EnterState()
@@ -52,9 +50,9 @@ public class IdleState : IState
     public void HandleInput()
     {
         Vector2 direction = moveAction.ReadValue<Vector2>();
-        Debug.Log($"[{owner.owner.name}] direction: {direction}");
+        //Debug.Log($"[{owner.owner.name}] direction: {direction}");
 
-        if (jumpAction.triggered) { Debug.Log($"[{owner.owner.name}] jump input received"); }
+        if (jumpAction.triggered) { Debug.Log($"[{form.StateMachine.owner.name}] jump input received"); }
     }
 
     public void HandlePhysics()
