@@ -51,6 +51,31 @@ public class IFormBehaviourDrawer : PropertyDrawer
                 property.serializedObject.ApplyModifiedProperties();
             }
 
+            // draw property fields
+            // Foldout for nicer inspector
+            Rect foldoutRect = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight * 2 + 2f, position.width, EditorGUIUtility.singleLineHeight);
+            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, label, true);
+
+            if (property.isExpanded)
+            {
+                EditorGUI.indentLevel++;
+                SerializedProperty iterator = property.Copy();
+                SerializedProperty endProperty = iterator.GetEndProperty();
+                bool enterChildren = true;
+
+                float y = foldoutRect.y + EditorGUIUtility.singleLineHeight;
+
+                while (iterator.NextVisible(enterChildren) && !SerializedProperty.EqualContents(iterator, endProperty))
+                {
+                    enterChildren = false;
+                    Rect fieldRect = new Rect(foldoutRect.x, y, position.width, EditorGUIUtility.singleLineHeight);
+                    EditorGUI.PropertyField(fieldRect, iterator, true);
+                    y += EditorGUI.GetPropertyHeight(iterator, true) + EditorGUIUtility.standardVerticalSpacing;
+                }
+
+                EditorGUI.indentLevel--;
+            }
+
         }
 
             EditorGUI.EndProperty();
@@ -60,7 +85,20 @@ public class IFormBehaviourDrawer : PropertyDrawer
     {
         if(property.managedReferenceValue != null)
         {
-            return EditorGUIUtility.singleLineHeight * 3 + 2f;
+            if (!property.isExpanded) return EditorGUIUtility.singleLineHeight * 3 + 2f;
+
+            float height = EditorGUIUtility.singleLineHeight;
+            SerializedProperty iterator = property.Copy();
+            SerializedProperty endProperty = iterator.GetEndProperty();
+            bool enterChildren = true;
+
+            while (iterator.NextVisible(enterChildren) && !SerializedProperty.EqualContents(iterator, endProperty))
+            {
+                enterChildren = false;
+                height += EditorGUI.GetPropertyHeight(iterator, true) + EditorGUIUtility.standardVerticalSpacing;
+            }
+
+            return EditorGUIUtility.singleLineHeight * 2 + 2f + height;
         }
         else
         {

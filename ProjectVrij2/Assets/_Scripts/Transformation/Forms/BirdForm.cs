@@ -9,7 +9,11 @@ public class BirdForm : IFormBehaviour
     public StateMachine StateMachine => stateMachine;
 
     private GameObject owner;
-    private string defaultStateId = "state_player_idle";
+    [SerializeField] private string defaultStateId = "state_player_idle";
+    [SerializeField] private float baseSpeed;
+    [SerializeField] private float baseSprintSpeed;
+    [SerializeField] private float baseTurnSpeed;
+    [SerializeField] private Rigidbody rb;
 
     public void Initialize(GameObject owner, FormProfileSO profile)
     {
