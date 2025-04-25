@@ -4,24 +4,24 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(fileName = "New Form Profile", menuName ="ScriptableObjects/Transformations/FormProfile")]
 public class FormProfileSO : ScriptableObject
 {
-    [Header("General")]
 
     // identifiers
+    [Header("Identification")]
     [SerializeField] public string id;                  // id with which the profile can be looked-up | structure: type_owner_name (e.g. form_player_bird or form_enemy-grunt_human)
     [SerializeField] public string formName;            // for clarity purposes mostly
 
-    // movement variables
-    [SerializeField] public float defaultSpeed;         // speed for the default way of movement (i.e. walking/locomotion)
-    [SerializeField] public float sprintMultiplier;
-    [Space]
-    [SerializeField] public float altSpeed;             // speed for any alternate way of movement the form has (e.g. flight speed for bird-form)
+    [Header("Variables")]
+    [SerializeField] public float mass = 1f;
+    //[SerializeField] public float defaultSpeed;         // speed for the default way of movement (i.e. walking/locomotion)
+    //[SerializeField] public float sprintMultiplier;
+    //[Space]
+    //[SerializeField] public float altSpeed;             // speed for any alternate way of movement the form has (e.g. flight speed for bird-form)
 
-    // form behaviour
     [Header("Form specific")]
     //[SerializeField] public InputActionAsset actionAsset;
     //[SerializeField] public string actionMapId;
     //[SerializeField] public System.Type[] states;     // could be like this, but "hard-code" it for now in the IFormBehaviour
-    [Space]
+    // form behaviour
     [SerializeReference]
     [SerializeField] public IFormBehaviour behaviour;   // associated behaviour and implementation of the form's movement
 }

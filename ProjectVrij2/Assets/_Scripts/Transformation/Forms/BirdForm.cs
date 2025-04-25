@@ -39,9 +39,9 @@ public class BirdForm : IFormBehaviour
 
     public void EnterForm()
     {
-
         Debug.Log("Entered bird form");
         rbController.DisableGravity();
+        rbController.rigidbody.mass = formProfile.mass;
 
         stateMachine.currentState.EnterState();
         //Debug.Log($"baseSpeed: {baseSpeed}");

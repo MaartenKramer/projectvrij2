@@ -40,6 +40,8 @@ public class HumanForm : IFormBehaviour
     public void EnterForm()
     {
         Debug.Log("Entered human form");
+        rbController.rigidbody.mass = formProfile.mass;
+
         stateMachine.currentState.EnterState();
     }
 

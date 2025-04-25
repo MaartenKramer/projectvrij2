@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
     {
         currentFormIndex = 0;
         currentFormProfile = availableForms[currentFormIndex]; // first form in the list is considered the default
+
+        SwitchForm(0);
     }
 
     void Update()

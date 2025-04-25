@@ -14,16 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: form_player_human
   formName: Human
-  defaultSpeed: 5
-  sprintMultiplier: 1.5
-  altSpeed: 0
+  mass: 5
   behaviour:
     rid: 1677818880643563654
-  actionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  actionMapId: Player_Human
   references:
     version: 2
     RefIds:
     - rid: 1677818880643563654
       type: {class: HumanForm, ns: , asm: Assembly-CSharp}
-      data: 
+      data:
+        defaultStateId: state_player_idle
