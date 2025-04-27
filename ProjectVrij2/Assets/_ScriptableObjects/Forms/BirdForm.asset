@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: form_player_bird
   formName: Bird
-  defaultSpeed: 3
-  sprintMultiplier: 1.5
-  altSpeed: 12
+  mass: 1
+  drag: 1
   behaviour:
     rid: 6815592761351471178
   references:
@@ -27,3 +26,7 @@ MonoBehaviour:
       data:
         defaultStateId: state_player_flight
         actionMapId: Player_Bird
+        data:
+          flightSpeed: 8
+          turnSpeed: 16
+          gravity: 1

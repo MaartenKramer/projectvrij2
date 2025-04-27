@@ -41,6 +41,7 @@ public class HumanForm : IFormBehaviour
     {
         Debug.Log("Entered human form");
         rbController.rigidbody.mass = formProfile.mass;
+        rbController.rigidbody.linearDamping = formProfile.drag;
 
         stateMachine.currentState.EnterState();
     }
