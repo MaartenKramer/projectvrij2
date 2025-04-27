@@ -12,7 +12,8 @@ public class FormProfileSO : ScriptableObject
 
     [Header("Variables")]
     [SerializeField] public float mass = 1f;
-    [SerializeField] public float drag = 1f;
+    [SerializeField] public float linearDrag = 1f;
+    [SerializeField] public float angularDrag = 1f;
     //[SerializeField] public float defaultSpeed;         // speed for the default way of movement (i.e. walking/locomotion)
     //[SerializeField] public float sprintMultiplier;
     //[Space]

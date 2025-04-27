@@ -45,7 +45,7 @@ public class FlightState : IState
     public void HandleInput()
     {
         direction = moveAction.ReadValue<Vector2>();
-        direction = new Vector3(direction.y, direction.x, 1);
+        direction = new Vector3(direction.x, direction.y, 0);
         lookDirection = lookAction.ReadValue<Vector2>();
     }
 
@@ -54,19 +54,45 @@ public class FlightState : IState
         // apply force forward
         form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Forward * data.flightSpeed);
 
+        // rotate towards direction
+        form.RigidbodyController.Rotate(direction, data.turnSpeed);
+
+        // Stabilize the Z-axis rotation
+        if (form.RigidbodyController.rigidbody.linearVelocity.magnitude > 0.1f)
+        {
+            // Get current rotation of the object
+            Vector3 currentRotation = form.RigidbodyController.Rotation.eulerAngles;
+
+            // Reset only the Z-axis rotation (keep X and Y as they are)
+            currentRotation.z = 0;
+
+            // Apply the corrected rotation
+            form.RigidbodyController.Rotation = Quaternion.Euler(currentRotation);
+        }
+
+        float dot = Vector3.Dot(form.RigidbodyController.Forward.normalized, Vector3.up);
+
+        // if player is facing downwards apply gravity
+        if (dot < 0)
+        {
+            //form.RigidbodyController.SetDrag(data.drag - data.drag * Mathf.Abs(Mathf.Clamp(dot, 0, -1)));
+            form.RigidbodyController.rigidbody.AddForce((-Vector3.up * data.gravity) * Mathf.Abs(dot), ForceMode.Acceleration);
+        }
+        //else { form.RigidbodyController.SetDrag(data.drag); }
+
+        Debug.Log($"Rigidbody velocity: {form.RigidbodyController.LinearVelocity.magnitude}");
+
         // apply force left/right
-        form.RigidbodyController.rigidbody.AddForce((form.RigidbodyController.Right * direction.x) * data.turnSpeed);
+        //form.RigidbodyController.rigidbody.AddForce((form.RigidbodyController.Right * direction.x) * data.turnSpeed);
 
         // apply force up/down
-        form.RigidbodyController.rigidbody.AddForce((Vector3.up * direction.y) * data.turnSpeed);
+        //form.RigidbodyController.rigidbody.AddForce((Vector3.up * direction.y) * data.turnSpeed);
 
-        form.RigidbodyController.Rotate(form.RigidbodyController.rigidbody.GetAccumulatedForce().normalized, data.turnSpeed * 10);
-
-        // apply gravity
-        float gravity = data.gravity;
-        if(direction == Vector2.zero) { gravity = 0; }
-        else { gravity = data.gravity; }
-        form.RigidbodyController.rigidbody.AddForce(-Vector3.up * gravity, ForceMode.Acceleration);
+        //// apply gravity
+        //float gravity = data.gravity;
+        //if(direction == Vector2.zero) { gravity = 0; }
+        //else { gravity = data.gravity; }
+        //form.RigidbodyController.rigidbody.AddForce(-Vector3.up * gravity, ForceMode.Acceleration);
     }
 
     public void UpdateState()

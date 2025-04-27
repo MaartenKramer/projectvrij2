@@ -43,7 +43,8 @@ public class BirdForm : IFormBehaviour
         Debug.Log("Entered bird form");
         rbController.DisableGravity();
         rbController.rigidbody.mass = formProfile.mass;
-        rbController.rigidbody.linearDamping = formProfile.drag;
+        rbController.rigidbody.linearDamping = formProfile.linearDrag;
+        rbController.rigidbody.angularDamping = formProfile.angularDrag;
 
         stateMachine.currentState.EnterState();
         //Debug.Log($"baseSpeed: {baseSpeed}");

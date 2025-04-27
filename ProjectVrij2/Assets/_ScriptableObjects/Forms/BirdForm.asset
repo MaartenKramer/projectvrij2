@@ -15,7 +15,8 @@ MonoBehaviour:
   id: form_player_bird
   formName: Bird
   mass: 1
-  drag: 1
+  linearDrag: 1
+  angularDrag: 1
   behaviour:
     rid: 6815592761351471178
   references:
@@ -27,6 +28,6 @@ MonoBehaviour:
         defaultStateId: state_player_flight
         actionMapId: Player_Bird
         data:
-          flightSpeed: 8
-          turnSpeed: 16
-          gravity: 1
+          flightSpeed: 12
+          turnSpeed: 64
+          gravity: 15
