@@ -26,6 +26,9 @@ public class FlightState : IState
     private float currentSpeed;
     private float previousDrag;
 
+    private float boostTimestamp = 0f;
+    private float rollTimestamp = 0f;
+
     //states
     private bool isSlowedDown = false;
 
@@ -73,6 +76,19 @@ public class FlightState : IState
         direction = moveAction.ReadValue<Vector2>();
         direction = new Vector3(direction.x, direction.y, 0);
         lookDirection = lookAction.ReadValue<Vector2>();
+
+        if (rollLeftAction.triggered)
+        {
+            Roll(true);
+        }
+        else if (rollRightAction.triggered)
+        {
+            Roll(false);
+        }
+        else if (boostAction.triggered)
+        {
+            Boost();
+        }
     }
 
     public void HandlePhysics()
@@ -159,18 +175,33 @@ public class FlightState : IState
 
     private void Boost()
     {
+        Debug.Log($"[Boost] timestamp: {boostTimestamp}");
+        if (Time.time < boostTimestamp + data.boostCooldown && boostTimestamp != 0f) { return; }
 
+        Debug.Log($"[Boost] boosted");
+        form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Forward * data.boostForce, ForceMode.Impulse);
+
+        boostTimestamp = Time.time;
     }
 
     private void Roll(bool leftOrRight)
     {
+        Debug.Log($"[Roll] timestamp: {rollTimestamp}");
+        if (Time.time < rollTimestamp + data.rollCooldown && rollTimestamp != 0f) { return; }
+
         switch(leftOrRight)
         {
             case true:
+                Debug.Log($"[Roll] left");
+                form.RigidbodyController.rigidbody.AddForce(-form.RigidbodyController.Right * data.rollForce, ForceMode.Impulse);
                 break;
             case false:
+                Debug.Log($"[Roll] right");
+                form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Right * data.rollForce, ForceMode.Impulse);
                 break;
         }
+
+        rollTimestamp = Time.time;
     }
 }
 

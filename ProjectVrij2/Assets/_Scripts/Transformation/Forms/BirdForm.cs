@@ -93,4 +93,9 @@ public struct BirdData
     public AnimationCurve diveCurve;
 
     public float slowDownDrag;
+
+    public float boostForce;
+    public float boostCooldown;
+    public float rollForce;
+    public float rollCooldown;
 }
