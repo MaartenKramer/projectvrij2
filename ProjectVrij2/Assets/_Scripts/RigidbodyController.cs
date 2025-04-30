@@ -17,17 +17,29 @@ public class RigidbodyController
     public Quaternion Rotation { get { return transform.rotation; } set { transform.rotation = value; } }
     public Vector3 LocalScale { get { return transform.localScale; } set { transform.localScale = value; } }
 
-    private float previousDrag = -1f;
+    private float desiredDrag;
+    private float currentDrag;
+    private Tween dragTween;
 
     public void EnableGravity() { rigidbody.useGravity = true; }
     public void DisableGravity() {  rigidbody.useGravity = false; }
 
-    public void ResetDrag() { if (previousDrag == -1) { return; } rigidbody.linearDamping = previousDrag; }
     public void SetDrag(float value) 
     {
+        if(dragTween != null) { dragTween.Kill(); }
+
         if (rigidbody.linearDamping == value) { return; }
-        previousDrag = rigidbody.linearDamping; 
         rigidbody.linearDamping = value; 
+    }
+    public void TweenDrag(float endValue, float speed)
+    {
+        if(dragTween != null) { dragTween.Kill(); }
+
+        desiredDrag = endValue;
+
+        dragTween = DOTween.To(() => currentDrag, x => currentDrag = x, desiredDrag, Mathf.Abs(currentDrag - desiredDrag) / speed);
+
+        rigidbody.linearDamping = currentDrag;
     }
 
     public void Rotate(Vector2 direction, float speed)

@@ -17,25 +17,51 @@ public class FlightState : IState
     InputAction speedUpAction;
     InputAction slowDownAction;
     InputAction boostAction;
+    InputAction rollLeftAction;
+    InputAction rollRightAction;
 
     private Vector2 direction;
     private Vector2 lookDirection;
+
+    private float currentSpeed;
+    private float previousDrag;
+
+    //states
+    private bool isSlowedDown = false;
 
     public FlightState(IFormBehaviour form, string actionMapId, BirdData data) 
     {
         this.form = form;
         this.data = data;
 
+        // initialisation
         moveAction = form.InputController.GetAction(actionMapId, "Move");
         lookAction = form.InputController.GetAction(actionMapId, "Look");
+        speedUpAction = form.InputController.GetAction(actionMapId, "SpeedUp");
+        slowDownAction = form.InputController.GetAction(actionMapId, "SlowDown");
+        boostAction = form.InputController.GetAction(actionMapId, "Boost");
+        rollLeftAction = form.InputController.GetAction(actionMapId, "Roll_Left");
+        rollRightAction = form.InputController.GetAction(actionMapId, "Roll_Right");
+
+        currentSpeed = data.flightSpeed;
     }
 
     public void EnterState()
     {
+        speedUpAction.started += ctx => SetSpeed(data.quickFlightSpeed) ;
+        speedUpAction.canceled += ctx => SetSpeed(data.flightSpeed);
+
+        slowDownAction.started += ctx => SlowDown(true);
+        slowDownAction.canceled += ctx => SlowDown(false);
     }
 
     public void ExitState()
     {
+        speedUpAction.started -= ctx => SetSpeed(data.quickFlightSpeed);
+        speedUpAction.canceled -= ctx => SetSpeed(data.flightSpeed);
+
+        slowDownAction.started -= ctx => SlowDown(true);
+        slowDownAction.canceled -= ctx => SlowDown(false);
     }
 
     public void HandleAbilities()
@@ -52,7 +78,7 @@ public class FlightState : IState
     public void HandlePhysics()
     {
         // apply force forward
-        form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Forward * data.flightSpeed);
+        form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Forward * currentSpeed);
 
         // rotate towards direction
         form.RigidbodyController.Rotate(direction, data.turnSpeed);
@@ -73,10 +99,30 @@ public class FlightState : IState
         float dot = Vector3.Dot(form.RigidbodyController.Forward.normalized, Vector3.up);
 
         // if player is facing downwards apply gravity
-        if (dot < 0)
+        if (!isSlowedDown)
         {
-            //form.RigidbodyController.SetDrag(data.drag - data.drag * Mathf.Abs(Mathf.Clamp(dot, 0, -1)));
-            form.RigidbodyController.rigidbody.AddForce((-Vector3.up * data.gravity) * Mathf.Abs(dot), ForceMode.Acceleration);
+            if (dot < 0)
+            {
+                float desiredDrag = data.minDrag + (data.maxDrag - data.diveCurve.Evaluate(Mathf.Abs(dot)) * data.maxDrag);
+                if(desiredDrag > previousDrag) { Debug.Log($"[Drag] diving -> drag recovering"); form.RigidbodyController.TweenDrag(desiredDrag, data.dragRecoveryRate); }
+                else { Debug.Log($"[Drag] diving -> drag reducing"); form.RigidbodyController.TweenDrag(desiredDrag, data.dragReductionRate); }
+            
+                previousDrag = desiredDrag;
+                //form.RigidbodyController.SetDrag(data.drag - data.drag * Mathf.Abs(Mathf.Clamp(dot, 0, -1)));
+                //form.RigidbodyController.rigidbody.AddForce((-Vector3.up * data.gravity) * Mathf.Abs(dot), ForceMode.Acceleration);
+            }
+            else 
+            {
+                if(form.RigidbodyController.LinearDrag != data.maxDrag)
+                {
+                    Debug.Log($"[Drag] level -> drag recovering");
+                    form.RigidbodyController.TweenDrag(data.maxDrag, data.dragRecoveryRate);
+                }
+            }
+        }
+        else
+        {
+            form.RigidbodyController.TweenDrag(data.slowDownDrag, data.dragReductionRate);
         }
         //else { form.RigidbodyController.SetDrag(data.drag); }
 
@@ -97,6 +143,34 @@ public class FlightState : IState
 
     public void UpdateState()
     {
+    }
+
+    private void SetSpeed(float value)
+    {
+        if(value == currentSpeed) { return; }
+        currentSpeed = value;
+    }
+
+    private void SlowDown(bool state)
+    {
+        isSlowedDown = state;
+        Debug.Log($"Slowed down: {state}");
+    }
+
+    private void Boost()
+    {
+
+    }
+
+    private void Roll(bool leftOrRight)
+    {
+        switch(leftOrRight)
+        {
+            case true:
+                break;
+            case false:
+                break;
+        }
     }
 }
 

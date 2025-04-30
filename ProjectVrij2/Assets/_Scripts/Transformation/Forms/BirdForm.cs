@@ -83,6 +83,14 @@ public class BirdForm : IFormBehaviour
 public struct BirdData
 {
     public float flightSpeed;
+    public float quickFlightSpeed;
     public float turnSpeed;
-    public float gravity;
+
+    public float maxDrag;
+    public float minDrag;
+    public float dragRecoveryRate;
+    public float dragReductionRate;
+    public AnimationCurve diveCurve;
+
+    public float slowDownDrag;
 }
