@@ -1,0 +1,37 @@
+using System.Text;
+using TMPro;
+using UnityEngine;
+
+public class DebugVariableUIHandler : MonoBehaviour
+{
+    private TextMeshProUGUI textMesh;
+
+    private void Awake()
+    {
+        textMesh = GetComponent<TextMeshProUGUI>();    
+    }
+
+    private void OnEnable()
+    {
+        EventHandler<PlayerDebugVariables>.AddListener(GlobalEvents.UI_DEBUG_UPDATEVARIABLES, OnUpdateVariables);
+    }
+
+    private void OnDisable()
+    {
+        EventHandler<PlayerDebugVariables>.RemoveListener(GlobalEvents.UI_DEBUG_UPDATEVARIABLES, OnUpdateVariables);
+    }
+
+    private void OnUpdateVariables(PlayerDebugVariables variables)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.AppendLine("Velocity: " + variables.velocity.ToString("00.00"));
+        sb.AppendLine("Speeding up: " + variables.speedingUp.ToString());
+        sb.AppendLine("Slowing down: " + variables.slowingDown.ToString());
+
+        string result = sb.ToString();
+        sb = null;
+
+        textMesh.text = result;
+    }
+}

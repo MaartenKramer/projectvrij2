@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5576e64251666f74fa4cf289006914b5, type: 3}
+  m_Name: Controls_Bird
+  m_EditorClassIdentifier: 
+  formId: form_player_bird
+  deviceControls:
+  - {fileID: 11400000, guid: 86e37ce55f016a242b598764cebce385, type: 2}
+  - {fileID: 11400000, guid: 831f15d6fda16da41994873ba8f36785, type: 2}

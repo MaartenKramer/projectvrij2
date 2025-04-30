@@ -51,8 +51,8 @@ public class FlightState : IState
 
     public void EnterState()
     {
-        speedUpAction.started += ctx => SetSpeed(data.quickFlightSpeed) ;
-        speedUpAction.canceled += ctx => SetSpeed(data.flightSpeed);
+        speedUpAction.started += ctx => SpeedUp(data.quickFlightSpeed, true);
+        speedUpAction.canceled += ctx => SpeedUp(data.flightSpeed, false);
 
         slowDownAction.started += ctx => SlowDown(true);
         slowDownAction.canceled += ctx => SlowDown(false);
@@ -60,8 +60,8 @@ public class FlightState : IState
 
     public void ExitState()
     {
-        speedUpAction.started -= ctx => SetSpeed(data.quickFlightSpeed);
-        speedUpAction.canceled -= ctx => SetSpeed(data.flightSpeed);
+        speedUpAction.started -= ctx => SpeedUp(data.quickFlightSpeed, true);
+        speedUpAction.canceled -= ctx => SpeedUp(data.flightSpeed, false);
 
         slowDownAction.started -= ctx => SlowDown(true);
         slowDownAction.canceled -= ctx => SlowDown(false);
@@ -161,6 +161,12 @@ public class FlightState : IState
     {
     }
 
+    private void SpeedUp(float value, bool state)
+    {
+        SetSpeed(value);
+        form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.speedingUp = state;
+    }
+
     private void SetSpeed(float value)
     {
         if(value == currentSpeed) { return; }
@@ -170,6 +176,7 @@ public class FlightState : IState
     private void SlowDown(bool state)
     {
         isSlowedDown = state;
+        form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.slowingDown = state;
         Debug.Log($"Slowed down: {state}");
     }
 

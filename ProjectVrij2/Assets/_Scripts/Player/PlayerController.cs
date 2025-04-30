@@ -11,13 +11,17 @@ public class PlayerController : MonoBehaviour
 
     [Header("Input")]
     private InputAction transformAction;
+    private InputAction interactAction;
+
+    private InputAction showDebugAction;
     //[SerializeField] private InputActionAsset globalInput;
 
     [Header("References")]
     [SerializeField] private RigidbodyController rbController;
     [SerializeField] private InputController inputController;
 
-    //[Header("Debugging")]
+    [Header("Debugging")]
+    public PlayerDebugVariables debugVariables;
 
     private void Awake()
     {
@@ -25,11 +29,20 @@ public class PlayerController : MonoBehaviour
         foreach (var form in availableForms) { form.behaviour.Initialize(gameObject, rbController, inputController, form); }
 
         transformAction = inputController.GetActionGlobal("Transform");
+        interactAction = inputController.GetActionGlobal("Interact");
+        showDebugAction = inputController.GetActionDebug("ShowDebug");
+
+        debugVariables = new PlayerDebugVariables();
+    }
+
+    private void OnEnable()
+    {
+        inputController.OnEnable();
     }
 
     private void OnDisable()
     {
-        
+        inputController.OnDisable();
     }
 
     void Start()
@@ -53,6 +66,16 @@ public class PlayerController : MonoBehaviour
         currentFormProfile?.behaviour.HandleInput();
         currentFormProfile?.behaviour.HandleAbilities();
         currentFormProfile?.behaviour.UpdateForm();
+
+        if (showDebugAction.triggered)
+        {
+            EventHandler.InvokeEvent(GlobalEvents.UI_DEBUG_SHOW);
+        }
+
+        // update debug variable text
+        debugVariables.velocity = rbController.LinearVelocity.magnitude;
+
+        EventHandler<PlayerDebugVariables>.InvokeEvent(GlobalEvents.UI_DEBUG_UPDATEVARIABLES, debugVariables);
     }
 
     private void FixedUpdate()
@@ -120,6 +143,7 @@ public class PlayerController : MonoBehaviour
         currentFormProfile?.behaviour.EnterForm();
 
         currentFormIndex = desiredIndex;
+        EventHandler<string>.InvokeEvent(GlobalEvents.PLAYER_FORM_CHANGED, currentFormProfile.id);
 
         Debug.Log("--------------------------------------");
     }
@@ -155,6 +179,23 @@ public class PlayerController : MonoBehaviour
         }
         currentFormProfile?.behaviour.EnterForm();
 
+        currentFormIndex = profileIndex;
+        EventHandler<string>.InvokeEvent(GlobalEvents.PLAYER_FORM_CHANGED, currentFormProfile.id);
+
         Debug.Log("--------------------------------------");
     }
+}
+
+public struct PlayerDebugVariables
+{
+    public PlayerDebugVariables(float velocity)
+    {
+        this.velocity = velocity;
+        speedingUp = false;
+        slowingDown = false;
+    }
+
+    public float velocity;
+    public bool speedingUp;
+    public bool slowingDown;
 }

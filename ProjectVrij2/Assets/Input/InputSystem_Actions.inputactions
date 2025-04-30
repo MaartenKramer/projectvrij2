@@ -1329,7 +1329,7 @@
                 {
                     "name": "",
                     "id": "6c0a85de-bb6f-4147-a2bf-eff40faf81b8",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1351,7 +1351,7 @@
                 {
                     "name": "",
                     "id": "46253c76-9fde-4e9e-8fb4-9439fc3fbfbd",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1514,6 +1514,34 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Transform",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Actions_Debug",
+            "id": "4b3a36c0-7c00-4b23-a965-7cdd4a382297",
+            "actions": [
+                {
+                    "name": "ShowDebug",
+                    "type": "Button",
+                    "id": "eee0c7c5-7ea1-449b-aaa4-d6e2a2de9089",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "85cf40e7-9344-4970-9f16-d61ff2057ad3",
+                    "path": "<Keyboard>/f3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowDebug",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

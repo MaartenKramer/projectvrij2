@@ -46,6 +46,4 @@ public class RigidbodyController
     {
         transform.Rotate(direction.y * speed * Time.deltaTime, direction.x * speed * Time.deltaTime, 0f);
     }
-
-    public void 
 }
