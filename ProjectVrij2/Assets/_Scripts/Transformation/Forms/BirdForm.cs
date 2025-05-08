@@ -45,6 +45,7 @@ public class BirdForm : IFormBehaviour
         rbController.rigidbody.mass = formProfile.mass;
         rbController.rigidbody.linearDamping = formProfile.linearDrag;
         rbController.rigidbody.angularDamping = formProfile.angularDrag;
+        //rbController.UnfreezeRotation();
 
         // camera
         if (CameraManager.Instance.SwitchCMCam(formProfile.cameraId)) { Debug.Log($"[Human] Succesfully switched to {formProfile.cameraId}"); }
@@ -62,7 +63,9 @@ public class BirdForm : IFormBehaviour
     public void ExitForm()
     {
         Debug.Log("Exited bird form");
+
         rbController.EnableGravity();
+        //rbController.FreezeRotation();
 
         stateMachine.currentState.ExitState();
     }

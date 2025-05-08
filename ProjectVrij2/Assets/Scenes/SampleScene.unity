@@ -313,8 +313,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.034853186, y: 100.5, z: -4.905395}
+  m_LocalRotation: {x: 0.13870122, y: -5.336777e-15, z: 7.474421e-16, w: 0.9903343}
+  m_LocalPosition: {x: 0.034853186, y: 3, z: -6.905395}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -408,7 +408,7 @@ GameObject:
   - component: {fileID: 400057350}
   - component: {fileID: 400057349}
   m_Layer: 0
-  m_Name: PlayerVisuals
+  m_Name: BirdVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -886,7 +886,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &804311254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -987,8 +987,8 @@ MonoBehaviour:
   Damping: {x: 0.5, y: 0.5}
   Lookahead:
     Enabled: 0
-    Time: 0
-    Smoothing: 0
+    Time: 0.1
+    Smoothing: 0.1
     IgnoreY: 0
 --- !u!114 &804311257
 MonoBehaviour:
@@ -1005,7 +1005,7 @@ MonoBehaviour:
   TargetOffset: {x: 0, y: 0, z: 0}
   TrackerSettings:
     BindingMode: 4
-    PositionDamping: {x: 1, y: 1, z: 1}
+    PositionDamping: {x: 0, y: 0, z: 0}
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
@@ -1014,14 +1014,14 @@ MonoBehaviour:
   Orbits:
     Top:
       Radius: 3
-      Height: 4
+      Height: 6
     Center:
-      Radius: 5
-      Height: 1.75
+      Radius: 7
+      Height: 2
     Bottom:
-      Radius: 3.5
+      Radius: 5
       Height: -1
-    SplineCurvature: 0.5
+    SplineCurvature: 0.3
   RecenteringTarget: 2
   HorizontalAxis:
     Value: 0
@@ -1104,8 +1104,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 804311253}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16754349, y: -0.000000011222568, z: 0.0000000019072264, w: 0.9858647}
-  m_LocalPosition: {x: 0.034853186, y: 101.75, z: -4.905395}
+  m_LocalRotation: {x: 0.13870122, y: -5.324843e-15, z: 6.6223206e-16, w: 0.99033433}
+  m_LocalPosition: {x: 0.034853186, y: 3, z: -6.905395}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1335,7 +1335,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 835790901}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e11deb7254c822441aa934cde8f4694b, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1823,9 +1823,11 @@ MonoBehaviour:
   currentFormIndex: 1
   rbController:
     transform: {fileID: 1107849957}
+    orientation: {fileID: 78200679}
     rigidbody: {fileID: 1107849958}
   inputController:
     actionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  startingForm: 1
 --- !u!4 &1107849957
 Transform:
   m_ObjectHideFlags: 0
@@ -1835,7 +1837,7 @@ Transform:
   m_GameObject: {fileID: 1107849955}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.034853186, y: 100, z: 0.094604895}
+  m_LocalPosition: {x: 0.034853186, y: 1, z: 0.094604895}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1867,9 +1869,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 32
-  m_CollisionDetection: 0
+  m_Interpolate: 1
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!136 &1107849959
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1911,7 +1913,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1126356190
 MonoBehaviour:
   m_ObjectHideFlags: 0

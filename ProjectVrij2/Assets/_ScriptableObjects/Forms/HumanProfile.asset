@@ -30,7 +30,8 @@ MonoBehaviour:
         actionMapId: Player_Human
         data:
           walkSpeed: 10
-          sprintSpeed: 14
+          sprintSpeed: 15
           jumpForce: 20
           groundedDrag: 1
           airDrag: 0
+          rotationSpeed: 7

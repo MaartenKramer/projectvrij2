@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Debugging")]
     public PlayerDebugVariables debugVariables;
+    [SerializeField] public int startingForm;
 
     private void Awake()
     {
@@ -50,7 +51,7 @@ public class PlayerController : MonoBehaviour
         currentFormIndex = 0;
         currentFormProfile = availableForms[currentFormIndex]; // first form in the list is considered the default
 
-        SwitchForm(0);
+        SwitchForm(startingForm);
         CameraManager.Instance.SwitchCMCam(currentFormProfile.cameraId);
     }
 
@@ -65,8 +66,8 @@ public class PlayerController : MonoBehaviour
         }
 
         currentFormProfile?.behaviour.HandleInput();
-        currentFormProfile?.behaviour.HandleAbilities();
         currentFormProfile?.behaviour.UpdateForm();
+        currentFormProfile?.behaviour.HandleAbilities();
 
         if (showDebugAction.triggered)
         {
