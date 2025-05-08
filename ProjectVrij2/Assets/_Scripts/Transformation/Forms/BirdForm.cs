@@ -46,6 +46,10 @@ public class BirdForm : IFormBehaviour
         rbController.rigidbody.linearDamping = formProfile.linearDrag;
         rbController.rigidbody.angularDamping = formProfile.angularDrag;
 
+        // camera
+        if (CameraManager.Instance.SwitchCMCam(formProfile.cameraId)) { Debug.Log($"[Huma] Succesfully switched to {formProfile.cameraId}"); }
+        else { Debug.Log($"[Human] Failed switching to {formProfile.cameraId}! Check the profile camera id"); }
+
         stateMachine.currentState.EnterState();
         //Debug.Log($"baseSpeed: {baseSpeed}");
     }

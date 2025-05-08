@@ -15,8 +15,11 @@ MonoBehaviour:
   id: form_player_human
   formName: Human
   mass: 5
+  linearDrag: 1
+  angularDrag: 1
   behaviour:
     rid: 1677818880643563654
+  cameraId: camera_player_human
   references:
     version: 2
     RefIds:
