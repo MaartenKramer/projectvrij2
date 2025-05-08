@@ -20,7 +20,7 @@ public class BirdForm : IFormBehaviour
     // unique form variables
     [SerializeField] private string defaultStateId = "state_player_flight";
     [SerializeField] private string actionMapId = "Player_Bird";
-    [SerializeField] private BirdData data;
+    [SerializeField] private FlightData data;
 
     public void Initialize(GameObject owner, RigidbodyController rbController, InputController inputController, FormProfileSO profile)
     {
@@ -47,7 +47,7 @@ public class BirdForm : IFormBehaviour
         rbController.rigidbody.angularDamping = formProfile.angularDrag;
 
         // camera
-        if (CameraManager.Instance.SwitchCMCam(formProfile.cameraId)) { Debug.Log($"[Huma] Succesfully switched to {formProfile.cameraId}"); }
+        if (CameraManager.Instance.SwitchCMCam(formProfile.cameraId)) { Debug.Log($"[Human] Succesfully switched to {formProfile.cameraId}"); }
         else { Debug.Log($"[Human] Failed switching to {formProfile.cameraId}! Check the profile camera id"); }
 
         stateMachine.currentState.EnterState();
@@ -81,25 +81,4 @@ public class BirdForm : IFormBehaviour
     {
         stateMachine.currentState.HandlePhysics();
     }
-}
-
-[System.Serializable]
-public struct BirdData
-{
-    public float flightSpeed;
-    public float quickFlightSpeed;
-    public float turnSpeed;
-
-    public float maxDrag;
-    public float minDrag;
-    public float dragRecoveryRate;
-    public float dragReductionRate;
-    public AnimationCurve diveCurve;
-
-    public float slowDownDrag;
-
-    public float boostForce;
-    public float boostCooldown;
-    public float rollForce;
-    public float rollCooldown;
 }

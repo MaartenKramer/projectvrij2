@@ -20,7 +20,9 @@ public class HumanForm : IFormBehaviour
     private GameObject owner;
 
     // unique form variables
-    [SerializeField] private string defaultStateId = "state_player_idle";
+    [SerializeField] private string defaultStateId = "state_player_terrestrial";
+    [SerializeField] private string actionMapId = "Player_Human";
+    [SerializeField] private TerrestrialData data;
 
     public void Initialize(GameObject owner, RigidbodyController rbController, InputController inputController, FormProfileSO profile)
     {
@@ -32,7 +34,7 @@ public class HumanForm : IFormBehaviour
 
         // setup state-machine
         stateMachine = new StateMachine(owner, defaultStateId);
-        stateMachine.availableStates.Add("state_player_idle", new IdleState(this, "Player_Human"));
+        stateMachine.availableStates.Add("state_player_terrestrial", new TerrestrialState(this, "Player_Human", data));
 
         stateMachine.SetState(defaultStateId);
     }
@@ -45,7 +47,7 @@ public class HumanForm : IFormBehaviour
         rbController.rigidbody.angularDamping = formProfile.angularDrag;
 
         // camera
-        if (CameraManager.Instance.SwitchCMCam(formProfile.cameraId)) { Debug.Log($"[Huma] Succesfully switched to {formProfile.cameraId}"); }
+        if (CameraManager.Instance.SwitchCMCam(formProfile.cameraId)) { Debug.Log($"[Human] Succesfully switched to {formProfile.cameraId}"); }
         else { Debug.Log($"[Human] Failed switching to {formProfile.cameraId}! Check the profile camera id"); }
 
         stateMachine.currentState.EnterState();

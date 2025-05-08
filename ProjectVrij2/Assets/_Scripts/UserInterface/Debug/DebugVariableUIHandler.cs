@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -25,7 +26,11 @@ public class DebugVariableUIHandler : MonoBehaviour
     {
         StringBuilder sb = new StringBuilder();
 
+        sb.AppendLine("Form: " + variables.form);
+        sb.AppendLine();
         sb.AppendLine("Velocity: " + variables.velocity.ToString("00.00"));
+        sb.AppendLine("Drag: " + variables.drag.ToString("00.00"));
+        sb.AppendLine();
         sb.AppendLine("Speeding up: " + variables.speedingUp.ToString());
         sb.AppendLine("Slowing down: " + variables.slowingDown.ToString());
 

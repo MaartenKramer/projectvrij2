@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         currentFormProfile = availableForms[currentFormIndex]; // first form in the list is considered the default
 
         SwitchForm(0);
+        CameraManager.Instance.SwitchCMCam(currentFormProfile.cameraId);
     }
 
     void Update()
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
         // update debug variable text
         debugVariables.velocity = rbController.LinearVelocity.magnitude;
+        debugVariables.drag = rbController.LinearDrag;
 
         EventHandler<PlayerDebugVariables>.InvokeEvent(GlobalEvents.UI_DEBUG_UPDATEVARIABLES, debugVariables);
     }
@@ -143,6 +145,7 @@ public class PlayerController : MonoBehaviour
         currentFormProfile?.behaviour.EnterForm();
 
         currentFormIndex = desiredIndex;
+        debugVariables.form = currentFormProfile.formName;
         EventHandler<string>.InvokeEvent(GlobalEvents.PLAYER_FORM_CHANGED, currentFormProfile.id);
 
         Debug.Log("--------------------------------------");
@@ -180,6 +183,7 @@ public class PlayerController : MonoBehaviour
         currentFormProfile?.behaviour.EnterForm();
 
         currentFormIndex = profileIndex;
+        debugVariables.form = currentFormProfile.formName;
         EventHandler<string>.InvokeEvent(GlobalEvents.PLAYER_FORM_CHANGED, currentFormProfile.id);
 
         Debug.Log("--------------------------------------");
@@ -188,14 +192,21 @@ public class PlayerController : MonoBehaviour
 
 public struct PlayerDebugVariables
 {
-    public PlayerDebugVariables(float velocity)
+    public PlayerDebugVariables(string form, float velocity, float drag)
     {
+        this.form = form;
         this.velocity = velocity;
+        this.drag = drag;
+
         speedingUp = false;
         slowingDown = false;
     }
 
+    public string form;
+
     public float velocity;
+    public float drag;
+
     public bool speedingUp;
     public bool slowingDown;
 }

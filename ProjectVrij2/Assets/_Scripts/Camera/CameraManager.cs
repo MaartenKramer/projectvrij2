@@ -13,7 +13,6 @@ public class CameraManager : MonoBehaviour
         else { Destroy(this); }
 
         brain = Camera.main.GetComponent<CinemachineBrain>();
-        //activeCam = new CM_CamItem();
     }
 
     [Header("Camera's")]

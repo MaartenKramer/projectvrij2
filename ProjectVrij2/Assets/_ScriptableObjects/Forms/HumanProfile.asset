@@ -18,12 +18,19 @@ MonoBehaviour:
   linearDrag: 1
   angularDrag: 1
   behaviour:
-    rid: 1677818880643563654
+    rid: 7052020382252400761
   cameraId: camera_player_human
   references:
     version: 2
     RefIds:
-    - rid: 1677818880643563654
+    - rid: 7052020382252400761
       type: {class: HumanForm, ns: , asm: Assembly-CSharp}
       data:
-        defaultStateId: state_player_idle
+        defaultStateId: state_player_terrestrial
+        actionMapId: Player_Human
+        data:
+          walkSpeed: 10
+          sprintSpeed: 14
+          jumpForce: 20
+          groundedDrag: 1
+          airDrag: 0
