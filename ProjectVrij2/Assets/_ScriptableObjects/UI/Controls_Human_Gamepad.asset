@@ -19,4 +19,4 @@ MonoBehaviour:
     action: Sprint
   - key: Button south
     action: Jump
-  deviceName: keyboard&mouse
+  deviceName: gamepad
