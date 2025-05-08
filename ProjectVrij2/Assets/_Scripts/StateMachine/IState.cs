@@ -14,4 +14,6 @@ public interface IState
     public void HandleInput();
     public void HandleAbilities();
     public void HandlePhysics();
+
+    public void OnDrawGizmos();
 }

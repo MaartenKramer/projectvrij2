@@ -78,4 +78,10 @@ public class HumanForm : IFormBehaviour
     {
         stateMachine.currentState.HandlePhysics();
     }
+
+    public void OnDrawGizmos()
+    {
+        if(stateMachine == null || stateMachine.currentState == null) { return; }
+        stateMachine.currentState.OnDrawGizmos();
+    }
 }

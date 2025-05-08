@@ -13,6 +13,7 @@ public class RigidbodyController
     public Vector3 Up { get { return transform.up; } }
     public Vector3 LinearVelocity { get { return rigidbody.linearVelocity; } }
     public float LinearDrag { get { return rigidbody.linearDamping; } }
+    public float Mass { get { return rigidbody.mass; } }
     public Vector3 Position { get { return transform.position; } set { transform.position = value; } }
     public Vector3 LocalPosition { get { return transform.localPosition; } set { transform.localPosition = value; } }
     public Quaternion Rotation { get { return transform.rotation; } set { transform.rotation = value; } }

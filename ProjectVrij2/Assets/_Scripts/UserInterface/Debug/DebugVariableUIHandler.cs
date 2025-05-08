@@ -33,6 +33,9 @@ public class DebugVariableUIHandler : MonoBehaviour
         sb.AppendLine();
         sb.AppendLine("Speeding up: " + variables.speedingUp.ToString());
         sb.AppendLine("Slowing down: " + variables.slowingDown.ToString());
+        sb.AppendLine();
+        sb.AppendLine("IsGrounded: " + variables.isGrounded.ToString());
+        sb.AppendLine("Gravity: " + variables.gravity.ToString("00.00"));
 
         string result = sb.ToString();
         sb = null;

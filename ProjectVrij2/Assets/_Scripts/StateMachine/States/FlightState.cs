@@ -211,6 +211,11 @@ public class FlightState : IState
 
         rollTimestamp = Time.time;
     }
+
+    public void OnDrawGizmos()
+    {
+
+    }
 }
 
 [System.Serializable]

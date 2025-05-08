@@ -22,4 +22,6 @@ public interface IFormBehaviour
     public void HandleInput();
     public void HandlePhysics();
     public void HandleAbilities();
+
+    public void OnDrawGizmos();
 }

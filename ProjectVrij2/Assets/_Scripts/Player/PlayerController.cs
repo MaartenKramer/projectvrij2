@@ -189,18 +189,26 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log("--------------------------------------");
     }
+
+    private void OnDrawGizmos()
+    {
+        if (currentFormProfile == null) { return; }
+        currentFormProfile.behaviour.OnDrawGizmos();
+    }
 }
 
 public struct PlayerDebugVariables
 {
-    public PlayerDebugVariables(string form, float velocity, float drag)
+    public PlayerDebugVariables(string form, float velocity, float drag, float gravity)
     {
         this.form = form;
         this.velocity = velocity;
         this.drag = drag;
+        this.gravity = gravity;
 
         speedingUp = false;
         slowingDown = false;
+        isGrounded = false;
     }
 
     public string form;
@@ -210,4 +218,7 @@ public struct PlayerDebugVariables
 
     public bool speedingUp;
     public bool slowingDown;
+
+    public bool isGrounded;
+    public float gravity;
 }

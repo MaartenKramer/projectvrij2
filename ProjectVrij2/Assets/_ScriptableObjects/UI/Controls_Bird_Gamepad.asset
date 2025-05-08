@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b54d7f9fc38e4c41b176e348255f9cc, type: 3}
-  m_Name: Controls__Bird_Gamepad
+  m_Name: Controls_Bird_Gamepad
   m_EditorClassIdentifier: 
   actions:
   - key: L stick

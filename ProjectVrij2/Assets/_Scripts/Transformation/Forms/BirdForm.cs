@@ -41,7 +41,7 @@ public class BirdForm : IFormBehaviour
     public void EnterForm()
     {
         Debug.Log("Entered bird form");
-        rbController.DisableGravity();
+        //rbController.DisableGravity();
         rbController.rigidbody.mass = formProfile.mass;
         rbController.rigidbody.linearDamping = formProfile.linearDrag;
         rbController.rigidbody.angularDamping = formProfile.angularDrag;
@@ -64,7 +64,7 @@ public class BirdForm : IFormBehaviour
     {
         Debug.Log("Exited bird form");
 
-        rbController.EnableGravity();
+        //rbController.EnableGravity();
         //rbController.FreezeRotation();
 
         stateMachine.currentState.ExitState();
@@ -83,5 +83,11 @@ public class BirdForm : IFormBehaviour
     public void HandlePhysics()
     {
         stateMachine.currentState.HandlePhysics();
+    }
+
+    public void OnDrawGizmos()
+    {
+        if (stateMachine == null || stateMachine.currentState == null) { return; }
+        stateMachine.currentState.OnDrawGizmos();
     }
 }
