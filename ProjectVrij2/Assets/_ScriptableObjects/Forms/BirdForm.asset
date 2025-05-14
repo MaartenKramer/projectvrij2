@@ -65,3 +65,4 @@ MonoBehaviour:
           boostCooldown: 3
           rollForce: 30
           rollCooldown: 2
+          mouseSensitivity: 0.05

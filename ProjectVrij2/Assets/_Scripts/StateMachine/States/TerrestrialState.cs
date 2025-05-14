@@ -127,7 +127,7 @@ public class TerrestrialState : IState
             form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.isGrounded = isGrounded;
         }
 
-        Debug.Log($"[GroundCheck] {isGrounded}");
+        //Debug.Log($"[GroundCheck] {isGrounded}");
 
         if (isGrounded) { form.RigidbodyController.TweenDrag(data.groundedDrag, .3f);}
         else { form.RigidbodyController.TweenDrag(data.airDrag, .1f); }

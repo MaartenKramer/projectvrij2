@@ -77,6 +77,7 @@ public class FlightState : IState
         direction = moveAction.ReadValue<Vector2>();
         direction = new Vector3(direction.x, direction.y, 0);
         lookDirection = lookAction.ReadValue<Vector2>();
+        direction = direction + (lookDirection * data.mouseSensitivity);
 
         if (rollLeftAction.triggered)
         {
@@ -121,8 +122,8 @@ public class FlightState : IState
             if (dot < 0)
             {
                 float desiredDrag = data.minDrag + (data.maxDrag - data.diveCurve.Evaluate(Mathf.Abs(dot)) * data.maxDrag);
-                if(desiredDrag > previousDrag) { Debug.Log($"[Drag] diving -> drag recovering"); form.RigidbodyController.TweenDrag(desiredDrag, data.dragRecoveryRate); }
-                else { Debug.Log($"[Drag] diving -> drag reducing"); form.RigidbodyController.TweenDrag(desiredDrag, data.dragReductionRate); }
+                if(desiredDrag > previousDrag) {  /* Debug.Log($"[Drag] diving -> drag recovering"); */ form.RigidbodyController.TweenDrag(desiredDrag, data.dragRecoveryRate); }
+                else { /* Debug.Log($"[Drag] diving -> drag reducing"); */ form.RigidbodyController.TweenDrag(desiredDrag, data.dragReductionRate); }
             
                 previousDrag = desiredDrag;
                 //form.RigidbodyController.SetDrag(data.drag - data.drag * Mathf.Abs(Mathf.Clamp(dot, 0, -1)));
@@ -132,7 +133,7 @@ public class FlightState : IState
             {
                 if(form.RigidbodyController.LinearDrag != data.maxDrag)
                 {
-                    Debug.Log($"[Drag] level -> drag recovering");
+                    /* Debug.Log($"[Drag] level -> drag recovering"); */
                     form.RigidbodyController.TweenDrag(data.maxDrag, data.dragRecoveryRate);
                 }
             }
@@ -143,7 +144,7 @@ public class FlightState : IState
         }
         //else { form.RigidbodyController.SetDrag(data.drag); }
 
-        Debug.Log($"Rigidbody velocity: {form.RigidbodyController.LinearVelocity.magnitude}");
+        /* Debug.Log($"Rigidbody velocity: {form.RigidbodyController.LinearVelocity.magnitude}"); */
 
         // apply force left/right
         //form.RigidbodyController.rigidbody.AddForce((form.RigidbodyController.Right * direction.x) * data.turnSpeed);
@@ -237,4 +238,6 @@ public struct FlightData
     public float boostCooldown;
     public float rollForce;
     public float rollCooldown;
+
+    [Range(0.01f,1f)] public float mouseSensitivity;
 }
