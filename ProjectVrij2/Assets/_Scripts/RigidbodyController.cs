@@ -19,12 +19,44 @@ public class RigidbodyController
     public Quaternion Rotation { get { return transform.rotation; } set { transform.rotation = value; } }
     public Vector3 LocalScale { get { return transform.localScale; } set { transform.localScale = value; } }
 
+    //private float desiredGravity;
+    //private float currentGravity;
+    //private Tween gTween;
+    //private bool customGravity = true;
+
     private float desiredDrag;
     private float currentDrag;
     private Tween dragTween;
 
+    #region custom_gravity
+    //public void ApplyGravity(float gMultiplier)
+    //{
+    //    if (customGravity)
+    //    {
+    //        Vector3 totalGravity = Vector3.down * currentGravity * gMultiplier;
+    //        rigidbody.AddForce(totalGravity, ForceMode.Acceleration);
+    //    }
+    //}
+    //public void SetGravity(float gravity)
+    //{
+    //    desiredGravity = gravity;
+    //    currentGravity = gravity;
+    //}
+    //public void TweenGravity(float gravity, float speed)
+    //{
+    //    if(gTween != null) { dragTween.Kill(); }
+
+    //    desiredGravity = gravity;
+
+    //    gTween = DOTween.To(() => currentGravity, x => currentGravity = x, desiredGravity, Mathf.Abs(currentGravity - desiredGravity) / speed);
+    //}
+
+    //public void EnableCustomGravity() { customGravity = true; }
+    //public void DisableCustomGravity() {  customGravity = false; }
+    #endregion
+
     public void EnableGravity() { rigidbody.useGravity = true; }
-    public void DisableGravity() {  rigidbody.useGravity = false; }
+    public void DisableGravity() { rigidbody.useGravity = false; }
 
     public void FreezeRotation() { rigidbody.freezeRotation = true; }
     public void UnfreezeRotation() 

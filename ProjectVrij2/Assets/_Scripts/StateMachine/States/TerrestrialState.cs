@@ -52,6 +52,8 @@ public class TerrestrialState : IState
 
         sprintAction.started += ctx => SetSpeed(data.sprintSpeed, true);
         sprintAction.canceled += ctx => SetSpeed(data.walkSpeed, false);
+
+        DetermineGravity();
     }
 
     public void ExitState()
@@ -76,7 +78,6 @@ public class TerrestrialState : IState
         direction = new Vector3(moveInput.x, 0, moveInput.y).normalized;
         
         direction = form.RigidbodyController.orientation.forward * direction.z + form.RigidbodyController.orientation.right * direction.x;
-        if (direction != Vector3.zero) { form.RigidbodyController.RotateTowards(direction.normalized, data.rotationSpeed); }
 
         if(readyToJump && isGrounded)
         {
@@ -86,31 +87,18 @@ public class TerrestrialState : IState
 
     public void HandlePhysics()
     {
-        // apply gravity manually
-        if (!isGrounded && readyToJump)
-        {
-            currentGravity = data.airGravity;
-        }
-        else if(!isGrounded)
-        {
-            currentGravity = data.fallingGravity;
-        }
-        else
-        {
-            currentGravity = data.groundedGravity;
-        }
-
-        if(form.RigidbodyController.LinearVelocity.y < 0) { currentGravityMultiplier = 2f; }
-        else {  currentGravityMultiplier = 1f; }
+        DetermineGravity();
 
         Vector3 gravity = Vector3.down * (currentGravity * currentGravityMultiplier);
         form.RigidbodyController.rigidbody.AddForce(gravity, ForceMode.Acceleration);
+        //form.RigidbodyController.ApplyGravity(currentGravityMultiplier);
 
-        if(direction == Vector3.zero) { return; }
+        if (direction == Vector3.zero) { return; }
 
         Vector3 force = direction.normalized * currentSpeed * 10f;
         form.RigidbodyController.rigidbody.AddForce(force, ForceMode.Force);
 
+        if (direction != Vector3.zero) { form.RigidbodyController.RotateTowards(direction.normalized, data.rotationSpeed); }
     }
 
     public void UpdateState()
@@ -134,6 +122,26 @@ public class TerrestrialState : IState
 
         form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.gravity = currentGravity;
 
+    }
+
+    private void DetermineGravity()
+    {
+        // apply gravity manually
+        if (!isGrounded && readyToJump)
+        {
+            if (currentGravity != data.airGravity) { currentGravity = data.airGravity; }
+        }
+        else if (!isGrounded)
+        {
+            if (currentGravity != data.fallingGravity) { currentGravity = data.fallingGravity; }
+        }
+        else
+        {
+            if (currentGravity != data.groundedGravity) { currentGravity = data.groundedGravity; }
+        }
+
+        if (form.RigidbodyController.LinearVelocity.y < 0) { currentGravityMultiplier = 2f; }
+        else { currentGravityMultiplier = 1f; }
     }
 
     private bool CheckIsGrounded()
