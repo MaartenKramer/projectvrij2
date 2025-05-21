@@ -19,6 +19,7 @@ MonoBehaviour:
   angularDrag: 1
   behaviour:
     rid: 6815592761351471178
+  cameraId: camera_player_bird
   references:
     version: 2
     RefIds:
@@ -61,6 +62,7 @@ MonoBehaviour:
             m_RotationOrder: 4
           slowDownDrag: 2
           boostForce: 50
-          boostCooldown: 5
+          boostCooldown: 3
           rollForce: 30
           rollCooldown: 2
+          mouseSensitivity: 0.05

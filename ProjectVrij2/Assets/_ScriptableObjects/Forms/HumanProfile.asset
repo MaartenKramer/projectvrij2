@@ -15,12 +15,32 @@ MonoBehaviour:
   id: form_player_human
   formName: Human
   mass: 5
+  linearDrag: 1
+  angularDrag: 1
   behaviour:
-    rid: 1677818880643563654
+    rid: 7052020382252400761
+  cameraId: camera_player_human
   references:
     version: 2
     RefIds:
-    - rid: 1677818880643563654
+    - rid: 7052020382252400761
       type: {class: HumanForm, ns: , asm: Assembly-CSharp}
       data:
-        defaultStateId: state_player_idle
+        defaultStateId: state_player_terrestrial
+        actionMapId: Player_Human
+        data:
+          walkSpeed: 5
+          sprintSpeed: 8
+          jumpForce: 30
+          groundedGravity: 0
+          airGravity: 10
+          fallingGravity: 14
+          groundedDrag: 1.5
+          airDrag: 1
+          rotationSpeed: 7
+          groundMask:
+            serializedVersion: 2
+            m_Bits: 64
+          checkSize: {x: 1, y: 0.1, z: 1}
+          checkDistance: 1.1
+          jumpCooldown: 0.3

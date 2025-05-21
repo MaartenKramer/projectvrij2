@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Debugging")]
     public PlayerDebugVariables debugVariables;
+    [SerializeField] public int startingForm;
 
     private void Awake()
     {
@@ -50,7 +51,8 @@ public class PlayerController : MonoBehaviour
         currentFormIndex = 0;
         currentFormProfile = availableForms[currentFormIndex]; // first form in the list is considered the default
 
-        SwitchForm(0);
+        SwitchForm(startingForm);
+        CameraManager.Instance.SwitchCMCam(currentFormProfile.cameraId);
     }
 
     void Update()
@@ -64,8 +66,8 @@ public class PlayerController : MonoBehaviour
         }
 
         currentFormProfile?.behaviour.HandleInput();
-        currentFormProfile?.behaviour.HandleAbilities();
         currentFormProfile?.behaviour.UpdateForm();
+        currentFormProfile?.behaviour.HandleAbilities();
 
         if (showDebugAction.triggered)
         {
@@ -74,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
         // update debug variable text
         debugVariables.velocity = rbController.LinearVelocity.magnitude;
+        debugVariables.drag = rbController.LinearDrag;
 
         EventHandler<PlayerDebugVariables>.InvokeEvent(GlobalEvents.UI_DEBUG_UPDATEVARIABLES, debugVariables);
     }
@@ -143,6 +146,7 @@ public class PlayerController : MonoBehaviour
         currentFormProfile?.behaviour.EnterForm();
 
         currentFormIndex = desiredIndex;
+        debugVariables.form = currentFormProfile.formName;
         EventHandler<string>.InvokeEvent(GlobalEvents.PLAYER_FORM_CHANGED, currentFormProfile.id);
 
         Debug.Log("--------------------------------------");
@@ -180,22 +184,41 @@ public class PlayerController : MonoBehaviour
         currentFormProfile?.behaviour.EnterForm();
 
         currentFormIndex = profileIndex;
+        debugVariables.form = currentFormProfile.formName;
         EventHandler<string>.InvokeEvent(GlobalEvents.PLAYER_FORM_CHANGED, currentFormProfile.id);
 
         Debug.Log("--------------------------------------");
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (currentFormProfile == null) { return; }
+        currentFormProfile.behaviour.OnDrawGizmos();
     }
 }
 
 public struct PlayerDebugVariables
 {
-    public PlayerDebugVariables(float velocity)
+    public PlayerDebugVariables(string form, float velocity, float drag, float gravity)
     {
+        this.form = form;
         this.velocity = velocity;
+        this.drag = drag;
+        this.gravity = gravity;
+
         speedingUp = false;
         slowingDown = false;
+        isGrounded = false;
     }
 
+    public string form;
+
     public float velocity;
+    public float drag;
+
     public bool speedingUp;
     public bool slowingDown;
+
+    public bool isGrounded;
+    public float gravity;
 }

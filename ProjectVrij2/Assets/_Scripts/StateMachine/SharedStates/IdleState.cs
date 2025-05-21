@@ -60,4 +60,8 @@ public class IdleState : IState
         //Debug.Log($"[{owner.owner.name}] Fixed updating Idle physics");
     }
 
+    public void OnDrawGizmos()
+    {
+
+    }
 }

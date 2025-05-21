@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5576e64251666f74fa4cf289006914b5, type: 3}
+  m_Name: Controls_Human
+  m_EditorClassIdentifier: 
+  formId: form_player_human
+  deviceControls:
+  - {fileID: 11400000, guid: 677d25e024ae89c47a851f3b670dda3b, type: 2}
+  - {fileID: 11400000, guid: 31605556b093b834999d537f001d47ac, type: 2}

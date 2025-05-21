@@ -58,7 +58,7 @@ public static class EventHandler<T>
 
     public static void InvokeEvent(string eventType, T value)
     {
-        Debug.Log($"Invoking event: {eventType}");
+        //Debug.Log($"Invoking event: {eventType}");
         if (events.ContainsKey(eventType))
         {
             events[eventType]?.Invoke(value);
