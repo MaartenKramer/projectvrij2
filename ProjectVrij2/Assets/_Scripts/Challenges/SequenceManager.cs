@@ -13,8 +13,9 @@ public class SequenceManager : MonoBehaviour
     void Start()
     {
         InitializeRings();
+        ResetChallenge();
     }
-    
+
     void InitializeRings()
     {
         for (int i = 0; i < ringSequence.Count; i++)
@@ -40,8 +41,8 @@ public class SequenceManager : MonoBehaviour
         if (sequenceNumber == 1)
         {
             Debug.LogWarning("Ring Challenge Started!");
-            challengeTimer.InitializeTimer();
             StartChallenge();
+            challengeTimer.InitializeTimer();
 
 
         }
@@ -80,6 +81,7 @@ public class SequenceManager : MonoBehaviour
         if (challengeBeaten == true)
         {
             ringSequence[0].SetActive(false);
+            challengeBeaten = false;
         }
     }
 }

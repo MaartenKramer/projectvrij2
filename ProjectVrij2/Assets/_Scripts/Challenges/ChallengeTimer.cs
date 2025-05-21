@@ -5,7 +5,7 @@ public class ChallengeTimer : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timerText;
     public float initialTime = 20f;
-    public float timeLeft;
+    [HideInInspector] public float timeLeft;
     private bool timerActive = false;
 
     [SerializeField] private SequenceManager sequenceManager;
@@ -20,6 +20,7 @@ public class ChallengeTimer : MonoBehaviour
     public void EndTimer()
     {
         timerActive = false;
+        timerText.text = "";
     }
 
     void Update()
