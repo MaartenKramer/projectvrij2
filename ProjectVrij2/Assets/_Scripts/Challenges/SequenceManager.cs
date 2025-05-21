@@ -7,6 +7,7 @@ public class SequenceManager : MonoBehaviour
     public List<GameObject> ringSequence = new List<GameObject>();
     public GameObject timer;
     public float ringBuff = 2f;
+    private bool challengeBeaten = false;
     private ChallengeTimer challengeTimer;  
     
     void Start()
@@ -40,6 +41,8 @@ public class SequenceManager : MonoBehaviour
         {
             Debug.LogWarning("Ring Challenge Started!");
             challengeTimer.InitializeTimer();
+            StartChallenge();
+
 
         }
         
@@ -47,6 +50,8 @@ public class SequenceManager : MonoBehaviour
         else if (sequenceNumber == ringSequence.Count)
         {
             Debug.LogWarning("Ring Challenge Completed!");
+            challengeBeaten = true;
+            ResetChallenge();
             challengeTimer.EndTimer();
         }
 
@@ -54,6 +59,27 @@ public class SequenceManager : MonoBehaviour
         else
         {
             challengeTimer.timeLeft += ringBuff;
+        }
+    }
+
+    public void StartChallenge()
+    {
+        for (int i = 1; i < ringSequence.Count; i++)
+        {
+            ringSequence[i].SetActive(true);
+        }
+    }
+
+    public void ResetChallenge()
+    {
+        for (int i = 1; i < ringSequence.Count; i++)
+        {
+            ringSequence[i].SetActive(false);
+        }
+
+        if (challengeBeaten == true)
+        {
+            ringSequence[0].SetActive(false);
         }
     }
 }
