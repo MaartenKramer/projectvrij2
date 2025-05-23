@@ -186,6 +186,8 @@ public class PlayerController : MonoBehaviour
         currentFormProfile?.behaviour.EnterForm();
 
         currentFormIndex = profileIndex;
+        CursorUtils.SetCursor(currentFormProfile.cursorSettings);
+
         debugVariables.form = currentFormProfile.formName;
         EventHandler<string>.InvokeEvent(GlobalEvents.PLAYER_FORM_CHANGED, currentFormProfile.id);
 
@@ -196,6 +198,9 @@ public class PlayerController : MonoBehaviour
     {
         if (currentFormProfile == null) { return; }
         currentFormProfile.behaviour.OnDrawGizmos();
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, Vector3.down * 1.3f);
     }
 }
 
@@ -224,5 +229,6 @@ public struct PlayerDebugVariables
     public bool slowingDown;
 
     public bool isGrounded;
+    public bool onSlope;
     public float gravity;
 }

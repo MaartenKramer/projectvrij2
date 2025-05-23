@@ -35,15 +35,17 @@ MonoBehaviour:
           walkSpeed: 5
           sprintSpeed: 8
           jumpForce: 30
+          jumpCooldown: 0.3
+          maxSlopeAngle: 45
           groundedGravity: 0
           airGravity: 10
           fallingGravity: 14
           groundedDrag: 1.5
           airDrag: 1
           rotationSpeed: 7
+          brakingForce: 5
           groundMask:
             serializedVersion: 2
             m_Bits: 64
           checkSize: {x: 1, y: 0.1, z: 1}
           checkDistance: 1.1
-          jumpCooldown: 0.3

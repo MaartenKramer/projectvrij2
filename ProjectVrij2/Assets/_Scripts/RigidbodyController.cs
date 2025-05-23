@@ -27,6 +27,8 @@ public class RigidbodyController
 
     private float desiredDrag;
     private float currentDrag;
+    private float startDrag;
+    private float dragLerpSpeed;
     private Tween dragTween;
 
     private float currentPitch = 0f; // This represents the up/down angle in degrees
@@ -102,6 +104,32 @@ public class RigidbodyController
         desiredDrag = endValue;
 
         dragTween = DOTween.To(() => currentDrag, x => currentDrag = x, desiredDrag, Mathf.Abs(currentDrag - desiredDrag) / speed);
+
+        rigidbody.linearDamping = currentDrag;
+    }
+
+    public void SetDesiredDrag(float target, float speed) 
+    {
+        if(target == desiredDrag) { return; }
+        Debug.Log($"[Drag] Setting desired drag: {target}, speed: {speed}");
+        desiredDrag = target; 
+        dragLerpSpeed = speed; 
+    }
+    public void SetDesiredDragSpeed(float speed)
+    {
+        dragLerpSpeed = speed;
+    }
+    public void LerpDrag()
+    {
+        Debug.Log($"[Lerping drag] current: {currentDrag} | desired: {desiredDrag} | speed: {dragLerpSpeed} | rigidbody: {LinearDrag}");
+        if(currentDrag > desiredDrag - .05f && currentDrag < desiredDrag + .05f)
+        {
+            if(currentDrag != desiredDrag) { currentDrag = desiredDrag; }
+        }
+        else
+        {
+            currentDrag = Mathf.Lerp(currentDrag, desiredDrag, dragLerpSpeed * Time.deltaTime);
+        }
 
         rigidbody.linearDamping = currentDrag;
     }

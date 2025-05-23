@@ -13,6 +13,8 @@ public class TerrestrialState : IState
     private IFormBehaviour form;
     private TerrestrialData data;
 
+    private PlayerController playerController;
+
     //input
     InputAction moveAction;
     InputAction sprintAction;
@@ -32,6 +34,8 @@ public class TerrestrialState : IState
     private bool readyToJump = false;
 
     // TODO - slope check
+    private RaycastHit slopeHit;
+    
 
     public TerrestrialState(IFormBehaviour form, string actionMapId, TerrestrialData data)
     {
@@ -45,6 +49,8 @@ public class TerrestrialState : IState
 
         currentSpeed = data.walkSpeed;
         currentGravity = data.airGravity;
+
+        playerController = form.StateMachine.owner.GetComponent<PlayerController>();
     }
 
     public void EnterState()
@@ -90,22 +96,44 @@ public class TerrestrialState : IState
 
     public void HandlePhysics()
     {
-        DetermineGravity();
 
+        DetermineGravity();
         Vector3 gravity = Vector3.down * (currentGravity * currentGravityMultiplier);
         form.RigidbodyController.rigidbody.AddForce(gravity, ForceMode.Acceleration);
         //form.RigidbodyController.ApplyGravity(currentGravityMultiplier);
 
-        if (direction == Vector3.zero) { return; }
 
-        Vector3 force = direction.normalized * currentSpeed * 10f;
+        Vector3 force;
+        if (OnSlope())
+        {
+            force = GetSlopeDirection() * currentSpeed * 10f;
+
+            playerController.debugVariables.onSlope = true;
+        }
+        else
+        {
+            force = direction.normalized * currentSpeed * 10f;
+            playerController.debugVariables.onSlope = false;
+        }
+        
+        if (direction == Vector3.zero) {
+            return; 
+        }
+
         form.RigidbodyController.rigidbody.AddForce(force, ForceMode.Force);
+
+        //// opposing force when turning quickly
+        //Vector3 velocityDifferential = force - form.RigidbodyController.LinearVelocity;
+        //Vector3 opposingForce = velocityDifferential * data.brakingForce;
+        //form.RigidbodyController.rigidbody.AddForce(opposingForce, ForceMode.Acceleration);
+        //Debug.Log($"Differential: {velocityDifferential} | Opposing force: {opposingForce}");
 
         if (direction != Vector3.zero) { form.RigidbodyController.RotateTowards(direction.normalized, data.rotationSpeed); }
     }
 
     public void UpdateState()
     {
+
         if(direction != Vector3.zero) 
         {
             form.RigidbodyController.Rotate(direction, data.rotationSpeed);
@@ -115,15 +143,15 @@ public class TerrestrialState : IState
         if(grounded != isGrounded) 
         { 
             isGrounded = grounded;
-            form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.isGrounded = isGrounded;
+            playerController.debugVariables.isGrounded = isGrounded;
         }
 
         //Debug.Log($"[GroundCheck] {isGrounded}");
+        if(direction == Vector3.zero && isGrounded) { form.RigidbodyController.TweenDrag(5f, 3f); }
+        else if (isGrounded) { form.RigidbodyController.TweenDrag(data.groundedDrag, 3f); }
+        else { form.RigidbodyController.TweenDrag(data.airDrag, 3f); }
 
-        if (isGrounded) { form.RigidbodyController.TweenDrag(data.groundedDrag, .3f);}
-        else { form.RigidbodyController.TweenDrag(data.airDrag, .1f); }
-
-        form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.gravity = currentGravity;
+        playerController.GetComponent<PlayerController>().debugVariables.gravity = currentGravity;
 
     }
 
@@ -181,6 +209,24 @@ public class TerrestrialState : IState
         jumpTimestamp = Time.time;
     }
 
+    private bool OnSlope()
+    {
+        if(Physics.Raycast(form.RigidbodyController.Position, Vector3.down, out slopeHit, data.checkDistance * 2f, data.groundMask))
+        {
+            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+            //Debug.Log($"[Raycast] Hit! {slopeHit.collider.gameObject.name} - angle: {angle}");
+            return angle < data.maxSlopeAngle && angle != 0;
+        }
+
+
+        return false;
+    }
+
+    private Vector3 GetSlopeDirection()
+    {
+        return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
+    }
+
     private void TryJump()
     {
 
@@ -212,24 +258,35 @@ public class TerrestrialState : IState
 [System.Serializable]
 public struct TerrestrialData
 {
+    [Header("speed vars")]
     public float walkSpeed;
     public float sprintSpeed;
 
+    [Header("jump vars")]
     public float jumpForce;
+    public float jumpCooldown;
 
+    [Header("slope vars")]
+    public float maxSlopeAngle;
+
+    [Header("gravity vars")]
     public float groundedGravity;
     public float airGravity;
     public float fallingGravity;
 
+    [Header("drag vars")]
     public float groundedDrag;
     public float airDrag;
 
+    [Header("rotational vars")]
     public float rotationSpeed;
 
+    [Header("Turning vars")]
+    public float brakingForce;
+
+    [Header("ground check")]
     public LayerMask groundMask;
     public Vector3 checkSize;
     public float checkDistance;
-
-    public float jumpCooldown;
 
 }

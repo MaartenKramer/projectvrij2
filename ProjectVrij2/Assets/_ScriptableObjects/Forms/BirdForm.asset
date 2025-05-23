@@ -64,7 +64,7 @@ MonoBehaviour:
             m_PostInfinity: 2
             m_RotationOrder: 4
           slowDownDrag: 2
-          liftCoefficient: 0.02
+          liftCoefficient: 0.05
           liftToAngleCurve:
             serializedVersion: 2
             m_Curve:

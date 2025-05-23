@@ -53,6 +53,10 @@ public class FlightState : IState
 
     public void EnterState()
     {
+        form.RigidbodyController.SetDrag(data.maxDrag);
+
+        previousDrag = form.RigidbodyController.LinearDrag;
+
         speedUpAction.started += ctx => SpeedUp(data.quickFlightSpeed, true);
         speedUpAction.canceled += ctx => SpeedUp(data.flightSpeed, false);
 
@@ -62,7 +66,7 @@ public class FlightState : IState
 
     public void ExitState()
     {
-        Boost();
+        //Boost(); yes? no? maybe?
 
         speedUpAction.started -= ctx => SpeedUp(data.quickFlightSpeed, true);
         speedUpAction.canceled -= ctx => SpeedUp(data.flightSpeed, false);
@@ -98,6 +102,7 @@ public class FlightState : IState
 
     public void HandlePhysics()
     {
+
         // apply force forward
         form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.forward * currentSpeed);
 
@@ -125,8 +130,18 @@ public class FlightState : IState
             if (dot < 0)
             {
                 float desiredDrag = data.minDrag + (data.maxDrag - data.diveCurve.Evaluate(Mathf.Abs(dot)) * data.maxDrag);
-                if(desiredDrag > previousDrag) {  /* Debug.Log($"[Drag] diving -> drag recovering"); */ form.RigidbodyController.TweenDrag(desiredDrag, data.dragRecoveryRate); }
-                else { /* Debug.Log($"[Drag] diving -> drag reducing"); */ form.RigidbodyController.TweenDrag(desiredDrag, data.dragReductionRate); }
+                if(desiredDrag > previousDrag) 
+                {
+                    /* Debug.Log($"[Drag] diving -> drag recovering"); */
+                    form.RigidbodyController.TweenDrag(desiredDrag, data.dragRecoveryRate);
+                    //form.RigidbodyController.SetDrag(desiredDrag); 
+                }
+                else 
+                {
+                    /* Debug.Log($"[Drag] diving -> drag reducing"); */
+                    form.RigidbodyController.TweenDrag(desiredDrag, data.dragReductionRate);
+                    //form.RigidbodyController.SetDrag(desiredDrag);
+                }
             
                 previousDrag = desiredDrag;
                 //form.RigidbodyController.SetDrag(data.drag - data.drag * Mathf.Abs(Mathf.Clamp(dot, 0, -1)));
@@ -134,7 +149,7 @@ public class FlightState : IState
             }
             else 
             {
-                if(form.RigidbodyController.LinearDrag != data.maxDrag)
+                if(form.RigidbodyController.LinearDrag < data.maxDrag)
                 {
                     /* Debug.Log($"[Drag] level -> drag recovering"); */
                     form.RigidbodyController.TweenDrag(data.maxDrag, data.dragRecoveryRate);
@@ -155,12 +170,14 @@ public class FlightState : IState
             liftStrength = Mathf.Min(liftStrength, data.maxLift);
             liftStrength *= data.liftToAngleCurve.Evaluate(Mathf.Abs(dot));
 
-            float remappedDrag = MyMathUtils.Remap(form.RigidbodyController.LinearDrag, data.minDrag, data.maxDrag, 0, 1);
-            liftStrength *= data.liftToDragCurve.Evaluate(1 - Mathf.Abs(remappedDrag));
+            Debug.Log($"linear drag: {form.RigidbodyController.LinearDrag}");
+            float remappedDrag = MyMathUtils.Remap(form.RigidbodyController.LinearDrag, data.minDrag, data.maxDrag, 0f, 1f);
+            liftStrength *= data.liftToDragCurve.Evaluate(1f - Mathf.Abs(remappedDrag));
 
             Vector3 liftForce = liftStrength * Vector3.up;
 
             //form.RigidbodyController.rigidbody.AddRelativeForce(liftForce, ForceMode.Force);
+            Debug.Log($"[Lift] liftStrength: {liftStrength}");
             form.RigidbodyController.rigidbody.AddForce(liftForce, ForceMode.Force);
 
             form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.lift = liftStrength;
