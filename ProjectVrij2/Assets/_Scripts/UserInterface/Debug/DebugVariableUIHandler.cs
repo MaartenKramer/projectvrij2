@@ -30,6 +30,7 @@ public class DebugVariableUIHandler : MonoBehaviour
         sb.AppendLine();
         sb.AppendLine("Velocity: " + variables.velocity.ToString("00.00"));
         sb.AppendLine("Drag: " + variables.drag.ToString("00.00"));
+        sb.AppendLine("Lift: " + variables.lift.ToString("00.00"));
         sb.AppendLine();
         sb.AppendLine("Speeding up: " + variables.speedingUp.ToString());
         sb.AppendLine("Slowing down: " + variables.slowingDown.ToString());

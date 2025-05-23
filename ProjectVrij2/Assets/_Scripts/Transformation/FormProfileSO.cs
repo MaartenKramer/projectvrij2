@@ -27,4 +27,6 @@ public class FormProfileSO : ScriptableObject
     [SerializeReference]
     [SerializeField] public IFormBehaviour behaviour;   // associated behaviour and implementation of the form's movement
     [SerializeField] public string cameraId;
+    [Space]
+    [SerializeField] public CursorInfo cursorSettings;
 }

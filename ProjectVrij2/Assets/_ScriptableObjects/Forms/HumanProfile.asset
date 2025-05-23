@@ -20,6 +20,9 @@ MonoBehaviour:
   behaviour:
     rid: 7052020382252400761
   cameraId: camera_player_human
+  cursorSettings:
+    lockMode: 1
+    hidden: 1
   references:
     version: 2
     RefIds:

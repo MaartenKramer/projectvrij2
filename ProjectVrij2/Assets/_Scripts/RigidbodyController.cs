@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Windows;
 
 [System.Serializable]
 public class RigidbodyController
@@ -28,6 +29,8 @@ public class RigidbodyController
     private float currentDrag;
     private Tween dragTween;
 
+    private float currentPitch = 0f; // This represents the up/down angle in degrees
+
     #region custom_gravity
     //public void ApplyGravity(float gMultiplier)
     //{
@@ -53,6 +56,26 @@ public class RigidbodyController
 
     //public void EnableCustomGravity() { customGravity = true; }
     //public void DisableCustomGravity() {  customGravity = false; }
+    #endregion
+
+    #region custom_forces
+
+    private float accumulatedForce; 
+    private float accumulatedRelativeForce; 
+    public void AddForce(float forceMagnitude) { accumulatedForce += forceMagnitude; }
+    public void ApplyForce(Vector3 dir, ForceMode mode) 
+    { 
+        rigidbody.AddForce(dir * accumulatedForce, mode);
+        accumulatedForce = 0f;
+    }
+
+    public void AddRelativeForce(float forceMagnitude) { accumulatedRelativeForce += forceMagnitude; }
+    public void ApplyRelativeForce(Vector3 dir, ForceMode mode)
+    {
+        rigidbody.AddRelativeForce(dir * accumulatedRelativeForce, mode);
+        accumulatedForce = 0f;
+    }
+
     #endregion
 
     public void EnableGravity() { rigidbody.useGravity = true; }
@@ -90,7 +113,19 @@ public class RigidbodyController
     /// <param name="speed"></param>
     public void Rotate(Vector3 direction, float speed)
     {
-        transform.Rotate(direction.y * speed * Time.deltaTime, direction.x * speed * Time.deltaTime, 0f);
+        //transform.Rotate(direction.y * speed * Time.deltaTime, direction.x * speed * Time.deltaTime, 0f);
+
+        // Yaw (left/right) — rotate around Y
+        transform.Rotate(0f, direction.x * speed * Time.deltaTime, 0f, Space.Self);
+
+        // Pitch (up/down) — track and clamp manually
+        currentPitch += direction.y * speed * Time.deltaTime; // Note the minus: up is usually negative in Unity
+        currentPitch = Mathf.Clamp(currentPitch, -80f, 80f);
+
+        // Apply pitch — must isolate it so it doesn't get overridden by yaw
+        Vector3 currentEuler = transform.localEulerAngles;
+        currentEuler.x = currentPitch < 0 ? currentPitch + 360f : currentPitch; // Convert -80 to 280 etc.
+        transform.localEulerAngles = new Vector3(currentEuler.x, transform.localEulerAngles.y, 0f);
     }
     /// <summary>
     /// Rotates object in specified direction

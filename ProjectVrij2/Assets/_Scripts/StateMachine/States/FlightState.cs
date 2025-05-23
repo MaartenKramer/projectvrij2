@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -96,7 +97,7 @@ public class FlightState : IState
     public void HandlePhysics()
     {
         // apply force forward
-        form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Forward * currentSpeed);
+        form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.forward * currentSpeed);
 
         // rotate towards direction
         form.RigidbodyController.Rotate(direction, data.turnSpeed);
@@ -142,6 +143,29 @@ public class FlightState : IState
         {
             form.RigidbodyController.TweenDrag(data.slowDownDrag, data.dragReductionRate);
         }
+
+        // calculate and apply lift
+        bool isRising = dot > data.risingDotThreshold;
+        float forwardSpeed = Vector3.Dot(form.RigidbodyController.LinearVelocity, form.RigidbodyController.Forward);
+        if(isRising && forwardSpeed >= data.minLiftSpeed)
+        {
+            float liftStrength = data.liftCoefficient * Mathf.Pow(forwardSpeed, 2);
+            liftStrength = Mathf.Min(liftStrength, data.maxLift);
+            liftStrength *= data.liftToAngleCurve.Evaluate(Mathf.Abs(dot));
+
+            float remappedDrag = MyMathUtils.Remap(form.RigidbodyController.LinearDrag, data.minDrag, data.maxDrag, 0, 1);
+            liftStrength *= data.liftToDragCurve.Evaluate(1 - Mathf.Abs(remappedDrag));
+
+            Vector3 liftForce = liftStrength * Vector3.up;
+
+            //form.RigidbodyController.rigidbody.AddRelativeForce(liftForce, ForceMode.Force);
+            form.RigidbodyController.rigidbody.AddForce(liftForce, ForceMode.Force);
+
+            form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.lift = liftStrength;
+        }
+
+        // if minLiftSpeed = 50, lift = 0.01 * 50^2 = 
+
         //else { form.RigidbodyController.SetDrag(data.drag); }
 
         /* Debug.Log($"Rigidbody velocity: {form.RigidbodyController.LinearVelocity.magnitude}"); */
@@ -188,7 +212,7 @@ public class FlightState : IState
         if (Time.time < boostTimestamp + data.boostCooldown && boostTimestamp != 0f) { return; }
 
         Debug.Log($"[Boost] boosted");
-        form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Forward * data.boostForce, ForceMode.Impulse);
+        form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.forward * data.boostForce, ForceMode.Impulse);
 
         boostTimestamp = Time.time;
     }
@@ -202,11 +226,11 @@ public class FlightState : IState
         {
             case true:
                 Debug.Log($"[Roll] left");
-                form.RigidbodyController.rigidbody.AddForce(-form.RigidbodyController.Right * data.rollForce, ForceMode.Impulse);
+                form.RigidbodyController.rigidbody.AddRelativeForce(-Vector3.right * data.rollForce, ForceMode.Impulse);
                 break;
             case false:
                 Debug.Log($"[Roll] right");
-                form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Right * data.rollForce, ForceMode.Impulse);
+                form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.right * data.rollForce, ForceMode.Impulse);
                 break;
         }
 
@@ -222,22 +246,34 @@ public class FlightState : IState
 [System.Serializable]
 public struct FlightData
 {
+    [Header("Speed vars")]
     public float flightSpeed;
     public float quickFlightSpeed;
     public float turnSpeed;
 
+    [Header("Drag vars")]
     public float maxDrag;
     public float minDrag;
     public float dragRecoveryRate;
     public float dragReductionRate;
     public AnimationCurve diveCurve;
-
     public float slowDownDrag;
 
+    [Header("Lift vars")]
+    public float liftCoefficient;
+    public AnimationCurve liftToAngleCurve;
+    public AnimationCurve liftToDragCurve;
+    public float maxLift;
+    public float minLiftSpeed;
+    [Space]
+    public float risingDotThreshold;
+
+    [Header("Ability vars")]
     public float boostForce;
     public float boostCooldown;
     public float rollForce;
     public float rollCooldown;
 
+    [Header("Control vars")]
     [Range(0.01f,1f)] public float mouseSensitivity;
 }
