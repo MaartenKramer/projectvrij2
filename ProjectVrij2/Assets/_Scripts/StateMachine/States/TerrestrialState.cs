@@ -20,8 +20,10 @@ public class TerrestrialState : IState
 
     // debug
     private float currentSpeed;
+    private float desiredGravity;
     private float currentGravity;
     private float currentGravityMultiplier = 1f;
+    private float currentGravityTweenSpeed;
     private Vector3 direction;
     private float jumpTimestamp;
 
@@ -53,6 +55,7 @@ public class TerrestrialState : IState
         sprintAction.started += ctx => SetSpeed(data.sprintSpeed, true);
         sprintAction.canceled += ctx => SetSpeed(data.walkSpeed, false);
 
+        SetDesiredGravity(data.fallingGravity, 1f);
         DetermineGravity();
     }
 
@@ -129,19 +132,34 @@ public class TerrestrialState : IState
         // apply gravity manually
         if (!isGrounded && readyToJump)
         {
-            if (currentGravity != data.airGravity) { currentGravity = data.airGravity; }
+            if (currentGravity != data.airGravity) { SetDesiredGravity(data.airGravity, 5f); }
         }
         else if (!isGrounded)
         {
-            if (currentGravity != data.fallingGravity) { currentGravity = data.fallingGravity; }
+            if (currentGravity != data.fallingGravity) { SetDesiredGravity(data.fallingGravity, 5f); }
         }
         else
         {
-            if (currentGravity != data.groundedGravity) { currentGravity = data.groundedGravity; }
+            if (currentGravity != data.groundedGravity) { SetDesiredGravity(data.groundedGravity, 5f); }
+        }
+
+        if (currentGravity > desiredGravity - .05f && currentGravity < desiredGravity + .05f)
+        {
+            currentGravity = desiredGravity;
+        }
+        else
+        {
+            currentGravity = Mathf.Lerp(currentGravity, desiredGravity, currentGravityTweenSpeed * Time.deltaTime);
         }
 
         if (form.RigidbodyController.LinearVelocity.y < 0) { currentGravityMultiplier = 2f; }
         else { currentGravityMultiplier = 1f; }
+    }
+
+    private void SetDesiredGravity(float target, float tweenSpeed)
+    {
+        desiredGravity = target;
+        currentGravityTweenSpeed = tweenSpeed;
     }
 
     private bool CheckIsGrounded()
@@ -165,10 +183,11 @@ public class TerrestrialState : IState
 
     private void TryJump()
     {
-        readyToJump = true;
+
+        if (isGrounded) { readyToJump = true;  }
+        else { return; }
 
         if (Time.time <= jumpTimestamp + data.jumpCooldown && jumpTimestamp != 0) { return; }
-        if (!isGrounded) { return; }
 
         Jump();
     }

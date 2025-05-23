@@ -111,9 +111,13 @@ public class RigidbodyController
     /// </summary>
     /// <param name="direction"></param>
     /// <param name="speed"></param>
-    public void Rotate(Vector3 direction, float speed)
+    public void Rotate(Vector3 direction, float speed, bool clamped = false)
     {
-        //transform.Rotate(direction.y * speed * Time.deltaTime, direction.x * speed * Time.deltaTime, 0f);
+        if (!clamped)
+        {
+            transform.Rotate(direction.y * speed * Time.deltaTime, direction.x * speed * Time.deltaTime, 0f);
+            return;
+        }
 
         // Yaw (left/right) — rotate around Y
         transform.Rotate(0f, direction.x * speed * Time.deltaTime, 0f, Space.Self);

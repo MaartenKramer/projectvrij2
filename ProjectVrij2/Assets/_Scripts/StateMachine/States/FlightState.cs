@@ -62,6 +62,8 @@ public class FlightState : IState
 
     public void ExitState()
     {
+        Boost();
+
         speedUpAction.started -= ctx => SpeedUp(data.quickFlightSpeed, true);
         speedUpAction.canceled -= ctx => SpeedUp(data.flightSpeed, false);
 
@@ -100,7 +102,7 @@ public class FlightState : IState
         form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.forward * currentSpeed);
 
         // rotate towards direction
-        form.RigidbodyController.Rotate(direction, data.turnSpeed);
+        form.RigidbodyController.Rotate(direction, data.turnSpeed, true);
 
         // Stabilize the Z-axis rotation
         if (form.RigidbodyController.rigidbody.linearVelocity.magnitude > 0.1f)
