@@ -100,8 +100,6 @@ public class TerrestrialState : IState
         DetermineGravity();
         Vector3 gravity = Vector3.down * (currentGravity * currentGravityMultiplier);
         form.RigidbodyController.rigidbody.AddForce(gravity, ForceMode.Acceleration);
-        //form.RigidbodyController.ApplyGravity(currentGravityMultiplier);
-
 
         Vector3 force;
         if (OnSlope())
@@ -122,11 +120,13 @@ public class TerrestrialState : IState
 
         form.RigidbodyController.rigidbody.AddForce(force, ForceMode.Force);
 
-        //// opposing force when turning quickly
-        //Vector3 velocityDifferential = force - form.RigidbodyController.LinearVelocity;
-        //Vector3 opposingForce = velocityDifferential * data.brakingForce;
-        //form.RigidbodyController.rigidbody.AddForce(opposingForce, ForceMode.Acceleration);
-        //Debug.Log($"Differential: {velocityDifferential} | Opposing force: {opposingForce}");
+        // opposing force when turning quickly (stops sliding when turning)
+        float directionDot = Vector3.Dot(direction, form.RigidbodyController.LinearVelocity.normalized);
+        if(directionDot < 0) 
+        {
+            Vector3 brakingForce = (direction - form.RigidbodyController.LinearVelocity.normalized) * (data.brakingForce * 10f);
+            form.RigidbodyController.rigidbody.AddForce(brakingForce, ForceMode.Acceleration);
+        }
 
         if (direction != Vector3.zero) { form.RigidbodyController.RotateTowards(direction.normalized, data.rotationSpeed); }
     }
@@ -147,7 +147,7 @@ public class TerrestrialState : IState
         }
 
         //Debug.Log($"[GroundCheck] {isGrounded}");
-        if(direction == Vector3.zero && isGrounded) { form.RigidbodyController.TweenDrag(5f, 3f); }
+        if(direction == Vector3.zero && isGrounded) { form.RigidbodyController.TweenDrag(data.idleDrag, 3f); }
         else if (isGrounded) { form.RigidbodyController.TweenDrag(data.groundedDrag, 3f); }
         else { form.RigidbodyController.TweenDrag(data.airDrag, 3f); }
 
@@ -275,6 +275,7 @@ public struct TerrestrialData
     public float fallingGravity;
 
     [Header("drag vars")]
+    public float idleDrag;
     public float groundedDrag;
     public float airDrag;
 
