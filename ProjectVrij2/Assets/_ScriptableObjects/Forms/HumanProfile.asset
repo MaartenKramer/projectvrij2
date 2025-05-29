@@ -20,6 +20,9 @@ MonoBehaviour:
   behaviour:
     rid: 7052020382252400761
   cameraId: camera_player_human
+  cursorSettings:
+    lockMode: 1
+    hidden: 1
   references:
     version: 2
     RefIds:
@@ -32,15 +35,18 @@ MonoBehaviour:
           walkSpeed: 5
           sprintSpeed: 8
           jumpForce: 30
+          jumpCooldown: 0.3
+          maxSlopeAngle: 45
           groundedGravity: 0
           airGravity: 10
           fallingGravity: 14
+          idleDrag: 5
           groundedDrag: 1.5
           airDrag: 1
-          rotationSpeed: 20
+          rotationSpeed: 7
+          brakingForce: 1
           groundMask:
             serializedVersion: 2
             m_Bits: 64
           checkSize: {x: 1, y: 0.1, z: 1}
           checkDistance: 1.1
-          jumpCooldown: 0.3

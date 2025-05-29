@@ -13,6 +13,8 @@ public class TerrestrialState : IState
     private IFormBehaviour form;
     private TerrestrialData data;
 
+    private PlayerController playerController;
+
     //input
     InputAction moveAction;
     InputAction sprintAction;
@@ -20,8 +22,10 @@ public class TerrestrialState : IState
 
     // debug
     private float currentSpeed;
+    private float desiredGravity;
     private float currentGravity;
     private float currentGravityMultiplier = 1f;
+    private float currentGravityTweenSpeed;
     private Vector3 direction;
     private float jumpTimestamp;
 
@@ -30,6 +34,8 @@ public class TerrestrialState : IState
     private bool readyToJump = false;
 
     // TODO - slope check
+    private RaycastHit slopeHit;
+    
 
     public TerrestrialState(IFormBehaviour form, string actionMapId, TerrestrialData data)
     {
@@ -43,6 +49,8 @@ public class TerrestrialState : IState
 
         currentSpeed = data.walkSpeed;
         currentGravity = data.airGravity;
+
+        playerController = form.StateMachine.owner.GetComponent<PlayerController>();
     }
 
     public void EnterState()
@@ -52,6 +60,9 @@ public class TerrestrialState : IState
 
         sprintAction.started += ctx => SetSpeed(data.sprintSpeed, true);
         sprintAction.canceled += ctx => SetSpeed(data.walkSpeed, false);
+
+        SetDesiredGravity(data.fallingGravity, 1f);
+        DetermineGravity();
     }
 
     public void ExitState()
@@ -76,7 +87,6 @@ public class TerrestrialState : IState
         direction = new Vector3(moveInput.x, 0, moveInput.y).normalized;
         
         direction = form.RigidbodyController.orientation.forward * direction.z + form.RigidbodyController.orientation.right * direction.x;
-        if (direction != Vector3.zero) { form.RigidbodyController.RotateTowards(direction.normalized, data.rotationSpeed); }
 
         if(readyToJump && isGrounded)
         {
@@ -86,35 +96,44 @@ public class TerrestrialState : IState
 
     public void HandlePhysics()
     {
-        // apply gravity manually
-        if (!isGrounded && readyToJump)
-        {
-            currentGravity = data.airGravity;
-        }
-        else if(!isGrounded)
-        {
-            currentGravity = data.fallingGravity;
-        }
-        else
-        {
-            currentGravity = data.groundedGravity;
-        }
 
-        if(form.RigidbodyController.LinearVelocity.y < 0) { currentGravityMultiplier = 2f; }
-        else {  currentGravityMultiplier = 1f; }
-
+        DetermineGravity();
         Vector3 gravity = Vector3.down * (currentGravity * currentGravityMultiplier);
         form.RigidbodyController.rigidbody.AddForce(gravity, ForceMode.Acceleration);
 
-        if(direction == Vector3.zero) { return; }
+        Vector3 force;
+        if (OnSlope())
+        {
+            force = GetSlopeDirection() * currentSpeed * 10f;
 
-        Vector3 force = direction.normalized * currentSpeed * 10f;
+            playerController.debugVariables.onSlope = true;
+        }
+        else
+        {
+            force = direction.normalized * currentSpeed * 10f;
+            playerController.debugVariables.onSlope = false;
+        }
+        
+        if (direction == Vector3.zero) {
+            return; 
+        }
+
         form.RigidbodyController.rigidbody.AddForce(force, ForceMode.Force);
 
+        // opposing force when turning quickly (stops sliding when turning)
+        float directionDot = Vector3.Dot(direction, form.RigidbodyController.LinearVelocity.normalized);
+        if(directionDot < 0) 
+        {
+            Vector3 brakingForce = (direction - form.RigidbodyController.LinearVelocity.normalized) * (data.brakingForce * 10f);
+            form.RigidbodyController.rigidbody.AddForce(brakingForce, ForceMode.Acceleration);
+        }
+
+        if (direction != Vector3.zero) { form.RigidbodyController.RotateTowards(direction.normalized, data.rotationSpeed); }
     }
 
     public void UpdateState()
     {
+
         if(direction != Vector3.zero) 
         {
             form.RigidbodyController.Rotate(direction, data.rotationSpeed);
@@ -124,16 +143,51 @@ public class TerrestrialState : IState
         if(grounded != isGrounded) 
         { 
             isGrounded = grounded;
-            form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.isGrounded = isGrounded;
+            playerController.debugVariables.isGrounded = isGrounded;
         }
 
-        Debug.Log($"[GroundCheck] {isGrounded}");
+        //Debug.Log($"[GroundCheck] {isGrounded}");
+        if(direction == Vector3.zero && isGrounded) { form.RigidbodyController.TweenDrag(data.idleDrag, 3f); }
+        else if (isGrounded) { form.RigidbodyController.TweenDrag(data.groundedDrag, 3f); }
+        else { form.RigidbodyController.TweenDrag(data.airDrag, 3f); }
 
-        if (isGrounded) { form.RigidbodyController.TweenDrag(data.groundedDrag, .3f);}
-        else { form.RigidbodyController.TweenDrag(data.airDrag, .1f); }
+        playerController.GetComponent<PlayerController>().debugVariables.gravity = currentGravity;
 
-        form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.gravity = currentGravity;
+    }
 
+    private void DetermineGravity()
+    {
+        // apply gravity manually
+        if (!isGrounded && readyToJump)
+        {
+            if (currentGravity != data.airGravity) { SetDesiredGravity(data.airGravity, 5f); }
+        }
+        else if (!isGrounded)
+        {
+            if (currentGravity != data.fallingGravity) { SetDesiredGravity(data.fallingGravity, 5f); }
+        }
+        else
+        {
+            if (currentGravity != data.groundedGravity) { SetDesiredGravity(data.groundedGravity, 5f); }
+        }
+
+        if (currentGravity > desiredGravity - .05f && currentGravity < desiredGravity + .05f)
+        {
+            currentGravity = desiredGravity;
+        }
+        else
+        {
+            currentGravity = Mathf.Lerp(currentGravity, desiredGravity, currentGravityTweenSpeed * Time.deltaTime);
+        }
+
+        if (form.RigidbodyController.LinearVelocity.y < 0) { currentGravityMultiplier = 2f; }
+        else { currentGravityMultiplier = 1f; }
+    }
+
+    private void SetDesiredGravity(float target, float tweenSpeed)
+    {
+        desiredGravity = target;
+        currentGravityTweenSpeed = tweenSpeed;
     }
 
     private bool CheckIsGrounded()
@@ -155,12 +209,31 @@ public class TerrestrialState : IState
         jumpTimestamp = Time.time;
     }
 
+    private bool OnSlope()
+    {
+        if(Physics.Raycast(form.RigidbodyController.Position, Vector3.down, out slopeHit, data.checkDistance * 2f, data.groundMask))
+        {
+            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+            //Debug.Log($"[Raycast] Hit! {slopeHit.collider.gameObject.name} - angle: {angle}");
+            return angle < data.maxSlopeAngle && angle != 0;
+        }
+
+
+        return false;
+    }
+
+    private Vector3 GetSlopeDirection()
+    {
+        return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
+    }
+
     private void TryJump()
     {
-        readyToJump = true;
+
+        if (isGrounded) { readyToJump = true;  }
+        else { return; }
 
         if (Time.time <= jumpTimestamp + data.jumpCooldown && jumpTimestamp != 0) { return; }
-        if (!isGrounded) { return; }
 
         Jump();
     }
@@ -185,24 +258,36 @@ public class TerrestrialState : IState
 [System.Serializable]
 public struct TerrestrialData
 {
+    [Header("speed vars")]
     public float walkSpeed;
     public float sprintSpeed;
 
+    [Header("jump vars")]
     public float jumpForce;
+    public float jumpCooldown;
 
+    [Header("slope vars")]
+    public float maxSlopeAngle;
+
+    [Header("gravity vars")]
     public float groundedGravity;
     public float airGravity;
     public float fallingGravity;
 
+    [Header("drag vars")]
+    public float idleDrag;
     public float groundedDrag;
     public float airDrag;
 
+    [Header("rotational vars")]
     public float rotationSpeed;
 
+    [Header("Turning vars")]
+    public float brakingForce;
+
+    [Header("ground check")]
     public LayerMask groundMask;
     public Vector3 checkSize;
     public float checkDistance;
-
-    public float jumpCooldown;
 
 }

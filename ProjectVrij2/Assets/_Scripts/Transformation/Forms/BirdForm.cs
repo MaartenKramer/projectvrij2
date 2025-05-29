@@ -40,6 +40,7 @@ public class BirdForm : IFormBehaviour
 
     public void EnterForm()
     {
+
         Debug.Log("Entered bird form");
         //rbController.DisableGravity();
         rbController.rigidbody.mass = formProfile.mass;
@@ -62,6 +63,7 @@ public class BirdForm : IFormBehaviour
 
     public void ExitForm()
     {
+
         Debug.Log("Exited bird form");
 
         //rbController.EnableGravity();

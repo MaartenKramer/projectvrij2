@@ -146,6 +146,8 @@ public class PlayerController : MonoBehaviour
         currentFormProfile?.behaviour.EnterForm();
 
         currentFormIndex = desiredIndex;
+        CursorUtils.SetCursor(currentFormProfile.cursorSettings);
+
         debugVariables.form = currentFormProfile.formName;
         EventHandler<string>.InvokeEvent(GlobalEvents.PLAYER_FORM_CHANGED, currentFormProfile.id);
 
@@ -184,6 +186,8 @@ public class PlayerController : MonoBehaviour
         currentFormProfile?.behaviour.EnterForm();
 
         currentFormIndex = profileIndex;
+        CursorUtils.SetCursor(currentFormProfile.cursorSettings);
+
         debugVariables.form = currentFormProfile.formName;
         EventHandler<string>.InvokeEvent(GlobalEvents.PLAYER_FORM_CHANGED, currentFormProfile.id);
 
@@ -194,31 +198,37 @@ public class PlayerController : MonoBehaviour
     {
         if (currentFormProfile == null) { return; }
         currentFormProfile.behaviour.OnDrawGizmos();
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, Vector3.down * 1.3f);
     }
 }
 
 public struct PlayerDebugVariables
 {
-    public PlayerDebugVariables(string form, float velocity, float drag, float gravity)
-    {
-        this.form = form;
-        this.velocity = velocity;
-        this.drag = drag;
-        this.gravity = gravity;
+    //public PlayerDebugVariables(string form, float velocity, float drag, float gravity)
+    //{
+    //    this.form = form;
+    //    this.velocity = velocity;
+    //    this.drag = drag;
+    //    this.lift = lift
+    //    this.gravity = gravity;
 
-        speedingUp = false;
-        slowingDown = false;
-        isGrounded = false;
-    }
+    //    speedingUp = false;
+    //    slowingDown = false;
+    //    isGrounded = false;
+    //}
 
     public string form;
 
     public float velocity;
     public float drag;
+    public float lift;
 
     public bool speedingUp;
     public bool slowingDown;
 
     public bool isGrounded;
+    public bool onSlope;
     public float gravity;
 }
