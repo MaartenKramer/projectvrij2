@@ -29,8 +29,8 @@ MonoBehaviour:
         defaultStateId: state_player_flight
         actionMapId: Player_Bird
         data:
-          flightSpeed: 20
-          quickFlightSpeed: 40
+          flightSpeed: 10
+          quickFlightSpeed: 20
           turnSpeed: 64
           maxDrag: 1
           minDrag: 0

@@ -37,7 +37,7 @@ MonoBehaviour:
           fallingGravity: 14
           groundedDrag: 1.5
           airDrag: 1
-          rotationSpeed: 7
+          rotationSpeed: 20
           groundMask:
             serializedVersion: 2
             m_Bits: 64
