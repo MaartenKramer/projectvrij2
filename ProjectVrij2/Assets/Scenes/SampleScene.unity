@@ -2325,6 +2325,7 @@ MonoBehaviour:
     transform: {fileID: 1107849957}
     orientation: {fileID: 78200679}
     rigidbody: {fileID: 1107849958}
+    lastRelativeVelocity: {x: 0, y: 0, z: 0}
   inputController:
     actionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   startingForm: 1
