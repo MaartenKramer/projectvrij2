@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72f40017150fab9439d4e067acd91634, type: 3}
+  m_Name: BirdForm
+  m_EditorClassIdentifier: 
+  id: form_player_bird
+  formName: Bird
+  mass: 1
+  linearDrag: 1
+  angularDrag: 1
+  behaviour:
+    rid: 6815592761351471178
+  cameraId: camera_player_bird
+  references:
+    version: 2
+    RefIds:
+    - rid: 6815592761351471178
+      type: {class: BirdForm, ns: , asm: Assembly-CSharp}
+      data:
+        defaultStateId: state_player_flight
+        actionMapId: Player_Bird
+        data:
+          flightSpeed: 20
+          quickFlightSpeed: 40
+          turnSpeed: 64
+          maxDrag: 1
+          minDrag: 0
+          dragRecoveryRate: 0.05
+          dragReductionRate: 0.3
+          diveCurve:
+            serializedVersion: 2
+            m_Curve:
+            - serializedVersion: 3
+              time: 0
+              value: 0
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            - serializedVersion: 3
+              time: 1
+              value: 1
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          slowDownDrag: 2
+          boostForce: 50
+          boostCooldown: 3
+          rollForce: 30
+          rollCooldown: 2
