@@ -28,9 +28,6 @@ public class BirdForm : IFormBehaviour
     [SerializeField] private FlightData flightData;
     [SerializeField] private StunData stunData;
 
-    [Header("Events")]
-    [SerializeField] private UnityEvent onCollision;
-
     private Vector3 bounceDir;
 
     public void Initialize(GameObject owner, ObjectController objController, RigidbodyController rbController, InputController inputController, FormProfileSO profile)
