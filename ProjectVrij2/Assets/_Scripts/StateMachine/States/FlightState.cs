@@ -154,6 +154,10 @@ public class FlightState : IState
                     /* Debug.Log($"[Drag] level -> drag recovering"); */
                     form.RigidbodyController.TweenDrag(data.maxDrag, data.dragRecoveryRate);
                 }
+                else if(form.RigidbodyController.LinearDrag > data.maxDrag)
+                {
+                    form.RigidbodyController.TweenDrag(data.maxDrag, data.dragReductionRate);
+                }
             }
         }
         else
@@ -170,14 +174,14 @@ public class FlightState : IState
             liftStrength = Mathf.Min(liftStrength, data.maxLift);
             liftStrength *= data.liftToAngleCurve.Evaluate(Mathf.Abs(dot));
 
-            Debug.Log($"linear drag: {form.RigidbodyController.LinearDrag}");
+            //Debug.Log($"linear drag: {form.RigidbodyController.LinearDrag}");
             float remappedDrag = MyMathUtils.Remap(form.RigidbodyController.LinearDrag, data.minDrag, data.maxDrag, 0f, 1f);
             liftStrength *= data.liftToDragCurve.Evaluate(1f - Mathf.Abs(remappedDrag));
 
             Vector3 liftForce = liftStrength * Vector3.up;
 
             //form.RigidbodyController.rigidbody.AddRelativeForce(liftForce, ForceMode.Force);
-            Debug.Log($"[Lift] liftStrength: {liftStrength}");
+            //Debug.Log($"[Lift] liftStrength: {liftStrength}");
             form.RigidbodyController.rigidbody.AddForce(liftForce, ForceMode.Force);
 
             form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.lift = liftStrength;

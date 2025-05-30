@@ -31,74 +31,15 @@ MonoBehaviour:
       data:
         defaultStateId: state_player_flight
         actionMapId: Player_Bird
-        data:
-          flightSpeed: 20
-          quickFlightSpeed: 40
+        flightData:
+          flightSpeed: 15
+          quickFlightSpeed: 30
           turnSpeed: 64
           maxDrag: 1
           minDrag: 0
           dragRecoveryRate: 0.05
           dragReductionRate: 0.3
           diveCurve:
-            serializedVersion: 2
-            m_Curve:
-            - serializedVersion: 3
-              time: 0
-              value: 0
-              inSlope: 0
-              outSlope: 0
-              tangentMode: 0
-              weightedMode: 0
-              inWeight: 0
-              outWeight: 0
-            - serializedVersion: 3
-              time: 1
-              value: 1
-              inSlope: 0
-              outSlope: 0
-              tangentMode: 0
-              weightedMode: 0
-              inWeight: 0
-              outWeight: 0
-            m_PreInfinity: 2
-            m_PostInfinity: 2
-            m_RotationOrder: 4
-          slowDownDrag: 2
-          liftCoefficient: 0.05
-          liftToAngleCurve:
-            serializedVersion: 2
-            m_Curve:
-            - serializedVersion: 3
-              time: 0
-              value: 0.4
-              inSlope: 0
-              outSlope: 0
-              tangentMode: 0
-              weightedMode: 0
-              inWeight: 0
-              outWeight: 0
-            - serializedVersion: 3
-              time: 0.66908425
-              value: 0.5258199
-              inSlope: 0.6372539
-              outSlope: 0.6372539
-              tangentMode: 0
-              weightedMode: 0
-              inWeight: 0.33333334
-              outWeight: 0.12565075
-            - serializedVersion: 3
-              time: 1
-              value: 0.6
-              inSlope: 0
-              outSlope: 0
-              tangentMode: 0
-              weightedMode: 0
-              inWeight: 0
-              outWeight: 0
-            m_PreInfinity: 2
-            m_PostInfinity: 2
-            m_RotationOrder: 4
-          liftToDragCurve:
             serializedVersion: 2
             m_Curve:
             - serializedVersion: 3
@@ -122,11 +63,91 @@ MonoBehaviour:
             m_PreInfinity: 2
             m_PostInfinity: 2
             m_RotationOrder: 4
+          slowDownDrag: 2
+          liftCoefficient: 0.02
+          liftToAngleCurve:
+            serializedVersion: 2
+            m_Curve:
+            - serializedVersion: 3
+              time: 0
+              value: 0.3
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            - serializedVersion: 3
+              time: 1
+              value: 1
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+          liftToDragCurve:
+            serializedVersion: 2
+            m_Curve:
+            - serializedVersion: 3
+              time: 0
+              value: 0.2
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            - serializedVersion: 3
+              time: 1
+              value: 1
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
           maxLift: 50
-          minLiftSpeed: 25
+          minLiftSpeed: 10
           risingDotThreshold: 0
-          boostForce: 50
-          boostCooldown: 3
+          boostForce: 40
+          boostCooldown: 2
           rollForce: 30
-          rollCooldown: 2
+          rollCooldown: 1
           mouseSensitivity: 0.05
+        stunData:
+          duration: 3
+          minVelocity: 5
+          speedSlashMultiplier: 0
+          maxVelocity: 80
+          bounceStrength: 20
+          speedToBounceCurve:
+            serializedVersion: 2
+            m_Curve:
+            - serializedVersion: 3
+              time: 0
+              value: 0.4
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            - serializedVersion: 3
+              time: 1
+              value: 1
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0
+              outWeight: 0
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4

@@ -19,6 +19,8 @@ public class RigidbodyController
     public Vector3 LocalPosition { get { return transform.localPosition; } set { transform.localPosition = value; } }
     public Quaternion Rotation { get { return transform.rotation; } set { transform.rotation = value; } }
     public Vector3 LocalScale { get { return transform.localScale; } set { transform.localScale = value; } }
+    
+    public Vector3 lastRelativeVelocity = Vector3.zero;
 
     //private float desiredGravity;
     //private float currentGravity;
@@ -60,25 +62,10 @@ public class RigidbodyController
     //public void DisableCustomGravity() {  customGravity = false; }
     #endregion
 
-    #region custom_forces
-
-    private float accumulatedForce; 
-    private float accumulatedRelativeForce; 
-    public void AddForce(float forceMagnitude) { accumulatedForce += forceMagnitude; }
-    public void ApplyForce(Vector3 dir, ForceMode mode) 
-    { 
-        rigidbody.AddForce(dir * accumulatedForce, mode);
-        accumulatedForce = 0f;
-    }
-
-    public void AddRelativeForce(float forceMagnitude) { accumulatedRelativeForce += forceMagnitude; }
-    public void ApplyRelativeForce(Vector3 dir, ForceMode mode)
+    public void SlashVelocity(float multiplier)
     {
-        rigidbody.AddRelativeForce(dir * accumulatedRelativeForce, mode);
-        accumulatedForce = 0f;
+        rigidbody.linearVelocity = LinearVelocity * multiplier;
     }
-
-    #endregion
 
     public void EnableGravity() { rigidbody.useGravity = true; }
     public void DisableGravity() { rigidbody.useGravity = false; }
