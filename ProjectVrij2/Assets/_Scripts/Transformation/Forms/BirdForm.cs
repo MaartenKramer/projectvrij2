@@ -111,22 +111,24 @@ public class BirdForm : IFormBehaviour
 
     public void OnCollision(CollisionData data)
     {
-        Collision coll = data.collision;
+        Collision coll = data.coll;
         if(coll.relativeVelocity.magnitude < stunData.minVelocity) { return; };
 
+        // determine impact strength between 0-1
+        float impact = MyMathUtils.Remap01(coll.relativeVelocity.magnitude, stunData.minVelocity, stunData.maxVelocity);
+
         Debug.Log($"[BirdForm] collided! {coll.gameObject.name}, velocity: {coll.relativeVelocity.magnitude}");
-        onCollision?.Invoke();
+        data.collEvent?.Invoke();
 
         // determine bounce
         bounceDir = coll.GetContact(0).normal;
-        float remapped = MyMathUtils.Remap01(coll.relativeVelocity.magnitude, stunData.minVelocity, stunData.maxVelocity);
-        float curved = stunData.speedToBounceCurve.Evaluate(remapped);
-        float bounceForce = stunData.speedToBounceCurve.Evaluate(remapped) * stunData.bounceStrength;
+        float curved = stunData.speedToBounceCurve.Evaluate(impact);
+        float bounceForce = stunData.speedToBounceCurve.Evaluate(impact) * stunData.bounceStrength;
         
         // apply bounce
         RigidbodyController.SlashVelocity(stunData.speedSlashMultiplier);
         RigidbodyController.rigidbody.AddForce(bounceForce * bounceDir, ForceMode.Impulse);
-        Debug.Log($"[BirdForm] applied bounce! dir: {bounceDir}, remapped: {remapped}, curved: {curved}, force: {bounceForce}, total: {bounceForce * bounceDir}");
+        Debug.Log($"[BirdForm] applied bounce! dir: {bounceDir}, remapped: {impact}, curved: {curved}, force: {bounceForce}, total: {bounceForce * bounceDir}");
 
         // switch to stunned state
         stateMachine.SwitchState("state_shared_stunned");

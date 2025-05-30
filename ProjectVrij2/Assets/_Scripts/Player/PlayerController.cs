@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class PlayerController : ObjectController
 {
@@ -19,6 +20,8 @@ public class PlayerController : ObjectController
     [Header("References")]
     [SerializeField] private RigidbodyController rbController;
     [SerializeField] private InputController inputController;
+
+    [Header("Events")]
 
     [Header("Debugging")]
     public PlayerDebugVariables debugVariables;
@@ -213,7 +216,7 @@ public class PlayerController : ObjectController
     public void HandleFormCollision(CollisionData data)
     {
         if (currentFormProfile == null) { return; }
-        rbController.lastRelativeVelocity = data.collision.relativeVelocity;
+        rbController.lastRelativeVelocity = data.coll.relativeVelocity;
         currentFormProfile.behaviour.OnCollision(data);
     }
 }
