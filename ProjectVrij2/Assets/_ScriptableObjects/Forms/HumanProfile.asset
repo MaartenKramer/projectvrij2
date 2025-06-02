@@ -43,8 +43,8 @@ MonoBehaviour:
           idleDrag: 5
           groundedDrag: 1.5
           airDrag: 1
-          rotationSpeed: 7
-          brakingForce: 1
+          rotationSpeed: 20
+          brakingForce: 10
           groundMask:
             serializedVersion: 2
             m_Bits: 64
