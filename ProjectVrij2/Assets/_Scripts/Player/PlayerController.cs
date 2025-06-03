@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : ObjectController
 {
     [SerializeField] private FormProfileSO currentFormProfile;
 
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private RigidbodyController rbController;
     [SerializeField] private InputController inputController;
 
+    [Header("Events")]
+
     [Header("Debugging")]
     public PlayerDebugVariables debugVariables;
     [SerializeField] public int startingForm;
@@ -27,7 +30,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         // give form scripts acces to important variables from their respective profile
-        foreach (var form in availableForms) { form.behaviour.Initialize(gameObject, rbController, inputController, form); }
+        foreach (var form in availableForms) { form.behaviour.Initialize(gameObject, this, rbController, inputController, form); }
 
         transformAction = inputController.GetActionGlobal("Transform");
         interactAction = inputController.GetActionGlobal("Interact");
@@ -57,22 +60,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // debug input | TODO - Change input to new input system and decouple it
-        if (transformAction.triggered) 
-        {
-            Debug.Log($"transform action; got key down");
-            if (transformAction.ReadValue<float>() < 0) { CycleForms(false); Debug.Log($"transform action triggered! value: {transformAction.ReadValue<float>()}"); }
-            else if (transformAction.ReadValue<float>() > 0) { CycleForms(true); Debug.Log($"transform action triggered! value: {transformAction.ReadValue<float>()}"); }     
-        }
+        // input
+        HandleInput();
 
         currentFormProfile?.behaviour.HandleInput();
         currentFormProfile?.behaviour.UpdateForm();
         currentFormProfile?.behaviour.HandleAbilities();
-
-        if (showDebugAction.triggered)
-        {
-            EventHandler.InvokeEvent(GlobalEvents.UI_DEBUG_SHOW);
-        }
 
         // update debug variable text
         debugVariables.velocity = rbController.LinearVelocity.magnitude;
@@ -84,6 +77,23 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         currentFormProfile?.behaviour.HandlePhysics();
+    }
+
+    private void HandleInput()
+    {
+        if (IsDisabled) { return; }
+
+        if (transformAction.triggered)
+        {
+            Debug.Log($"transform action; got key down");
+            if (transformAction.ReadValue<float>() < 0) { CycleForms(false); Debug.Log($"transform action triggered! value: {transformAction.ReadValue<float>()}"); }
+            else if (transformAction.ReadValue<float>() > 0) { CycleForms(true); Debug.Log($"transform action triggered! value: {transformAction.ReadValue<float>()}"); }
+        }
+
+        if (showDebugAction.triggered)
+        {
+            EventHandler.InvokeEvent(GlobalEvents.UI_DEBUG_SHOW);
+        }
     }
 
     public void CycleForms(bool forward)
@@ -201,6 +211,13 @@ public class PlayerController : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, Vector3.down * 1.3f);
+    }
+
+    public void HandleFormCollision(CollisionData data)
+    {
+        if (currentFormProfile == null) { return; }
+        rbController.lastRelativeVelocity = data.coll.relativeVelocity;
+        currentFormProfile.behaviour.OnCollision(data);
     }
 }
 

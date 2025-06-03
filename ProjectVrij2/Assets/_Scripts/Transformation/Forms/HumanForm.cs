@@ -11,6 +11,9 @@ public class HumanForm : IFormBehaviour
     private StateMachine stateMachine;
     public StateMachine StateMachine => stateMachine;
 
+    private ObjectController objectController;
+    public ObjectController ObjectController => objectController;
+
     private InputController inputController;
     public InputController InputController => inputController;
 
@@ -24,7 +27,7 @@ public class HumanForm : IFormBehaviour
     [SerializeField] private string actionMapId = "Player_Human";
     [SerializeField] private TerrestrialData data;
 
-    public void Initialize(GameObject owner, RigidbodyController rbController, InputController inputController, FormProfileSO profile)
+    public void Initialize(GameObject owner, ObjectController objCOntroller, RigidbodyController rbController, InputController inputController, FormProfileSO profile)
     {
         // inject data
         formProfile = profile;
@@ -83,5 +86,9 @@ public class HumanForm : IFormBehaviour
     {
         if(stateMachine == null || stateMachine.currentState == null) { return; }
         stateMachine.currentState.OnDrawGizmos();
+    }
+
+    public void OnCollision(CollisionData data)
+    {
     }
 }
