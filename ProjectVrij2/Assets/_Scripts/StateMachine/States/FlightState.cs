@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -52,6 +53,10 @@ public class FlightState : IState
 
     public void EnterState()
     {
+        form.RigidbodyController.SetDrag(data.maxDrag);
+
+        previousDrag = form.RigidbodyController.LinearDrag;
+
         speedUpAction.started += ctx => SpeedUp(data.quickFlightSpeed, true);
         speedUpAction.canceled += ctx => SpeedUp(data.flightSpeed, false);
 
@@ -61,6 +66,8 @@ public class FlightState : IState
 
     public void ExitState()
     {
+        //Boost(); yes? no? maybe?
+
         speedUpAction.started -= ctx => SpeedUp(data.quickFlightSpeed, true);
         speedUpAction.canceled -= ctx => SpeedUp(data.flightSpeed, false);
 
@@ -77,6 +84,7 @@ public class FlightState : IState
         direction = moveAction.ReadValue<Vector2>();
         direction = new Vector3(direction.x, direction.y, 0);
         lookDirection = lookAction.ReadValue<Vector2>();
+        direction = direction + (lookDirection * data.mouseSensitivity);
 
         if (rollLeftAction.triggered)
         {
@@ -94,11 +102,12 @@ public class FlightState : IState
 
     public void HandlePhysics()
     {
+
         // apply force forward
-        form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Forward * currentSpeed);
+        form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.forward * currentSpeed);
 
         // rotate towards direction
-        form.RigidbodyController.Rotate(direction, data.turnSpeed);
+        form.RigidbodyController.Rotate(direction, data.turnSpeed, true);
 
         // Stabilize the Z-axis rotation
         if (form.RigidbodyController.rigidbody.linearVelocity.magnitude > 0.1f)
@@ -121,8 +130,18 @@ public class FlightState : IState
             if (dot < 0)
             {
                 float desiredDrag = data.minDrag + (data.maxDrag - data.diveCurve.Evaluate(Mathf.Abs(dot)) * data.maxDrag);
-                if(desiredDrag > previousDrag) { Debug.Log($"[Drag] diving -> drag recovering"); form.RigidbodyController.TweenDrag(desiredDrag, data.dragRecoveryRate); }
-                else { Debug.Log($"[Drag] diving -> drag reducing"); form.RigidbodyController.TweenDrag(desiredDrag, data.dragReductionRate); }
+                if(desiredDrag > previousDrag) 
+                {
+                    /* Debug.Log($"[Drag] diving -> drag recovering"); */
+                    form.RigidbodyController.TweenDrag(desiredDrag, data.dragRecoveryRate);
+                    //form.RigidbodyController.SetDrag(desiredDrag); 
+                }
+                else 
+                {
+                    /* Debug.Log($"[Drag] diving -> drag reducing"); */
+                    form.RigidbodyController.TweenDrag(desiredDrag, data.dragReductionRate);
+                    //form.RigidbodyController.SetDrag(desiredDrag);
+                }
             
                 previousDrag = desiredDrag;
                 //form.RigidbodyController.SetDrag(data.drag - data.drag * Mathf.Abs(Mathf.Clamp(dot, 0, -1)));
@@ -130,10 +149,14 @@ public class FlightState : IState
             }
             else 
             {
-                if(form.RigidbodyController.LinearDrag != data.maxDrag)
+                if(form.RigidbodyController.LinearDrag < data.maxDrag)
                 {
-                    Debug.Log($"[Drag] level -> drag recovering");
+                    /* Debug.Log($"[Drag] level -> drag recovering"); */
                     form.RigidbodyController.TweenDrag(data.maxDrag, data.dragRecoveryRate);
+                }
+                else if(form.RigidbodyController.LinearDrag > data.maxDrag)
+                {
+                    form.RigidbodyController.TweenDrag(data.maxDrag, data.dragReductionRate);
                 }
             }
         }
@@ -141,9 +164,34 @@ public class FlightState : IState
         {
             form.RigidbodyController.TweenDrag(data.slowDownDrag, data.dragReductionRate);
         }
+
+        // calculate and apply lift
+        bool isRising = dot > data.risingDotThreshold;
+        float forwardSpeed = Vector3.Dot(form.RigidbodyController.LinearVelocity, form.RigidbodyController.Forward);
+        if(isRising && forwardSpeed >= data.minLiftSpeed)
+        {
+            float liftStrength = data.liftCoefficient * Mathf.Pow(forwardSpeed, 2);
+            liftStrength = Mathf.Min(liftStrength, data.maxLift);
+            liftStrength *= data.liftToAngleCurve.Evaluate(Mathf.Abs(dot));
+
+            //Debug.Log($"linear drag: {form.RigidbodyController.LinearDrag}");
+            float remappedDrag = MyMathUtils.Remap(form.RigidbodyController.LinearDrag, data.minDrag, data.maxDrag, 0f, 1f);
+            liftStrength *= data.liftToDragCurve.Evaluate(1f - Mathf.Abs(remappedDrag));
+
+            Vector3 liftForce = liftStrength * Vector3.up;
+
+            //form.RigidbodyController.rigidbody.AddRelativeForce(liftForce, ForceMode.Force);
+            //Debug.Log($"[Lift] liftStrength: {liftStrength}");
+            form.RigidbodyController.rigidbody.AddForce(liftForce, ForceMode.Force);
+
+            form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.lift = liftStrength;
+        }
+
+        // if minLiftSpeed = 50, lift = 0.01 * 50^2 = 
+
         //else { form.RigidbodyController.SetDrag(data.drag); }
 
-        Debug.Log($"Rigidbody velocity: {form.RigidbodyController.LinearVelocity.magnitude}");
+        /* Debug.Log($"Rigidbody velocity: {form.RigidbodyController.LinearVelocity.magnitude}"); */
 
         // apply force left/right
         //form.RigidbodyController.rigidbody.AddForce((form.RigidbodyController.Right * direction.x) * data.turnSpeed);
@@ -187,7 +235,7 @@ public class FlightState : IState
         if (Time.time < boostTimestamp + data.boostCooldown && boostTimestamp != 0f) { return; }
 
         Debug.Log($"[Boost] boosted");
-        form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Forward * data.boostForce, ForceMode.Impulse);
+        form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.forward * data.boostForce, ForceMode.Impulse);
 
         boostTimestamp = Time.time;
     }
@@ -201,11 +249,11 @@ public class FlightState : IState
         {
             case true:
                 Debug.Log($"[Roll] left");
-                form.RigidbodyController.rigidbody.AddForce(-form.RigidbodyController.Right * data.rollForce, ForceMode.Impulse);
+                form.RigidbodyController.rigidbody.AddRelativeForce(-Vector3.right * data.rollForce, ForceMode.Impulse);
                 break;
             case false:
                 Debug.Log($"[Roll] right");
-                form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Right * data.rollForce, ForceMode.Impulse);
+                form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.right * data.rollForce, ForceMode.Impulse);
                 break;
         }
 
@@ -221,20 +269,34 @@ public class FlightState : IState
 [System.Serializable]
 public struct FlightData
 {
+    [Header("Speed vars")]
     public float flightSpeed;
     public float quickFlightSpeed;
     public float turnSpeed;
 
+    [Header("Drag vars")]
     public float maxDrag;
     public float minDrag;
     public float dragRecoveryRate;
     public float dragReductionRate;
     public AnimationCurve diveCurve;
-
     public float slowDownDrag;
 
+    [Header("Lift vars")]
+    public float liftCoefficient;
+    public AnimationCurve liftToAngleCurve;
+    public AnimationCurve liftToDragCurve;
+    public float maxLift;
+    public float minLiftSpeed;
+    [Space]
+    public float risingDotThreshold;
+
+    [Header("Ability vars")]
     public float boostForce;
     public float boostCooldown;
     public float rollForce;
     public float rollCooldown;
+
+    [Header("Control vars")]
+    [Range(0.01f,1f)] public float mouseSensitivity;
 }
