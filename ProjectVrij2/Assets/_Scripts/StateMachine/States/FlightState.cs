@@ -235,7 +235,9 @@ public class FlightState : IState
         if (Time.time < boostTimestamp + data.boostCooldown && boostTimestamp != 0f) { return; }
 
         Debug.Log($"[Boost] boosted");
-        form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.forward * data.boostForce, ForceMode.Impulse);
+        Vector3 boostForce = Vector3.forward * data.boostForce;
+        form.RigidbodyController.rigidbody.AddRelativeForce(boostForce, ForceMode.Impulse);
+        Debug.Log($"[FlightState] Boostforce: {boostForce}");
 
         boostTimestamp = Time.time;
     }

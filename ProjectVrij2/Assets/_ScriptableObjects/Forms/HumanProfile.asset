@@ -47,6 +47,6 @@ MonoBehaviour:
           brakingForce: 10
           groundMask:
             serializedVersion: 2
-            m_Bits: 64
+            m_Bits: 192
           checkSize: {x: 1, y: 0.1, z: 1}
-          checkDistance: 1.1
+          checkDistance: 1.05

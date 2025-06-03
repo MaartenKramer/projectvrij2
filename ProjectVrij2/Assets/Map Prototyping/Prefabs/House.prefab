@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7288815624944058380}
   - component: {fileID: 1710318521657745766}
   - component: {fileID: 2111428227282281612}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 982475929460965756}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +365,7 @@ GameObject:
   - component: {fileID: 4101382044074476287}
   - component: {fileID: 3947383279016673843}
   - component: {fileID: 8852197441379375474}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -717,7 +717,7 @@ GameObject:
   - component: {fileID: 3196633395959490486}
   - component: {fileID: 9079874111625228849}
   - component: {fileID: 9075826539484079481}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1069,7 +1069,7 @@ GameObject:
   - component: {fileID: 7456345471208487491}
   - component: {fileID: 819256893654097876}
   - component: {fileID: 7732805339697718583}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1421,7 +1421,7 @@ GameObject:
   - component: {fileID: 3256393447268194990}
   - component: {fileID: 5211747238218574114}
   - component: {fileID: 3203437198569409506}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
