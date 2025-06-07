@@ -55,11 +55,14 @@ public class TerrestrialState : IState
 
     public void EnterState()
     {
-        jumpAction.started += ctx => TryJump();
-        jumpAction.canceled += ctx => ReleaseJump();
+        form.RigidbodyController.ResetPitch();
+        form.RigidbodyController.Rotate(direction, data.rotationSpeed);
 
-        sprintAction.started += ctx => SetSpeed(data.sprintSpeed, true);
-        sprintAction.canceled += ctx => SetSpeed(data.walkSpeed, false);
+        jumpAction.started += PressJump;
+        jumpAction.canceled += ReleaseJump;
+
+        sprintAction.started += SetSprintSpeed;
+        sprintAction.canceled += SetWalkSpeed;
 
         SetDesiredGravity(data.fallingGravity, 1f);
         DetermineGravity();
@@ -67,13 +70,13 @@ public class TerrestrialState : IState
 
     public void ExitState()
     {
-        form.RigidbodyController.SetCurrentDrag(1f);
+        isGrounded = false;
 
-        jumpAction.started -= ctx => TryJump();
-        jumpAction.canceled -= ctx => ReleaseJump();
+        jumpAction.started -= PressJump;
+        jumpAction.canceled -= ReleaseJump;
 
-        sprintAction.started -= ctx => SetSpeed(data.sprintSpeed, true);
-        sprintAction.started -= ctx => SetSpeed(data.walkSpeed, false);
+        sprintAction.started -= SetSprintSpeed;
+        sprintAction.canceled -= SetWalkSpeed;
     }
 
     public void HandleAbilities()
@@ -87,7 +90,6 @@ public class TerrestrialState : IState
 
         Vector3 moveInput = moveAction.ReadValue<Vector2>();
         direction = new Vector3(moveInput.x, 0, moveInput.y).normalized;
-        
         direction = form.RigidbodyController.orientation.forward * direction.z + form.RigidbodyController.orientation.right * direction.x;
 
         if(readyToJump && isGrounded)
@@ -136,11 +138,6 @@ public class TerrestrialState : IState
     public void UpdateState()
     {
 
-        if(direction != Vector3.zero) 
-        {
-            form.RigidbodyController.Rotate(direction, data.rotationSpeed);
-        }
-
         bool grounded = CheckIsGrounded();
         if(grounded != isGrounded) 
         { 
@@ -149,9 +146,9 @@ public class TerrestrialState : IState
         }
 
         //Debug.Log($"[GroundCheck] {isGrounded}");
-        if(direction == Vector3.zero && isGrounded) { form.RigidbodyController.TweenDrag(data.idleDrag, 3f); }
-        else if (isGrounded) { form.RigidbodyController.TweenDrag(data.groundedDrag, 3f); }
-        else { form.RigidbodyController.TweenDrag(data.airDrag, 3f); }
+        if(direction == Vector3.zero && isGrounded) { form.RigidbodyController.TweenLinearDrag(data.idleDrag, 3f); }
+        else if (isGrounded) { form.RigidbodyController.TweenLinearDrag(data.groundedDrag, 3f); }
+        else { form.RigidbodyController.TweenLinearDrag(data.airDrag, 3f); }
 
         playerController.debugVariables.gravity = currentGravity;
 
@@ -231,7 +228,7 @@ public class TerrestrialState : IState
 
     private void TryJump()
     {
-
+        Debug.Log("Trying jump!");
         if (isGrounded) { readyToJump = true;  }
         else { return; }
 
@@ -239,16 +236,24 @@ public class TerrestrialState : IState
 
         Jump();
     }
-
-    private void ReleaseJump()
+    private void PressJump(InputAction.CallbackContext ctx)
+    {
+        readyToJump = true;
+    }
+    private void ReleaseJump(InputAction.CallbackContext ctx)
     {
         readyToJump = false;
     }
 
-    private void SetSpeed(float value, bool state)
+    private void SetWalkSpeed(InputAction.CallbackContext ctx)
     {
-        currentSpeed = value;
-        form.StateMachine.owner.GetComponent<Player>().debugVariables.speedingUp = state;
+        currentSpeed = data.walkSpeed;
+        form.StateMachine.owner.GetComponent<Player>().debugVariables.speedingUp = false;
+    }
+    private void SetSprintSpeed(InputAction.CallbackContext ctx)
+    {
+        currentSpeed = data.sprintSpeed;
+        form.StateMachine.owner.GetComponent<Player>().debugVariables.speedingUp = true;
     }
 
     public void OnDrawGizmos()

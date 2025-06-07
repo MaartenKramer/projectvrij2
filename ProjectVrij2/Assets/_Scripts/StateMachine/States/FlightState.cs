@@ -53,26 +53,28 @@ public class FlightState : IState
 
     public void EnterState()
     {
+        form.RigidbodyController.ResetPitch();
+
         form.RigidbodyController.SetDrag(data.maxDrag);
 
         previousDrag = form.RigidbodyController.LinearDrag;
 
-        speedUpAction.started += ctx => SpeedUp(data.quickFlightSpeed, true);
-        speedUpAction.canceled += ctx => SpeedUp(data.flightSpeed, false);
+        speedUpAction.started += SetQuickSpeed;
+        speedUpAction.canceled += SetNormalSpeed;
 
-        slowDownAction.started += ctx => SlowDown(true);
-        slowDownAction.canceled += ctx => SlowDown(false);
+        slowDownAction.started += SetSlowedDown;
+        slowDownAction.canceled += ResetSlowedDown;
     }
 
     public void ExitState()
     {
         //Boost(); yes? no? maybe?
 
-        speedUpAction.started -= ctx => SpeedUp(data.quickFlightSpeed, true);
-        speedUpAction.canceled -= ctx => SpeedUp(data.flightSpeed, false);
+        speedUpAction.started -= SetQuickSpeed;
+        speedUpAction.canceled -= SetNormalSpeed;
 
-        slowDownAction.started -= ctx => SlowDown(true);
-        slowDownAction.canceled -= ctx => SlowDown(false);
+        slowDownAction.started -= SetSlowedDown;
+        slowDownAction.canceled -= ResetSlowedDown;
     }
 
     public void HandleAbilities()
@@ -133,13 +135,13 @@ public class FlightState : IState
                 if(desiredDrag > previousDrag) 
                 {
                     /* Debug.Log($"[Drag] diving -> drag recovering"); */
-                    form.RigidbodyController.TweenDrag(desiredDrag, data.dragRecoveryRate);
+                    form.RigidbodyController.TweenLinearDrag(desiredDrag, data.dragRecoveryRate);
                     //form.RigidbodyController.SetDrag(desiredDrag); 
                 }
                 else 
                 {
                     /* Debug.Log($"[Drag] diving -> drag reducing"); */
-                    form.RigidbodyController.TweenDrag(desiredDrag, data.dragReductionRate);
+                    form.RigidbodyController.TweenLinearDrag(desiredDrag, data.dragReductionRate);
                     //form.RigidbodyController.SetDrag(desiredDrag);
                 }
             
@@ -152,17 +154,17 @@ public class FlightState : IState
                 if(form.RigidbodyController.LinearDrag < data.maxDrag)
                 {
                     /* Debug.Log($"[Drag] level -> drag recovering"); */
-                    form.RigidbodyController.TweenDrag(data.maxDrag, data.dragRecoveryRate);
+                    form.RigidbodyController.TweenLinearDrag(data.maxDrag, data.dragRecoveryRate);
                 }
                 else if(form.RigidbodyController.LinearDrag > data.maxDrag)
                 {
-                    form.RigidbodyController.TweenDrag(data.maxDrag, data.dragReductionRate);
+                    form.RigidbodyController.TweenLinearDrag(data.maxDrag, data.dragReductionRate);
                 }
             }
         }
         else
         {
-            form.RigidbodyController.TweenDrag(data.slowDownDrag, data.dragReductionRate);
+            form.RigidbodyController.TweenLinearDrag(data.slowDownDrag, data.dragReductionRate);
         }
 
         // calculate and apply lift
@@ -210,10 +212,15 @@ public class FlightState : IState
     {
     }
 
-    private void SpeedUp(float value, bool state)
+    private void SetQuickSpeed(InputAction.CallbackContext ctx)
     {
-        SetSpeed(value);
-        form.StateMachine.owner.GetComponent<Player>().debugVariables.speedingUp = state;
+        SetSpeed(data.quickFlightSpeed);
+        form.StateMachine.owner.GetComponent<Player>().debugVariables.speedingUp = true;
+    }
+    private void SetNormalSpeed(InputAction.CallbackContext ctx)
+    {
+        SetSpeed(data.flightSpeed);
+        form.StateMachine.owner.GetComponent<Player>().debugVariables.speedingUp = false;
     }
 
     private void SetSpeed(float value)
@@ -222,20 +229,28 @@ public class FlightState : IState
         currentSpeed = value;
     }
 
-    private void SlowDown(bool state)
+    private void SetSlowedDown(InputAction.CallbackContext ctx)
     {
-        isSlowedDown = state;
-        form.StateMachine.owner.GetComponent<Player>().debugVariables.slowingDown = state;
-        Debug.Log($"Slowed down: {state}");
+        isSlowedDown = true;
+        form.StateMachine.owner.GetComponent<Player>().debugVariables.slowingDown = true;
+        Debug.Log($"Slowed down: {true}");
+    }
+    private void ResetSlowedDown(InputAction.CallbackContext ctx)
+    {
+        isSlowedDown = false;
+        form.StateMachine.owner.GetComponent<Player>().debugVariables.slowingDown = false;
+        Debug.Log($"Slowed down: {false}");
     }
 
     private void Boost()
     {
-        Debug.Log($"[Boost] timestamp: {boostTimestamp}");
-        if (Time.time < boostTimestamp + data.boostCooldown && boostTimestamp != 0f) { return; }
+        if (Time.time < boostTimestamp + data.boostCooldown && boostTimestamp != 0f) 
+        {
+            Debug.Log($"[FlightState] boost is on cooldown! {(Time.time - boostTimestamp).ToString("0.00")} / {data.boostCooldown.ToString("0.00")}");
+            return; 
+        }
 
-        Debug.Log($"[Boost] boosted, {form.RigidbodyController.Forward * data.boostForce}");
-        form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Forward * data.boostForce, ForceMode.Impulse);
+        form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.forward * data.boostForce, ForceMode.Impulse);
 
         boostTimestamp = Time.time;
     }

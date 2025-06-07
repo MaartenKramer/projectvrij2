@@ -1,6 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Windows;
+using System.Collections;
 
 [System.Serializable]
 public class RigidbodyController
@@ -26,13 +26,7 @@ public class RigidbodyController
     //private float currentGravity;
     //private Tween gTween;
     //private bool customGravity = true;
-
-    private float desiredDrag;
-    private float currentDrag;
-    private float startDrag;
-    private float dragLerpSpeed;
     private Tween dragTween;
-
     private float currentPitch = 0f; // This represents the up/down angle in degrees
 
     #region custom_gravity
@@ -70,6 +64,10 @@ public class RigidbodyController
     public void EnableGravity() { rigidbody.useGravity = true; }
     public void DisableGravity() { rigidbody.useGravity = false; }
 
+    public void ResetPitch() 
+    {
+        currentPitch = 0f;
+    }
     public void FreezeRotation() { rigidbody.freezeRotation = true; }
     public void UnfreezeRotation() 
     {  
@@ -77,12 +75,6 @@ public class RigidbodyController
         rigidbody.freezeRotation = false; 
     }
 
-    public void SetCurrentDrag(float value)
-    {
-        dragTween.Kill();
-        dragTween = null;
-        currentDrag = value;
-    }
     public void SetDrag(float value) 
     {
         Debug.Log($"Setting drag, {value}");
@@ -90,41 +82,6 @@ public class RigidbodyController
 
         if (rigidbody.linearDamping == value) { return; }
         rigidbody.linearDamping = value; 
-    }
-    public void TweenDrag(float endValue, float speed)
-    {
-        Debug.Log($"tweening drag, {endValue}");
-        if(dragTween != null) { dragTween.Kill(); dragTween = null; }
-
-        desiredDrag = endValue;
-
-        dragTween = DOTween.To(() => currentDrag, x => currentDrag = x, desiredDrag, Mathf.Abs(currentDrag - desiredDrag) / speed);
-
-        rigidbody.linearDamping = currentDrag;
-    }
-
-    public void SetDesiredDrag(float target) 
-    {
-        if(target == desiredDrag) { return; }
-        desiredDrag = target; 
-    }
-    public void SetDesiredDragSpeed(float speed)
-    {
-        dragLerpSpeed = speed;
-    }
-    public void LerpDrag()
-    {
-        Debug.Log($"[Lerping drag] current: {currentDrag} | desired: {desiredDrag} | speed: {dragLerpSpeed} | rigidbody: {LinearDrag}");
-        if(currentDrag > desiredDrag - .05f && currentDrag < desiredDrag + .05f)
-        {
-            if(currentDrag != desiredDrag) { currentDrag = desiredDrag; }
-        }
-        else
-        {
-            currentDrag = Mathf.Lerp(currentDrag, desiredDrag, dragLerpSpeed * Time.deltaTime);
-        }
-
-        rigidbody.linearDamping = currentDrag;
     }
 
     /// <summary>
@@ -134,6 +91,7 @@ public class RigidbodyController
     /// <param name="speed"></param>
     public void Rotate(Vector3 direction, float speed, bool clamped = false)
     {
+        Debug.Log("Rotating!");
         if (!clamped)
         {
             transform.Rotate(direction.y * speed * Time.deltaTime, direction.x * speed * Time.deltaTime, 0f);
@@ -162,4 +120,42 @@ public class RigidbodyController
         Vector3 newForward = Vector3.Slerp(transform.forward, direction.normalized, Time.deltaTime * speed);
         transform.forward = new Vector3(newForward.x, 0, newForward.z);
     }
+
+    /// <summary>
+    /// Smoothly tweens the Rigidbody's linear drag to the target value at a given speed.
+    /// </summary>
+    /// <param name="targetDrag">Target linear drag value.</param>
+    /// <param name="speed">Speed in units per second.</param>
+    public void TweenLinearDrag(float targetDrag, float speed)
+    {
+        // Stop any existing tween
+        if (dragTween != null && dragTween.IsActive())
+            dragTween.Kill();
+
+        float currentDrag = rigidbody.linearDamping;
+        float distance = Mathf.Abs(currentDrag - targetDrag);
+        float duration = distance / speed;
+
+        // Don't tween if already at target
+        if (distance < 0.01f)
+        {
+            rigidbody.linearDamping = targetDrag;
+            return;
+        }
+
+        dragTween = DOTween.To(
+            () => rigidbody.linearDamping,
+            x => rigidbody.linearDamping = x,
+            targetDrag,
+            duration
+        ).SetEase(Ease.Linear);
+    }
+
+    public void StopTween()
+    {
+        if (dragTween != null && dragTween.IsActive())
+            dragTween.Kill();
+    }
+
+    public bool IsTweening => dragTween != null && dragTween.IsActive();
 }
