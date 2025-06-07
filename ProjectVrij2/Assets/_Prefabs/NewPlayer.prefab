@@ -408,7 +408,6 @@ MonoBehaviour:
   sequenceActions:
   - {fileID: 11400000, guid: 22ff03f93065f644ab9f6bd0c2a20d56, type: 2}
   - {fileID: 11400000, guid: 7065b18af6c6af74c83ae72bb1646fa9, type: 2}
-  - {fileID: 11400000, guid: 3580f8369b819d242b9447f7f2f4cab4, type: 2}
   - {fileID: 11400000, guid: 6beeb8521cf045d4eafd718552e76597, type: 2}
   - {fileID: 11400000, guid: 72da0f311afcb8b40a09a4a59371f27f, type: 2}
   - {fileID: 11400000, guid: ae53376c74d9053489ad0ca553eb5b23, type: 2}

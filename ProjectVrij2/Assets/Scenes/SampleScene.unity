@@ -1089,30 +1089,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1241856902330679884, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1241856902330679884, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1241856902330679884, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1444189795321706254, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1444189795321706254, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1444189795321706254, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -5
-      objectReference: {fileID: 0}
     - target: {fileID: 2466328021568193186, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
       propertyPath: m_Name
       value: Camera
@@ -1122,25 +1098,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 994421749}
     - target: {fileID: 7471258098620259813, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: BlendHint
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7471258098620259813, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
       objectReference: {fileID: 994421749}
-    - target: {fileID: 7471258098620259813, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: Target.CustomLookAtTarget
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7587379529991430664, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: RecenteringTarget
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7587379529991430664, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: TrackerSettings.BindingMode
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 7895462693853724894, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1180,18 +1140,6 @@ PrefabInstance:
     - target: {fileID: 7895462693853724894, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9093562167460846774, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9093562167460846774, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9093562167460846774, guid: 18f6e0f9ee7bf6e4ea54fd9a819c61a2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
