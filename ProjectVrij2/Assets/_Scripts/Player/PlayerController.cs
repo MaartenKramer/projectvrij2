@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 
-public class PlayerController : ObjectController
+public class PlayerController : Toggleable
 {
     [SerializeField] private FormProfileSO currentFormProfile;
 
@@ -219,33 +219,4 @@ public class PlayerController : ObjectController
         rbController.lastRelativeVelocity = data.coll.relativeVelocity;
         currentFormProfile.behaviour.OnCollision(data);
     }
-}
-
-public struct PlayerDebugVariables
-{
-    //public PlayerDebugVariables(string form, float velocity, float drag, float gravity)
-    //{
-    //    this.form = form;
-    //    this.velocity = velocity;
-    //    this.drag = drag;
-    //    this.lift = lift
-    //    this.gravity = gravity;
-
-    //    speedingUp = false;
-    //    slowingDown = false;
-    //    isGrounded = false;
-    //}
-
-    public string form;
-
-    public float velocity;
-    public float drag;
-    public float lift;
-
-    public bool speedingUp;
-    public bool slowingDown;
-
-    public bool isGrounded;
-    public bool onSlope;
-    public float gravity;
 }

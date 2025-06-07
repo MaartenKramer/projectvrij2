@@ -40,7 +40,7 @@ public class StunnedState : IState
         timestamp = Time.time;
         float remapped = MyMathUtils.Remap01(form.RigidbodyController.lastRelativeVelocity.magnitude, data.minVelocity, data.maxVelocity);
         finalDuration = data.speedToDurationCurve.Evaluate(remapped) * data.duration;
-        form.ObjectController.Disable();
+        form.Toggleable.Disable();
     }
     public void ExitState()
     {

@@ -184,7 +184,7 @@ public class FlightState : IState
             //Debug.Log($"[Lift] liftStrength: {liftStrength}");
             form.RigidbodyController.rigidbody.AddForce(liftForce, ForceMode.Force);
 
-            form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.lift = liftStrength;
+            form.StateMachine.owner.GetComponent<Player>().debugVariables.lift = liftStrength;
         }
 
         // if minLiftSpeed = 50, lift = 0.01 * 50^2 = 
@@ -213,7 +213,7 @@ public class FlightState : IState
     private void SpeedUp(float value, bool state)
     {
         SetSpeed(value);
-        form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.speedingUp = state;
+        form.StateMachine.owner.GetComponent<Player>().debugVariables.speedingUp = state;
     }
 
     private void SetSpeed(float value)

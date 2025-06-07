@@ -10,8 +10,8 @@ public class BirdForm : IFormBehaviour
     private StateMachine stateMachine;
     public StateMachine StateMachine => stateMachine;
 
-    private ObjectController objectController;
-    public ObjectController ObjectController => objectController;
+    private Toggleable toggleable;
+    public Toggleable Toggleable => toggleable;
 
     private InputController inputController;
     public InputController InputController => inputController;
@@ -30,12 +30,12 @@ public class BirdForm : IFormBehaviour
 
     private Vector3 bounceDir;
 
-    public void Initialize(GameObject owner, ObjectController objController, RigidbodyController rbController, InputController inputController, FormProfileSO profile)
+    public void Initialize(GameObject owner, Toggleable toggleable, RigidbodyController rbController, InputController inputController, FormProfileSO profile)
     {
         // inject data
         formProfile = profile;
         this.owner = owner;
-        this.objectController = objController;
+        this.toggleable = toggleable;
         this.rbController = rbController;
         this.inputController = inputController;
 

@@ -13,7 +13,7 @@ public class TerrestrialState : IState
     private IFormBehaviour form;
     private TerrestrialData data;
 
-    private PlayerController playerController;
+    private Player playerController;
 
     //input
     InputAction moveAction;
@@ -50,7 +50,7 @@ public class TerrestrialState : IState
         currentSpeed = data.walkSpeed;
         currentGravity = data.airGravity;
 
-        playerController = form.StateMachine.owner.GetComponent<PlayerController>();
+        playerController = form.StateMachine.owner.GetComponent<Player>();
     }
 
     public void EnterState()
@@ -151,7 +151,7 @@ public class TerrestrialState : IState
         else if (isGrounded) { form.RigidbodyController.TweenDrag(data.groundedDrag, 3f); }
         else { form.RigidbodyController.TweenDrag(data.airDrag, 3f); }
 
-        playerController.GetComponent<PlayerController>().debugVariables.gravity = currentGravity;
+        playerController.debugVariables.gravity = currentGravity;
 
     }
 
@@ -246,7 +246,7 @@ public class TerrestrialState : IState
     private void SetSpeed(float value, bool state)
     {
         currentSpeed = value;
-        form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.speedingUp = state;
+        form.StateMachine.owner.GetComponent<Player>().debugVariables.speedingUp = state;
     }
 
     public void OnDrawGizmos()

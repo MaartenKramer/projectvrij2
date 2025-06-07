@@ -18,6 +18,8 @@ namespace Sequencing
         private Coroutine sequence;
         public bool SequenceActive => sequence != null;
 
+        [SerializeField] private int channel;
+        [Space]
         [SerializeField] private List<SequencerAction> sequenceActions = new List<SequencerAction>();
         [SerializeField] private List<EventItem> actionEvents = new List<EventItem>();
         [Space]
@@ -86,6 +88,11 @@ namespace Sequencing
 
             if (events.Length == 0) { return false; }
             return true;
+        }
+
+        public bool CompareChannel(int input)
+        {
+            return input == channel;
         }
     }
 }
