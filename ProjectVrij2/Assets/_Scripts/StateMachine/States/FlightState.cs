@@ -225,7 +225,7 @@ public class FlightState : IState
     private void SlowDown(bool state)
     {
         isSlowedDown = state;
-        form.StateMachine.owner.GetComponent<PlayerController>().debugVariables.slowingDown = state;
+        form.StateMachine.owner.GetComponent<Player>().debugVariables.slowingDown = state;
         Debug.Log($"Slowed down: {state}");
     }
 
@@ -234,8 +234,8 @@ public class FlightState : IState
         Debug.Log($"[Boost] timestamp: {boostTimestamp}");
         if (Time.time < boostTimestamp + data.boostCooldown && boostTimestamp != 0f) { return; }
 
-        Debug.Log($"[Boost] boosted");
-        form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.forward * data.boostForce, ForceMode.Impulse);
+        Debug.Log($"[Boost] boosted, {form.RigidbodyController.Forward * data.boostForce}");
+        form.RigidbodyController.rigidbody.AddForce(form.RigidbodyController.Forward * data.boostForce, ForceMode.Impulse);
 
         boostTimestamp = Time.time;
     }

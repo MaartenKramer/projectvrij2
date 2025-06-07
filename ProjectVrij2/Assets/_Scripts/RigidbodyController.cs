@@ -77,16 +77,24 @@ public class RigidbodyController
         rigidbody.freezeRotation = false; 
     }
 
+    public void SetCurrentDrag(float value)
+    {
+        dragTween.Kill();
+        dragTween = null;
+        currentDrag = value;
+    }
     public void SetDrag(float value) 
     {
-        if(dragTween != null) { dragTween.Kill(); }
+        Debug.Log($"Setting drag, {value}");
+        if(dragTween != null) { dragTween.Kill(); dragTween = null; }
 
         if (rigidbody.linearDamping == value) { return; }
         rigidbody.linearDamping = value; 
     }
     public void TweenDrag(float endValue, float speed)
     {
-        if(dragTween != null) { dragTween.Kill(); }
+        Debug.Log($"tweening drag, {endValue}");
+        if(dragTween != null) { dragTween.Kill(); dragTween = null; }
 
         desiredDrag = endValue;
 
@@ -95,12 +103,10 @@ public class RigidbodyController
         rigidbody.linearDamping = currentDrag;
     }
 
-    public void SetDesiredDrag(float target, float speed) 
+    public void SetDesiredDrag(float target) 
     {
         if(target == desiredDrag) { return; }
-        Debug.Log($"[Drag] Setting desired drag: {target}, speed: {speed}");
         desiredDrag = target; 
-        dragLerpSpeed = speed; 
     }
     public void SetDesiredDragSpeed(float speed)
     {

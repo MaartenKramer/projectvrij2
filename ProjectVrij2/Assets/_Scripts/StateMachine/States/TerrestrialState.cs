@@ -67,6 +67,8 @@ public class TerrestrialState : IState
 
     public void ExitState()
     {
+        form.RigidbodyController.SetCurrentDrag(1f);
+
         jumpAction.started -= ctx => TryJump();
         jumpAction.canceled -= ctx => ReleaseJump();
 
