@@ -34,6 +34,7 @@ public class TerrestrialState : IState
     private bool readyToJump = false;
 
     // TODO - slope check
+    private RaycastHit groundedHit; 
     private RaycastHit slopeHit;
     
 
@@ -100,15 +101,21 @@ public class TerrestrialState : IState
 
     public void HandlePhysics()
     {
-
+        // handle gravity
         DetermineGravity();
         Vector3 gravity = Vector3.down * (currentGravity * currentGravityMultiplier);
-        form.RigidbodyController.rigidbody.AddForce(gravity, ForceMode.Acceleration);
+        form.RigidbodyController.rigidbody.AddForce(gravity, ForceMode.Acceleration);   // apply gravity
 
+        // handle movement (slope and non slope)
         Vector3 force;
         if (OnSlope())
         {
             force = GetSlopeDirection() * currentSpeed * 10f;
+
+            //if(form.RigidbodyController.LinearVelocity.y > 0)
+            //{
+            //    form.RigidbodyController.rigidbody.AddForce(Vector3.down * 5f, ForceMode.Force);
+            //}
 
             playerController.debugVariables.onSlope = true;
         }
@@ -117,12 +124,14 @@ public class TerrestrialState : IState
             force = direction.normalized * currentSpeed * 10f;
             playerController.debugVariables.onSlope = false;
         }
-        
+
+        SnapToGround(); // if grounded snap the player to ground
+
         if (direction == Vector3.zero) {
             return; 
         }
 
-        form.RigidbodyController.rigidbody.AddForce(force, ForceMode.Force);
+        form.RigidbodyController.rigidbody.AddForce(force, ForceMode.Force);            // apply movement
 
         // opposing force when turning quickly (stops sliding when turning)
         float directionDot = Vector3.Dot(direction, form.RigidbodyController.LinearVelocity.normalized);
@@ -137,7 +146,6 @@ public class TerrestrialState : IState
 
     public void UpdateState()
     {
-
         bool grounded = CheckIsGrounded();
         if(grounded != isGrounded) 
         { 
@@ -146,7 +154,7 @@ public class TerrestrialState : IState
         }
 
         //Debug.Log($"[GroundCheck] {isGrounded}");
-        if(direction == Vector3.zero && isGrounded) { form.RigidbodyController.TweenLinearDrag(data.idleDrag, 3f); }
+        if (direction == Vector3.zero && isGrounded) { form.RigidbodyController.TweenLinearDrag(data.idleDrag, 3f); }
         else if (isGrounded) { form.RigidbodyController.TweenLinearDrag(data.groundedDrag, 3f); }
         else { form.RigidbodyController.TweenLinearDrag(data.airDrag, 3f); }
 
@@ -157,6 +165,7 @@ public class TerrestrialState : IState
     private void DetermineGravity()
     {
         // apply gravity manually
+        // determine current gravity
         if (!isGrounded && readyToJump)
         {
             if (currentGravity != data.airGravity) { SetDesiredGravity(data.airGravity, 5f); }
@@ -170,6 +179,7 @@ public class TerrestrialState : IState
             if (currentGravity != data.groundedGravity) { SetDesiredGravity(data.groundedGravity, 5f); }
         }
 
+        // lerp gravity value to desired gravity
         if (currentGravity > desiredGravity - .05f && currentGravity < desiredGravity + .05f)
         {
             currentGravity = desiredGravity;
@@ -179,8 +189,15 @@ public class TerrestrialState : IState
             currentGravity = Mathf.Lerp(currentGravity, desiredGravity, currentGravityTweenSpeed * Time.deltaTime);
         }
 
-        if (form.RigidbodyController.LinearVelocity.y < 0) { currentGravityMultiplier = 2f; }
+        if (form.RigidbodyController.LinearVelocity.y < 0) { currentGravityMultiplier = 2f; }   // what exactly should this be?
         else { currentGravityMultiplier = 1f; }
+    }
+
+    public void HandleGravity()
+    {
+        DetermineGravity();
+
+        
     }
 
     private void SetDesiredGravity(float target, float tweenSpeed)
@@ -196,8 +213,19 @@ public class TerrestrialState : IState
         //bool check = Physics.BoxCast(boxOrigin, data.checkSize * .5f, Vector3.down, Quaternion.identity, .2f, data.groundMask);
 
         //bool check = Physics.Raycast(form.RigidbodyController.Position, Vector3.down, data.checkDistance, data.groundMask);
-        bool check = Physics.BoxCast(form.RigidbodyController.Position, data.checkSize, Vector3.down, Quaternion.identity, data.checkDistance, data.groundMask);
+        bool check = Physics.BoxCast(form.RigidbodyController.Position, data.checkSize, Vector3.down, out groundedHit, Quaternion.identity, data.checkDistance, data.groundMask);
         return check;
+    }
+    private void SnapToGround()
+    {
+        if(!isGrounded || readyToJump) { return; }
+        if(Vector3.Angle(Vector3.up, groundedHit.normal) > data.maxSlopeAngle) { return; }
+
+        Vector3 offset = new Vector3(0f, 1f, 0f);
+        Vector3 newPos = Vector3.zero;
+        newPos = groundedHit.point + offset;
+
+        form.RigidbodyController.SetPosition(newPos, false, true, false);
     }
 
     private void Jump()
@@ -217,13 +245,15 @@ public class TerrestrialState : IState
             return angle < data.maxSlopeAngle && angle != 0;
         }
 
-
         return false;
     }
-
     private Vector3 GetSlopeDirection()
     {
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
+    }
+    private Vector3 ProjectOntoSlope(Vector3 force)
+    {
+        return Vector3.ProjectOnPlane(force, slopeHit.normal).normalized;
     }
 
     private void TryJump()

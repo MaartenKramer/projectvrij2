@@ -48,5 +48,5 @@ MonoBehaviour:
           groundMask:
             serializedVersion: 2
             m_Bits: 64
-          checkSize: {x: 1, y: 0.1, z: 1}
+          checkSize: {x: 0.5, y: 0.01, z: 0.5}
           checkDistance: 1.1

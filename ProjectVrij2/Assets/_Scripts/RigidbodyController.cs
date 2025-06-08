@@ -75,6 +75,20 @@ public class RigidbodyController
         rigidbody.freezeRotation = false; 
     }
 
+    public void SetPosition(Vector3 position, bool x, bool y, bool z)
+    {
+        Vector3 newPos = Vector3.zero;
+
+        if(x) { newPos.x = position.x; }
+        else { newPos.x = Position.x; }
+        if (y) { newPos.y = position.y; }
+        else { newPos.y = Position.y; }
+        if (z) { newPos.z = position.z; }
+        else { newPos.z = Position.z; }
+
+        transform.position = newPos;
+    }
+
     public void SetDrag(float value) 
     {
         Debug.Log($"Setting drag, {value}");

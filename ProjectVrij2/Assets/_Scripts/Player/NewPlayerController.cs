@@ -70,7 +70,7 @@ public class NewPlayerController : MonoBehaviour
         player.ActiveForm.behaviour.OnDrawGizmos();
 
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, Vector3.down * 1.3f);
+        Gizmos.DrawRay(transform.position, Vector3.down * (2 * 1.1f));
     }
 
     public void HandleFormCollision(CollisionData data)
