@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: Assets/StreamingAssets/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638851204730735455
+  lastModified: 638851551935887656
   FileSizes: []
   Exists: 1
 --- !u!114 &-4888930165139291117
@@ -33,7 +33,7 @@ MonoBehaviour:
   Path: Assets/StreamingAssets/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638851204730735455
+  lastModified: 638851551935897659
   FileSizes:
   - Name: 
     Value: 822
@@ -89,7 +89,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -4888930165139291117}
   cacheVersion: 131847
-  cacheTime: 638851204730735455
+  cacheTime: 638851551935897659
   SerializableEventsDict:
   - key: event:/Bullshit
     index: 0
