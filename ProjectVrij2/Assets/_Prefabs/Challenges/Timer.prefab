@@ -118,6 +118,7 @@ MonoBehaviour:
   timerText: {fileID: 7720803585035246521}
   initialTime: 0
   timeLeft: 20
+  sequenceManager: {fileID: 0}
 --- !u!1 &8506203456822079403
 GameObject:
   m_ObjectHideFlags: 0
