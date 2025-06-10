@@ -4,6 +4,7 @@ using Sequencing;
 using System.Collections.Generic;
 using UnityEditor.Rendering.LookDev;
 using System.Linq;
+using UnityEngine.Events;
 
 public class TransformHandler : MonoBehaviour
 {
@@ -16,8 +17,11 @@ public class TransformHandler : MonoBehaviour
     [SerializeField] private FormController formController;
     [SerializeField] private Sequencer transformSequence;
 
+    [SerializeField] private UnityEvent onTransformAudio;
+
     private InputAction transformAction;
     private float timestamp;
+    private SoundManager soundManager;
 
     public void Awake()
     {
@@ -39,6 +43,16 @@ public class TransformHandler : MonoBehaviour
 
         // bind input
         transformAction = player.InputController.GetActionGlobal("Transform");
+
+        soundManager = Object.FindAnyObjectByType<SoundManager>();
+        if (soundManager != null)
+        {
+            onTransformAudio.AddListener(soundManager.PlayTransform);
+        }
+        else
+        {
+            Debug.LogError("No Sound Manager found");
+        }
     }
 
     private void Update()
@@ -56,6 +70,7 @@ public class TransformHandler : MonoBehaviour
 
             transformSequence.StartSequence();
             timestamp = Time.time;
+            onTransformAudio.Invoke();
         }
     }
 
@@ -177,5 +192,6 @@ public class TransformHandler : MonoBehaviour
         {
             Debug.Log("[TransformHandler] Switching forms failed!");
         }
+       
     }
 }

@@ -105,7 +105,7 @@ public class RigidbodyController
     /// <param name="speed"></param>
     public void Rotate(Vector3 direction, float speed, bool clamped = false)
     {
-        Debug.Log("Rotating!");
+        //Debug.Log("Rotating!"); Trophy of Daniel's hubris.
         if (!clamped)
         {
             transform.Rotate(direction.y * speed * Time.deltaTime, direction.x * speed * Time.deltaTime, 0f);
