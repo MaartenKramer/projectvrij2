@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ce50ad753db143348bc44f89519c8819
+guid: 95c19bd713d4bed4d87984494286d722
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Trees_Material
-    second: {fileID: 2100000, guid: 06ad3f4c316fb7447a1665cbc1da1d9e, type: 2}
+      name: Universal Foliage V1 - A
+    second: {fileID: 2100000, guid: f959fbc2604dabe408c4455542022cf1, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
