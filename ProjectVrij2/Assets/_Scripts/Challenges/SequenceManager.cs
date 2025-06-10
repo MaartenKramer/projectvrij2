@@ -13,6 +13,8 @@ public class SequenceManager : MonoBehaviour
 
     [SerializeField]
     private UnityEvent<RingData> onRingPass;
+    [SerializeField]
+    private UnityEvent onRingSuccess;
 
     [SerializeField]
     private UnityEvent onRingPassAudio;
@@ -86,6 +88,7 @@ public class SequenceManager : MonoBehaviour
             challengeBeaten = true;
             ResetChallenge();
             challengeTimer.EndTimer();
+            onRingSuccess.Invoke();
             onRingSuccessAudio.Invoke();
         }
 
