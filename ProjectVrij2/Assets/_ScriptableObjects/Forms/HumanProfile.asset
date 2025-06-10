@@ -43,10 +43,16 @@ MonoBehaviour:
           idleDrag: 5
           groundedDrag: 1.5
           airDrag: 1
-          rotationSpeed: 7
-          brakingForce: 1
+          rotationSpeed: 20
+          brakingForce: 10
           groundMask:
             serializedVersion: 2
+<<<<<<< HEAD
             m_Bits: 64
           checkSize: {x: 0.5, y: 0.01, z: 0.5}
           checkDistance: 1.1
+=======
+            m_Bits: 192
+          checkSize: {x: 1, y: 0.1, z: 1}
+          checkDistance: 1.05
+>>>>>>> origin/map

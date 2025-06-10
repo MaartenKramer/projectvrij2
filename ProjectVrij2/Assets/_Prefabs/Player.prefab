@@ -387,7 +387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collisionMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   collisionEvent:
     m_PersistentCalls:
       m_Calls:
