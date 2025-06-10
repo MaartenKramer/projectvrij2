@@ -12,7 +12,7 @@ public class SequenceManager : MonoBehaviour
     private SoundManager soundManager;
 
     [SerializeField]
-    private UnityEvent<int> onRingPass;
+    private UnityEvent<RingData> onRingPass;
 
     [SerializeField]
     private UnityEvent onRingPassAudio;
@@ -49,7 +49,7 @@ public class SequenceManager : MonoBehaviour
             challengeTimer = timer.GetComponent<ChallengeTimer>();
             if (ringComponent != null)
             {
-                ringComponent.sequenceNumber = i + 1;
+                ringComponent.sequenceNumber = i;
                 ringComponent.sequenceManager = this;
             }
             else
@@ -62,20 +62,25 @@ public class SequenceManager : MonoBehaviour
     public void RingPassed(int sequenceNumber)
     {
         Debug.Log($"Player has gone through ring #{sequenceNumber}");
-        if (sequenceNumber != ringSequence.Count)
+        if (sequenceNumber != ringSequence.Count - 1)
         {
-            onRingPass.Invoke(sequenceNumber);
+            var currentRing = ringSequence[sequenceNumber];
+            var nextRing = ringSequence[sequenceNumber + 1];
+
+            Vector3 startPos = currentRing.transform.position;
+            Vector3 endPos = nextRing.transform.position;
+            var data = new RingData(sequenceNumber, startPos, endPos);
+            onRingPass.Invoke(data);
         }
 
-        if (sequenceNumber == 1)
+        if (sequenceNumber == 0)
         {
             Debug.Log("Ring Challenge Started!");
             StartChallenge();
             challengeTimer.InitializeTimer();
             onRingStartAudio.Invoke();
         }
-
-        else if (sequenceNumber == ringSequence.Count)
+        else if (sequenceNumber == ringSequence.Count - 1)
         {
             Debug.Log("Ring Challenge Completed!");
             challengeBeaten = true;
