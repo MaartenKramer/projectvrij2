@@ -1,6 +1,60 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8350882002125489423
+--- !u!114 &-8233949045653419504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ring Start
+  m_EditorClassIdentifier: 
+  Path: event:/Ring Start
+  Guid:
+    Data1: -507414406
+    Data2: 1219646931
+    Data3: -607407460
+    Data4: 1621761955
+  Banks:
+  - {fileID: -5018599853589115613}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3329
+--- !u!114 &-8150633818584664843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ring Pass
+  m_EditorClassIdentifier: 
+  Path: event:/Ring Pass
+  Guid:
+    Data1: -1188936093
+    Data2: 1126328338
+    Data3: -1488531312
+    Data4: -176287866
+  Banks:
+  - {fileID: -5018599853589115613}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1618
+--- !u!114 &-5018599853589115613
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15,10 +69,130 @@ MonoBehaviour:
   Path: Assets/StreamingAssets/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638851551935887656
+  lastModified: 638851605705774537
   FileSizes: []
   Exists: 1
---- !u!114 &-4888930165139291117
+--- !u!114 &-2730385768276472840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music
+  m_EditorClassIdentifier: 
+  Path: event:/Music
+  Guid:
+    Data1: -1186076179
+    Data2: 1298628240
+    Data3: -1469061473
+    Data4: -1422354843
+  Banks:
+  - {fileID: -5018599853589115613}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 226977
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: 9174350858158182168}
+  - {fileID: -5018599853589115613}
+  EditorEvents:
+  - {fileID: 1639470107098430921}
+  - {fileID: 6760378950010069636}
+  - {fileID: -8150633818584664843}
+  - {fileID: -8233949045653419504}
+  - {fileID: -2730385768276472840}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: -5018599853589115613}
+  StringsBanks:
+  - {fileID: 9174350858158182168}
+  cacheVersion: 131847
+  cacheTime: 638851605705784582
+  SerializableEventsDict:
+  - key: event:/Transform
+    index: 0
+  - key: event:/Ring Success
+    index: 1
+  - key: event:/Ring Pass
+    index: 2
+  - key: event:/Ring Start
+    index: 3
+  - key: event:/Music
+    index: 4
+--- !u!114 &1639470107098430921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Transform
+  m_EditorClassIdentifier: 
+  Path: event:/Transform
+  Guid:
+    Data1: -849980383
+    Data2: 1221239440
+    Data3: 685715367
+    Data4: 193831712
+  Banks:
+  - {fileID: -5018599853589115613}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4493
+--- !u!114 &6760378950010069636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ring Success
+  m_EditorClassIdentifier: 
+  Path: event:/Ring Success
+  Guid:
+    Data1: -429555880
+    Data2: 1301470169
+    Data3: 1244657077
+    Data4: -1730581948
+  Banks:
+  - {fileID: -5018599853589115613}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4649
+--- !u!114 &9174350858158182168
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33,92 +207,8 @@ MonoBehaviour:
   Path: Assets/StreamingAssets/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638851551935897659
+  lastModified: 638851605705784582
   FileSizes:
   - Name: 
-    Value: 822
+    Value: 956
   Exists: 1
---- !u!114 &-2945062730755046137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Music Test
-  m_EditorClassIdentifier: 
-  Path: event:/Music Test
-  Guid:
-    Data1: -12858687
-    Data2: 1126435050
-    Data3: -1782731370
-    Data4: 852519770
-  Banks:
-  - {fileID: -8350882002125489423}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 18390
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
-  m_Name: FMODStudioCache
-  m_EditorClassIdentifier: 
-  EditorBanks:
-  - {fileID: -4888930165139291117}
-  - {fileID: -8350882002125489423}
-  EditorEvents:
-  - {fileID: 7606372875318377390}
-  - {fileID: -2945062730755046137}
-  EditorParameters: []
-  MasterBanks:
-  - {fileID: -8350882002125489423}
-  StringsBanks:
-  - {fileID: -4888930165139291117}
-  cacheVersion: 131847
-  cacheTime: 638851551935897659
-  SerializableEventsDict:
-  - key: event:/Bullshit
-    index: 0
-  - key: event:/Music Test
-    index: 1
---- !u!114 &7606372875318377390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Bullshit
-  m_EditorClassIdentifier: 
-  Path: event:/Bullshit
-  Guid:
-    Data1: 289159836
-    Data2: 1240980291
-    Data3: 2112598923
-    Data4: -489779959
-  Banks:
-  - {fileID: -8350882002125489423}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 18390
