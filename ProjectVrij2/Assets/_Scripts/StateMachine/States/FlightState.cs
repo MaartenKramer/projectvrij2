@@ -10,6 +10,7 @@ public class FlightState : IState
 
     public string StateTransitionId => "state_player_terrestrial";   // equivalent state in human form
 
+    private Player player;
     private IFormBehaviour form;
     private FlightData data;
 
@@ -24,6 +25,7 @@ public class FlightState : IState
 
     private Vector2 direction;
     private Vector2 lookDirection;
+    private float pitchDot;
 
     private float currentSpeed;
     private float previousDrag;
@@ -37,6 +39,8 @@ public class FlightState : IState
     public FlightState(IFormBehaviour form, string actionMapId, FlightData data) 
     {
         this.form = form;
+        player = form.Owner.GetComponent<Player>();
+        if(player == null) { Debug.LogError("Could not find Player script on form owner"); }
         this.data = data;
 
         // initialisation
@@ -130,14 +134,14 @@ public class FlightState : IState
             form.RigidbodyController.Rotation = Quaternion.Euler(currentRotation);
         }
 
-        float dot = Vector3.Dot(form.RigidbodyController.Forward.normalized, Vector3.up);
+        pitchDot = Vector3.Dot(form.RigidbodyController.Forward.normalized, Vector3.up);
 
         // if player is facing downwards apply gravity
         if (!isSlowedDown)
         {
-            if (dot < 0)
+            if (pitchDot < 0)
             {
-                float desiredDrag = data.minDrag + (data.maxDrag - data.diveCurve.Evaluate(Mathf.Abs(dot)) * data.maxDrag);
+                float desiredDrag = data.minDrag + (data.maxDrag - data.diveCurve.Evaluate(Mathf.Abs(pitchDot)) * data.maxDrag);
                 if(desiredDrag > previousDrag) 
                 {
                     /* Debug.Log($"[Drag] diving -> drag recovering"); */
@@ -174,13 +178,13 @@ public class FlightState : IState
         }
 
         // calculate and apply lift
-        bool isRising = dot > data.risingDotThreshold;
+        bool isRising = pitchDot > data.risingDotThreshold;
         float forwardSpeed = Vector3.Dot(form.RigidbodyController.LinearVelocity, form.RigidbodyController.Forward);
         if(isRising && forwardSpeed >= data.minLiftSpeed)
         {
             float liftStrength = data.liftCoefficient * Mathf.Pow(forwardSpeed, 2);
             liftStrength = Mathf.Min(liftStrength, data.maxLift);
-            liftStrength *= data.liftToAngleCurve.Evaluate(Mathf.Abs(dot));
+            liftStrength *= data.liftToAngleCurve.Evaluate(Mathf.Abs(pitchDot));
 
             //Debug.Log($"linear drag: {form.RigidbodyController.LinearDrag}");
             float remappedDrag = MyMathUtils.Remap(form.RigidbodyController.LinearDrag, data.minDrag, data.maxDrag, 0f, 1f);
@@ -216,6 +220,9 @@ public class FlightState : IState
 
     public void UpdateState()
     {
+        // handle animations
+        player.ActiveAnimator.SetFloat("InputMagnitude", direction.magnitude);
+        player.ActiveAnimator.SetFloat("PitchDot", pitchDot);
     }
 
     private void SetQuickSpeed(InputAction.CallbackContext ctx)
@@ -256,6 +263,7 @@ public class FlightState : IState
             return; 
         }
 
+        player.ActiveAnimator.SetTrigger("Boost");
         form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.forward * data.boostForce, ForceMode.Impulse);
 
         boostTimestamp = Time.time;
@@ -270,10 +278,12 @@ public class FlightState : IState
         {
             case true:
                 Debug.Log($"[Roll] left");
+                player.ActiveAnimator.SetTrigger("Roll_L");
                 form.RigidbodyController.rigidbody.AddRelativeForce(-Vector3.right * data.rollForce, ForceMode.Impulse);
                 break;
             case false:
                 Debug.Log($"[Roll] right");
+                player.ActiveAnimator.SetTrigger("Roll_R");
                 form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.right * data.rollForce, ForceMode.Impulse);
                 break;
         }

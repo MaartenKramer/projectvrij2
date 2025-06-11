@@ -21,6 +21,7 @@ public class HumanForm : IFormBehaviour
     public RigidbodyController RigidbodyController => rbController;
 
     private GameObject owner;
+    public GameObject Owner => owner;
 
     // unique form variables
     [SerializeField] private string defaultStateId = "state_player_terrestrial";

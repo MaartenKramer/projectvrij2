@@ -17,10 +17,10 @@ namespace VFX.Controllers.Shaders
             switch (materialProcessing)
             {
                 case VFX_MaterialProcessing.SINGLE:
-                    materials.Add(GetComponentInChildren<MeshRenderer>().material);
+                    materials.Add(GetComponentInChildren<SkinnedMeshRenderer>().material);
                     break;
                 case VFX_MaterialProcessing.MULTIPLE:
-                    var meshes = GetComponentsInChildren<MeshRenderer>(true);
+                    var meshes = GetComponentsInChildren<SkinnedMeshRenderer>(true);
                     foreach (var mesh in meshes) 
                     { 
                         materials.Add(mesh.material); 
