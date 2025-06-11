@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="ParameterPreset" id="{d6f7e3e0-cb6e-4568-b2d5-5f99348af803}">
+		<property name="name">
+			<value>Cover</value>
+		</property>
+		<relationship name="folder">
+			<destination>{e4f5bcbf-dffc-4e7f-8c6f-c12925ea752a}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{be97df2c-c4f0-4a49-a5aa-f93e8220c16d}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{be97df2c-c4f0-4a49-a5aa-f93e8220c16d}">
+		<property name="initialValue">
+			<value>0.5</value>
+		</property>
+	</object>
+</objects>

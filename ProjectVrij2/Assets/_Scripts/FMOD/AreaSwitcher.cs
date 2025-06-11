@@ -1,18 +1,22 @@
 using UnityEngine;
+using FMOD.Studio;
+using FMODUnity;
+using FMOD;
 
 public class AreaSwitcher : MonoBehaviour
 {
     [SerializeField] private int musicAreaIndex = 0;
+    [SerializeField] private float transitionDuration = 1.0f;
 
     private SoundManager soundManager;
+    private static int currentGlobalArea = -1;
 
     void Start()
     {
-        soundManager = Object.FindAnyObjectByType<SoundManager>();
-
+        soundManager = SoundManager.Instance;
         if (soundManager == null)
         {
-            Debug.LogError("No Sound Manager found");
+            UnityEngine.Debug.LogError("No Sound Manager found");
         }
     }
 
@@ -20,9 +24,9 @@ public class AreaSwitcher : MonoBehaviour
     {
         if (other.CompareTag("Player") && soundManager != null)
         {
-            soundManager.SwitchMusicArea(musicAreaIndex);
-            Debug.Log($"Switching to track {musicAreaIndex}");
-        }
+                soundManager.SwitchMusicArea(musicAreaIndex, transitionDuration);
 
+                currentGlobalArea = musicAreaIndex;
+        }
     }
 }

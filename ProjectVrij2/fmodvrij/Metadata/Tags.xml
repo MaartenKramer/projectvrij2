@@ -4,5 +4,91 @@
 		<property name="name">
 			<value>Master</value>
 		</property>
+		<relationship name="items">
+			<destination>{e1973369-bb9c-47d1-b5d1-6305163cb8ad}</destination>
+			<destination>{23d769a3-5c44-48b8-9b3c-a9b6c90fceed}</destination>
+			<destination>{1cac40d4-8fc0-421b-8470-80658e5358f6}</destination>
+			<destination>{691d3d13-51d5-4ebf-8c04-65049afd2381}</destination>
+			<destination>{78168991-237c-48f4-8472-2a0a85b08c00}</destination>
+			<destination>{dc4cf9a7-2731-45f5-a42e-779526951216}</destination>
+			<destination>{fc70a24c-b662-4ac6-982d-5e423f8149ea}</destination>
+			<destination>{9f524bef-5f06-4325-8af8-95facc65dd44}</destination>
+			<destination>{126abfda-ba7b-4f8e-8f6e-34381b6aa77e}</destination>
+			<destination>{60221482-c6bb-482d-a0b4-63ac99f5f3e2}</destination>
+			<destination>{709ab095-1147-4dec-90e1-b0a9492a3d5d}</destination>
+			<destination>{3b37bb63-cb57-473a-8749-43f12e7e3de2}</destination>
+			<destination>{ca31ccc1-b02c-4a56-926c-eaaf6f9af8fc}</destination>
+			<destination>{4a8d0b4b-679a-4c57-a68a-2ef1cdbc347b}</destination>
+		</relationship>
+	</object>
+	<object class="Tag" id="{e1973369-bb9c-47d1-b5d1-6305163cb8ad}">
+		<property name="name">
+			<value>ahdsr-modulator</value>
+		</property>
+	</object>
+	<object class="Tag" id="{23d769a3-5c44-48b8-9b3c-a9b6c90fceed}">
+		<property name="name">
+			<value>async</value>
+		</property>
+	</object>
+	<object class="Tag" id="{1cac40d4-8fc0-421b-8470-80658e5358f6}">
+		<property name="name">
+			<value>automation</value>
+		</property>
+	</object>
+	<object class="Tag" id="{691d3d13-51d5-4ebf-8c04-65049afd2381}">
+		<property name="name">
+			<value>loop-instrument</value>
+		</property>
+	</object>
+	<object class="Tag" id="{78168991-237c-48f4-8472-2a0a85b08c00}">
+		<property name="name">
+			<value>parameter</value>
+		</property>
+	</object>
+	<object class="Tag" id="{dc4cf9a7-2731-45f5-a42e-779526951216}">
+		<property name="name">
+			<value>parameter-condition</value>
+		</property>
+	</object>
+	<object class="Tag" id="{fc70a24c-b662-4ac6-982d-5e423f8149ea}">
+		<property name="name">
+			<value>random-modulator</value>
+		</property>
+	</object>
+	<object class="Tag" id="{9f524bef-5f06-4325-8af8-95facc65dd44}">
+		<property name="name">
+			<value>scatterer-instrument</value>
+		</property>
+	</object>
+	<object class="Tag" id="{126abfda-ba7b-4f8e-8f6e-34381b6aa77e}">
+		<property name="name">
+			<value>seek-speed</value>
+		</property>
+	</object>
+	<object class="Tag" id="{60221482-c6bb-482d-a0b4-63ac99f5f3e2}">
+		<property name="name">
+			<value>sidechain-effect</value>
+		</property>
+	</object>
+	<object class="Tag" id="{709ab095-1147-4dec-90e1-b0a9492a3d5d}">
+		<property name="name">
+			<value>sidechain-modulator</value>
+		</property>
+	</object>
+	<object class="Tag" id="{3b37bb63-cb57-473a-8749-43f12e7e3de2}">
+		<property name="name">
+			<value>single-instrument</value>
+		</property>
+	</object>
+	<object class="Tag" id="{ca31ccc1-b02c-4a56-926c-eaaf6f9af8fc}">
+		<property name="name">
+			<value>track-colors</value>
+		</property>
+	</object>
+	<object class="Tag" id="{4a8d0b4b-679a-4c57-a68a-2ef1cdbc347b}">
+		<property name="name">
+			<value>track-routing</value>
+		</property>
 	</object>
 </objects>
