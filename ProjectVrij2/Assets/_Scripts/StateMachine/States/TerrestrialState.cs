@@ -10,6 +10,7 @@ public class TerrestrialState : IState
 
     public string StateTransitionId => "state_player_terrestrial";
 
+    private Player player;
     private IFormBehaviour form;
     private TerrestrialData data;
 
@@ -41,6 +42,8 @@ public class TerrestrialState : IState
     public TerrestrialState(IFormBehaviour form, string actionMapId, TerrestrialData data)
     {
         this.form = form;
+        player = form.Owner.GetComponent<Player>();
+        if (player == null) { Debug.LogError("Could not find Player script on form owner"); }
         this.data = data;
 
         // initialisation
@@ -147,6 +150,8 @@ public class TerrestrialState : IState
     public void UpdateState()
     {
         bool grounded = CheckIsGrounded();
+        player.ActiveAnimator.SetBool("IsGrounded", grounded);
+
         if(grounded != isGrounded) 
         { 
             isGrounded = grounded;
@@ -160,6 +165,9 @@ public class TerrestrialState : IState
 
         playerController.debugVariables.gravity = currentGravity;
 
+
+        // handle animation variables
+        player.ActiveAnimator.SetFloat("VelocityMagnitude", form.RigidbodyController.LinearVelocity.magnitude);
     }
 
     private void DetermineGravity()
@@ -233,6 +241,8 @@ public class TerrestrialState : IState
         Vector3 force = Vector3.up * data.jumpForce;
         form.RigidbodyController.rigidbody.AddForce(force, ForceMode.Impulse);
 
+        player.ActiveAnimator.SetTrigger("Jump");
+
         jumpTimestamp = Time.time;
     }
 
@@ -279,11 +289,15 @@ public class TerrestrialState : IState
     {
         currentSpeed = data.walkSpeed;
         form.StateMachine.owner.GetComponent<Player>().debugVariables.speedingUp = false;
+
+        player.ActiveAnimator.SetBool("IsSprinting", false);
     }
     private void SetSprintSpeed(InputAction.CallbackContext ctx)
     {
         currentSpeed = data.sprintSpeed;
         form.StateMachine.owner.GetComponent<Player>().debugVariables.speedingUp = true;
+
+        player.ActiveAnimator.SetBool("IsSprinting", true);
     }
 
     public void OnDrawGizmos()

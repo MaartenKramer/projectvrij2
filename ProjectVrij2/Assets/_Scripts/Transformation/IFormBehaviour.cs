@@ -14,6 +14,8 @@ public interface IFormBehaviour
     public InputController InputController { get; }
     public RigidbodyController RigidbodyController { get; }
 
+    public GameObject Owner { get; }
+
     public void Initialize(GameObject owner, Toggleable toggleable, RigidbodyController rbController, InputController inputController, FormProfileSO profile);  // inject data and setup state-machine 
 
     public void EnterForm();

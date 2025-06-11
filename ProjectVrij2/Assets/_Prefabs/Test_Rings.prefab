@@ -83,6 +83,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onRingSuccess:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6497010537840208866}
+        m_TargetAssemblyTypeName: Sequencing.VFX_Sequencer, Assembly-CSharp
+        m_MethodName: Kill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onRingPassAudio:
     m_PersistentCalls:
       m_Calls: []
@@ -126,6 +141,12 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  onStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onKill:
+    m_PersistentCalls:
+      m_Calls: []
   onComplete:
     m_PersistentCalls:
       m_Calls: []

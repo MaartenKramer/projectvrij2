@@ -20,6 +20,7 @@ public class BirdForm : IFormBehaviour
     public RigidbodyController RigidbodyController => rbController;
 
     private GameObject owner;
+    public GameObject Owner => owner;
 
     // unique form variables
     [Header("Data")]
