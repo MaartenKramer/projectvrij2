@@ -54,6 +54,78 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1618
+--- !u!114 &-7160427423886691389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Forest/Wind
+  m_EditorClassIdentifier: 
+  Name: Wind
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 157635534
+    data2: 168192764
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-7146972463629255299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Forest/Rain
+  m_EditorClassIdentifier: 
+  Name: Rain
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 2924861618
+    data2: 1041885816
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-5993821419978058136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Music/Area
+  m_EditorClassIdentifier: 
+  Name: Area
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 327519567
+    data2: 3433815159
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-5018599853589115613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,7 +141,7 @@ MonoBehaviour:
   Path: Assets/StreamingAssets/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638852406232554415
+  lastModified: 638852604584068096
   FileSizes: []
   Exists: 1
 --- !u!114 &-2730385768276472840
@@ -95,10 +167,11 @@ MonoBehaviour:
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
-  Parameters: []
+  Parameters:
+  - {fileID: -5993821419978058136}
   MinDistance: 1
   MaxDistance: 20
-  Length: 226977
+  Length: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,13 +193,14 @@ MonoBehaviour:
   - {fileID: -8150633818584664843}
   - {fileID: -8233949045653419504}
   - {fileID: -2730385768276472840}
+  - {fileID: 3157301368087614361}
   EditorParameters: []
   MasterBanks:
   - {fileID: -5018599853589115613}
   StringsBanks:
   - {fileID: 9174350858158182168}
   cacheVersion: 131847
-  cacheTime: 638852406232574398
+  cacheTime: 638852604584099988
   SerializableEventsDict:
   - key: event:/Transform
     index: 0
@@ -138,6 +212,8 @@ MonoBehaviour:
     index: 3
   - key: event:/Music
     index: 4
+  - key: event:/Forest
+    index: 5
 --- !u!114 &1639470107098430921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +241,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4493
+--- !u!114 &3157301368087614361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Forest
+  m_EditorClassIdentifier: 
+  Path: event:/Forest
+  Guid:
+    Data1: -1968014390
+    Data2: 1228051955
+    Data3: -518669410
+    Data4: -968466623
+  Banks:
+  - {fileID: -5018599853589115613}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -7160427423886691389}
+  - {fileID: -7146972463629255299}
+  - {fileID: 3617471737090361803}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &3617471737090361803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Forest/Cover
+  m_EditorClassIdentifier: 
+  Name: Cover
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0.5
+  ID:
+    data1: 125669380
+    data2: 1783032385
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &6760378950010069636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,8 +337,8 @@ MonoBehaviour:
   Path: Assets/StreamingAssets/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638852406232574398
+  lastModified: 638852604584099988
   FileSizes:
   - Name: 
-    Value: 956
+    Value: 1176
   Exists: 1

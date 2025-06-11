@@ -8,7 +8,7 @@
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 0
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x4000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 0000020B355A2AA8 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 000002599BE8F088 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -19,10 +19,77 @@
 [LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
 [LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[LOG] SystemI::createSound                     : filename = Assets/StreamingAssets/Master.bank : mode 02010082
+[LOG] SystemI::createSound                     : FMOD_NONBLOCKING specified.  Putting into queue to be opened asynchronously!
+[LOG] AsyncThread::add                         : add sound to async queue : soundi = 000002591BFB2CE8, queue head = 00000258626A3358, queue count = 0
+[LOG] AsyncThread::threadFunc                  : Starting Asynchronous operation on sound 000002591BFB2CE8
+[LOG] SystemI::createSoundInternal             :     Create name='Assets/StreamingAssets/Master.bank', mode=0x02010082
+[LOG] SystemI::createSoundInternal             :     exinfo->cbsize             = 224
+[LOG] SystemI::createSoundInternal             :     exinfo->length             = 8649344
+[LOG] SystemI::createSoundInternal             :     exinfo->fileoffset         = 22240
+[LOG] SystemI::createSoundInternal             :     exinfo->numsubsounds       = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlist      = 000002583BDC5A28
+[LOG] SystemI::createSoundInternal             :     exinfo->inclusionlistnum   = 1
+[LOG] SystemI::createSoundInternal             :     exinfo->suggestedsoundtype = 5
+[LOG] SystemI::createSoundInternal             :     exinfo->initialseekpostype = 1
+[LOG] SystemI::createSoundInternal             :     Stream 0/1: name='amb_forest_wind', format=5, channels=2, frequency=48000, lengthbytes=146944, lengthpcm=576000, pcmblocksize=0, loopstart=0, loopend=0, mode=0x00000000, channelmask=0x00000000, channelorder=0, peakvolume=0.818329.
+[LOG] AsyncThread::threadFunc                  : Finished Asynchronous operation on sound 000002591BFB2CE8
+[LOG] SoundI::release                          :  (0000025969AD1C28)
+[LOG] SoundI::release                          :     whistle (000002591C139218)
+[LOG] SoundI::release                          :  (0000025969AD2308)
+[LOG] SoundI::release                          :     ring (00000259403EB388)
+[LOG] SoundI::release                          :  (00000258635E4A98)
+[LOG] SoundI::release                          :     success (00000259403EB988)
+[LOG] SoundI::release                          :  (0000025969AD1D88)
+[LOG] SoundI::release                          :     transform1 (000002591C139098)
+[LOG] SoundI::release                          : amb_forest_wind (000002591BFB2CE8)
+[LOG] SoundI::release                          :     amb_forest_wind (0000025972508B68)
+[LOG] SoundI::release                          :     amb_forest_wind (000002593EEBBC78)
+[LOG] SoundI::release                          : neighborhood (00000258626A3078)
+[LOG] SoundI::release                          :     neighborhood (000002591B81B948)
+[LOG] SoundI::release                          :     neighborhood (0000025968F5D1A8)
+[LOG] SoundI::release                          :  (00000259729B6EB8)
+[LOG] SoundI::release                          :     amb_forest_rain_drop_1 (000002591C139998)
+[LOG] SoundI::release                          :  (0000025969AD25C8)
+[LOG] SoundI::release                          :     amb_forest_rain_drop_2 (00000259403EB208)
+[LOG] SoundI::release                          :  (0000025969AD1AC8)
+[LOG] SoundI::release                          :     amb_forest_rain_drop_3 (000002591C139398)
+[LOG] SoundI::release                          :  (00000259729B6D58)
+[LOG] SoundI::release                          :     amb_forest_rain_drop_4 (000002591C139818)
+[LOG] SoundI::release                          :  (00000259729B6A98)
+[LOG] SoundI::release                          :     amb_forest_rain_drop_5 (000002591C139698)
+[LOG] SoundI::release                          :  (0000025969AD2048)
+[LOG] SoundI::release                          :     amb_forest_rain_drop_6 (000002591C139C98)
+[LOG] SoundI::release                          :  (0000025969AD2468)
+[LOG] SoundI::release                          :     amb_forest_rain_drop_7 (000002585F9F6398)
+[LOG] SoundI::release                          :  (0000025969AD21A8)
+[LOG] SoundI::release                          :     amb_forest_rain_drop_8 (000002585F9F6098)
+[LOG] SoundI::release                          :  (0000025872955E48)
+[LOG] SoundI::release                          :     amb_forest_rain_drop_9 (00000259403EB688)
+[LOG] SoundI::release                          :  (00000258729551E8)
+[LOG] SoundI::release                          :     amb_forest_thunderstorm_03 (00000259403EB808)
+[LOG] SoundI::release                          :  (0000025969AD1968)
+[LOG] SoundI::release                          :     amb_bird_call_01 (000002585F9F6518)
+[LOG] SoundI::release                          :  (00000259729B6678)
+[LOG] SoundI::release                          :     amb_bird_call_02 (000002591C139E18)
+[LOG] SoundI::release                          :  (0000025969AD1EE8)
+[LOG] SoundI::release                          :     amb_bird_call_03 (000002591C139518)
+[LOG] SoundI::release                          :  (00000259729B6BF8)
+[LOG] SoundI::release                          :     amb_bird_call_04 (000002591C139B18)
+[LOG] SoundI::release                          :  (0000025969AD2728)
+[LOG] SoundI::release                          :     amb_bird_call_05 (00000259403EBB08)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
 [LOG] Thread::callback                         : FMOD Studio sample load thread finished.
 [LOG] LiveUpdate::release                      : 
 [LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
 [LOG] Thread::callback                         : FMOD stream thread finished.
 [LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
 [LOG] SystemI::closeInternal                   : Closed.
+[LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
+[LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
+[LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
+[LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
+[ERR] ~Global                                  : assertion: 'gSystemInitCount == 0' failed
