@@ -104,9 +104,15 @@ public class FlightState : IState
 
     public void HandlePhysics()
     {
-
         // apply force forward
         form.RigidbodyController.rigidbody.AddRelativeForce(Vector3.forward * currentSpeed);
+
+        // opposing force when turning quickly (stops sliding when turning)
+        if (direction != Vector2.zero)
+        {
+            Vector3 brakingForce = new Vector3(direction.x, -direction.y, 0) * (20f);
+            form.RigidbodyController.rigidbody.AddRelativeForce(brakingForce, ForceMode.Acceleration);
+        }
 
         // rotate towards direction
         form.RigidbodyController.Rotate(direction, data.turnSpeed, true);

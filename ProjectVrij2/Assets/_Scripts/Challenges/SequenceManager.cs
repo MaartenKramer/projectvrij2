@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SequenceManager : MonoBehaviour
 {
@@ -8,10 +8,37 @@ public class SequenceManager : MonoBehaviour
     public GameObject timer;
     public float ringBuff = 2f;
     private bool challengeBeaten = false;
-    private ChallengeTimer challengeTimer;  
-    
+    private ChallengeTimer challengeTimer;
+    private SoundManager soundManager;
+
+    [SerializeField]
+    private UnityEvent<RingData> onRingPass;
+    [SerializeField]
+    private UnityEvent onRingSuccess;
+
+    [SerializeField]
+    private UnityEvent onRingPassAudio;
+
+    [SerializeField]
+    private UnityEvent onRingStartAudio;
+
+    [SerializeField]
+    private UnityEvent onRingSuccessAudio;
+
     void Start()
     {
+        soundManager = Object.FindAnyObjectByType<SoundManager>();
+        if (soundManager != null)
+        {
+            onRingPassAudio.AddListener(soundManager.PlayRingPass);
+            onRingStartAudio.AddListener(soundManager.PlayRingStart);
+            onRingSuccessAudio.AddListener(soundManager.PlayRingSuccess);
+        }
+        else
+        {
+            Debug.LogError("No Sound Manager found");
+        }
+
         InitializeRings();
         ResetChallenge();
     }
@@ -22,10 +49,9 @@ public class SequenceManager : MonoBehaviour
         {
             Ring ringComponent = ringSequence[i].GetComponent<Ring>();
             challengeTimer = timer.GetComponent<ChallengeTimer>();
-
             if (ringComponent != null)
             {
-                ringComponent.sequenceNumber = i + 1;
+                ringComponent.sequenceNumber = i;
                 ringComponent.sequenceManager = this;
             }
             else
@@ -34,32 +60,42 @@ public class SequenceManager : MonoBehaviour
             }
         }
     }
+
     public void RingPassed(int sequenceNumber)
     {
-        Debug.LogWarning($"Player has gone through ring #{sequenceNumber}");
-
-        if (sequenceNumber == 1)
+        Debug.Log($"Player has gone through ring #{sequenceNumber}");
+        if (sequenceNumber != ringSequence.Count - 1)
         {
-            Debug.LogWarning("Ring Challenge Started!");
+            var currentRing = ringSequence[sequenceNumber];
+            var nextRing = ringSequence[sequenceNumber + 1];
+
+            Vector3 startPos = currentRing.transform.position;
+            Vector3 endPos = nextRing.transform.position;
+            var data = new RingData(sequenceNumber, startPos, endPos);
+            onRingPass.Invoke(data);
+        }
+
+        if (sequenceNumber == 0)
+        {
+            Debug.Log("Ring Challenge Started!");
             StartChallenge();
             challengeTimer.InitializeTimer();
-
-
+            onRingStartAudio.Invoke();
         }
-        
-                        
-        else if (sequenceNumber == ringSequence.Count)
+        else if (sequenceNumber == ringSequence.Count - 1)
         {
-            Debug.LogWarning("Ring Challenge Completed!");
+            Debug.Log("Ring Challenge Completed!");
             challengeBeaten = true;
             ResetChallenge();
             challengeTimer.EndTimer();
+            onRingSuccess.Invoke();
+            onRingSuccessAudio.Invoke();
         }
-
 
         else
         {
             challengeTimer.timeLeft += ringBuff;
+            onRingPassAudio.Invoke();
         }
     }
 
@@ -70,14 +106,12 @@ public class SequenceManager : MonoBehaviour
             ringSequence[i].SetActive(true);
         }
     }
-
     public void ResetChallenge()
     {
         for (int i = 1; i < ringSequence.Count; i++)
         {
             ringSequence[i].SetActive(false);
         }
-
         if (challengeBeaten == true)
         {
             ringSequence[0].SetActive(false);

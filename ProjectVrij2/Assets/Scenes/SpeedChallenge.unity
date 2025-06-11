@@ -989,89 +989,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5350524144717419335, guid: 4239242bbbadead4bba916245e319b0c, type: 3}
   m_PrefabInstance: {fileID: 1147346199}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &603622024
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 603622028}
-  - component: {fileID: 603622027}
-  - component: {fileID: 603622025}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &603622025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 603622024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 289159836
-      Data2: 1240980291
-      Data3: 2112598923
-      Data4: -489779959
-    Path: event:/Bullshit
-  Event: 
-  EventPlayTrigger: 1
-  EventStopTrigger: 2
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
---- !u!114 &603622027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 603622024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoadEvent: 1
-  UnloadEvent: 0
-  Banks:
-  - 
-  - Master
-  CollisionTag: 
-  PreloadSamples: 0
---- !u!4 &603622028
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 603622024}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.187355, y: -316.05762, z: 215.44438}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &677497626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1801,6 +1718,50 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &833839871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 833839873}
+  - component: {fileID: 833839872}
+  m_Layer: 0
+  m_Name: FMOD Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &833839872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833839871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18fcfd5bee2393346ac2e1598946a09d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &833839873
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 833839871}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 45.187355, y: -316.05762, z: 215.44438}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3051,6 +3012,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1467843591}
+  - component: {fileID: 1467843592}
   m_Layer: 0
   m_Name: Race 2
   m_TagString: Untagged
@@ -3078,6 +3040,37 @@ Transform:
   - {fileID: 888780911}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1467843592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467843590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1188936093
+      Data2: 1126328338
+      Data3: -1488531312
+      Data4: -176287866
+    Path: event:/Ring Pass
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1493651101
 GameObject:
   m_ObjectHideFlags: 0
@@ -3232,6 +3225,146 @@ PrefabInstance:
       propertyPath: 'ringSequence.Array.data[2]'
       value: 
       objectReference: {fileID: 119240064}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPass.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingStartAudio.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingSuccessAudio.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPass.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingStartAudio.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 833839872}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 833839872}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 833839872}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingStartAudio.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 833839872}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingSuccessAudio.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingSuccessAudio.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 833839872}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayRingPass
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlayRingPass
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: PlayRingPass
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingStartAudio.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingStartAudio.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayRingStart
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingSuccessAudio.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingSuccessAudio.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayRingSuccess
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: SoundManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: SoundManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingStartAudio.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingSuccessAudio.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SoundManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingPassAudio.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingStartAudio.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741433158836552274, guid: 45cbfd1981574f4469a93b295ae3a321, type: 3}
+      propertyPath: onRingSuccessAudio.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3690,4 +3823,4 @@ SceneRoots:
   - {fileID: 689216479}
   - {fileID: 1613357327}
   - {fileID: 1467843591}
-  - {fileID: 603622028}
+  - {fileID: 833839873}

@@ -23,6 +23,8 @@ namespace Sequencing
         [SerializeField] private List<SequencerAction> sequenceActions = new List<SequencerAction>();
         [SerializeField] private List<EventItem> actionEvents = new List<EventItem>();
         [Space]
+        [SerializeField] public UnityEvent onStart;
+        [SerializeField] public UnityEvent onKill;
         [SerializeField] public UnityEvent onComplete;
 
         private bool isPaused = false;
@@ -39,6 +41,7 @@ namespace Sequencing
         {
             if(sequence != null) { Kill(); }
             sequence = StartCoroutine(ExecuteSequence());
+            onStart.Invoke();
         }
 
         private IEnumerator ExecuteSequence()
@@ -56,18 +59,20 @@ namespace Sequencing
                 yield return StartCoroutine(action.StartSequence(this));
             }
 
-            Kill();
+            sequence = null;
             onComplete?.Invoke();
         }
 
-        public void Pause() { isPaused = true; }
-        public void Continue() { isPaused = false; }
-        public void Kill()
+        public virtual void Pause() { isPaused = true; }
+        public virtual void Continue() { isPaused = false; }
+        public virtual void Kill()
         {
             if(sequence == null) { return; }
 
             StopCoroutine(sequence);
             sequence = null;
+
+            onKill?.Invoke();
         }
 
         public bool GetEvent(string id, out UnityEvent action)

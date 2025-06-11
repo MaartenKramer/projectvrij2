@@ -35,5 +35,15 @@ namespace Sequencing
             if(c.Length == 0 ) { return false; }
             return true;
         }
+
+        public override void Kill()
+        {
+            base.Kill();
+
+            foreach (var item in controllers)
+            {
+                item.controller.Stop();
+            }
+        }
     }
 }
