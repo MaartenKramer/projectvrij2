@@ -110,7 +110,7 @@ public class FlightState : IState
         // opposing force when turning quickly (stops sliding when turning)
         if (direction != Vector2.zero)
         {
-            Vector3 brakingForce = new Vector3(direction.x, -direction.y, 0) * (5f);
+            Vector3 brakingForce = new Vector3(direction.x, -direction.y, 0) * (20f);
             form.RigidbodyController.rigidbody.AddRelativeForce(brakingForce, ForceMode.Acceleration);
         }
 

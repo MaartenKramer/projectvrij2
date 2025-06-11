@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Sequencing;
-using System.Collections.Generic;
-using UnityEditor.Rendering.LookDev;
 using System.Linq;
 
 public class TransformHandler : MonoBehaviour

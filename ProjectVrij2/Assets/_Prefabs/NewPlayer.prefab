@@ -348,6 +348,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2da50cbe0798d442a24cf4f28641ecc, type: 2}
   startingFormIndex: 0
   currentFormIndex: 0
+  activeAnimator: {fileID: 0}
+  availableAnimators:
+  - {fileID: 0}
+  - {fileID: 0}
   inputController:
     actionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   rigidbodyController:
@@ -432,6 +436,12 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+  onStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onKill:
+    m_PersistentCalls:
+      m_Calls: []
   onComplete:
     m_PersistentCalls:
       m_Calls: []

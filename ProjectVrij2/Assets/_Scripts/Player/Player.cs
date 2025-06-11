@@ -16,6 +16,12 @@ public class Player : Toggleable
 
     [SerializeField] private int currentFormIndex;
     public int CurrentFormIndex => currentFormIndex;
+    [Space]
+    [SerializeField] private Animator activeAnimator;
+    public Animator ActiveAnimator => activeAnimator;
+
+    [SerializeField] private Animator[] availableAnimators; // this should be in the same order as available forms (this way currentFormIndex can be used for both)
+    public Animator[] AvailableAnimators => availableAnimators;
 
     [Header("Input & Physics")]
     [SerializeField] private InputController inputController;
@@ -23,6 +29,7 @@ public class Player : Toggleable
 
     [SerializeField] private RigidbodyController rigidbodyController;
     public RigidbodyController RigidbodyController => rigidbodyController;
+
 
     public PlayerDebugVariables debugVariables;
 
@@ -36,6 +43,17 @@ public class Player : Toggleable
     //    initialisationSequence = sequencers.Single<Sequencer>(x => x.CompareChannel(sequencerChannel));
     //}
 
-    public void SetForm(FormProfileSO form) { activeForm = form; }
-    public void SetIndex(int index) { currentFormIndex = index; }
+    public void SetForm(FormProfileSO form) 
+    {
+        activeForm = form;
+    }
+    public void SetIndex(int index) 
+    {
+        currentFormIndex = index;
+        SetAnimator();
+    }
+    private void SetAnimator()
+    {
+        activeAnimator = availableAnimators[currentFormIndex];
+    }
 }

@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Linq;
-using TreeEditor;
 using Unity.Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
