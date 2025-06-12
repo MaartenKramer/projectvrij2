@@ -43,11 +43,10 @@ MonoBehaviour:
           idleDrag: 5
           groundedDrag: 1.5
           airDrag: 1
-          rotationSpeed: 20
+          rotationSpeed: 2
           brakingForce: 10
           groundMask:
             serializedVersion: 2
             m_Bits: 64
           checkSize: {x: 0.5, y: 0.01, z: 0.5}
           checkDistance: 1.1
-

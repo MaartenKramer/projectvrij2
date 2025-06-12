@@ -1081,6 +1081,10 @@ PrefabInstance:
       propertyPath: onCollisionHandled.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 330585549}
+    - target: {fileID: 5235145617796878102, guid: 946366954e5755442b08334af57bd51d, type: 3}
+      propertyPath: onCollisionHandled.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TriggerNoise
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

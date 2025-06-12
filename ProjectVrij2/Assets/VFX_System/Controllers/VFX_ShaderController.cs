@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VFX.Controllers.Shaders
 {
@@ -18,12 +19,21 @@ namespace VFX.Controllers.Shaders
             {
                 case VFX_MaterialProcessing.SINGLE:
                     materials.Add(GetComponentInChildren<SkinnedMeshRenderer>().material);
+                    if(materials.Count == 0)
+                    {
+                        materials.Add(GetComponentInChildren<MeshRenderer>().material);
+                    }
                     break;
                 case VFX_MaterialProcessing.MULTIPLE:
-                    var meshes = GetComponentsInChildren<SkinnedMeshRenderer>(true);
-                    foreach (var mesh in meshes) 
+                    var skinnedMeshes = GetComponentsInChildren<SkinnedMeshRenderer>(true);
+                    foreach (var mesh in skinnedMeshes) 
                     { 
                         materials.Add(mesh.material); 
+                    }
+                    var meshes = GetComponentsInChildren<MeshRenderer>(true);
+                    foreach (var mesh in meshes)
+                    {
+                        materials.Add(mesh.material);
                     }
                     break;
             }
